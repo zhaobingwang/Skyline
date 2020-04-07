@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-namespace Blocks.Domain.Abstractions
+namespace Blocks.Domain
 {
     public abstract class Entity : IEntity
     {

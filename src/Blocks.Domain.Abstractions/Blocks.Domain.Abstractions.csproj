@@ -2,7 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Blocks.Domain</RootNamespace>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="8.0.1" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Blocks.Core\Blocks.Core.csproj" />

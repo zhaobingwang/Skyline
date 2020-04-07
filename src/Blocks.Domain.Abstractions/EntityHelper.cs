@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Blocks.Domain.Abstractions
+namespace Blocks.Domain
 {
     /// <summary>
     /// 实体的一些辅助方法

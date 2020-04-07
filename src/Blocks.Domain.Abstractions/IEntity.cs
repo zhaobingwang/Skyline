@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Blocks.Domain.Abstractions
+namespace Blocks.Domain
 {
     /// <summary>
     /// 定义一个实体（主键可能不是"Id"，或者它可能是一个复合主键）

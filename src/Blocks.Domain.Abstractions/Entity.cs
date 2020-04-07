@@ -13,6 +13,22 @@ namespace Blocks.Domain
         {
             return $"[ENTITY]: {GetType().Name} Keys = {GetKeys().JoinAsString(", ")}";
         }
+
+        private List<IDomainEvent> _domainEvents;
+        public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents?.AsReadOnly();
+        public void AddDomainEvent(IDomainEvent domainEvent)
+        {
+            _domainEvents = _domainEvents ?? new List<IDomainEvent>();
+            _domainEvents.Add(domainEvent);
+        }
+        public void RemoveDomainEvent(IDomainEvent domainEvent)
+        {
+            _domainEvents?.Remove(domainEvent);
+        }
+        public void ClearDomainEvent()
+        {
+            _domainEvents?.Clear();
+        }
     }
 
     public abstract class Entity<TKey> : Entity, IEntity<TKey>

@@ -1,0 +1,40 @@
+name: Skyline.Domain.Abstractions Release
+
+on:
+  push:
+    branches: release/domain-abstraction
+
+jobs:
+  build:
+    name: Build Project Skyline.Domain.Abstractions
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.101
+    - name: Install dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+    - name: Test
+      run: dotnet test --no-restore --verbosity normal
+
+  publish:
+    needs: [build]
+    name: Publish Skyline.Domain.Abstractions To NuGet
+    runs-on: [ubuntu-latest]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.101
+    - name: Publish
+      run: |
+        dotnet build src/Skyline.Domain.Abstractions --configuration Release
+        dotnet nuget push src/Skyline.Domain.Abstractions/bin/Release/Skyline.Domain.Abstractions.*.nupkg -k ${APIKEY} -s https://www.nuget.org/api/v2/package
+      env:
+        APIKEY: ${{ secrets.nuget }}

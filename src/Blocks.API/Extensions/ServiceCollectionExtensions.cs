@@ -1,5 +1,6 @@
 ﻿using Blocks.Domain.OrderAggregate;
 using Blocks.Infrastructure;
+using Blocks.Infrastructure.Repositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +29,12 @@ namespace Blocks.API.Extensions
         {
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(OrderingContextTransactionBehavior<,>));
             return services.AddMediatR(typeof(Order).Assembly, typeof(Program).Assembly);
+        }
+
+        public static IServiceCollection AddRepositories(this IServiceCollection services)
+        {
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            return services;
         }
     }
 }

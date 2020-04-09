@@ -9,7 +9,7 @@ namespace Blocks.Infrastructure.EntityConfigurations
         public void Configure(EntityTypeBuilder<Order> builder)
         {
             builder.HasKey(o => o.Id);
-            builder.ToTable("orders");
+            builder.ToTable("Orders");
             builder.Property(o => o.BuyerId).HasMaxLength(20);
             builder.Property(o => o.BuyerName).HasMaxLength(32);
             builder.OwnsOne(o => o.Address, a =>

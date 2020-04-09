@@ -6,6 +6,7 @@
     <PackageProjectUrl>https://github.com/zhaobingwang/blocks</PackageProjectUrl>
     <RepositoryUrl>https://github.com/zhaobingwang/blocks</RepositoryUrl>
     <Version>1.0.0</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

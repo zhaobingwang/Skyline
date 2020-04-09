@@ -1,0 +1,40 @@
+name: Blocks.Core Release
+
+on:
+  push:
+    branches: release/core
+
+jobs:
+  build:
+    name: Build Project Blocks.Core
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.101
+    - name: Install dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+    - name: Test
+      run: dotnet test --no-restore --verbosity normal
+
+  publish:
+    needs: [build]
+    name: Publish Blocks.Core To NuGet
+    runs-on: [ubuntu-latest]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.101
+    - name: Publish
+      run: |
+        dotnet build src/Blocks.Core --configuration Release
+        dotnet nuget push src/Blocks.Core/bin/Release/Blocks.Core.*.nupkg -k ${APIKEY} -s https://www.nuget.org/api/v2/package
+      env:
+        APIKEY: ${{ secrets.BlocksNuget }}

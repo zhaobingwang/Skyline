@@ -122,6 +122,16 @@ namespace System
         }
 
         /// <summary>
+        /// 是否是工作日
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static bool IsWeekday(this DateTime dateTime)
+        {
+            return !IsWeekend(dateTime);
+        }
+
+        /// <summary>
         /// 是否是今天
         /// </summary>
         /// <param name="dateTime"></param>

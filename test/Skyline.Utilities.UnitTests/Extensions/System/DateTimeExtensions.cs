@@ -126,10 +126,24 @@ namespace Skyline.Utilities.UnitTests.System
         [InlineData(false, 4)]
         [InlineData(true, 5)]
         [InlineData(true, 6)]
+        public void IsWeekend(bool isWeekend, int beAddDays)
+        {
+            DateTime monday = new DateTime(2020, 4, 13);
+            Assert.True(monday.AddDays(beAddDays).IsWeekend() == isWeekend);
+        }
+
+        [Theory(DisplayName = "是否是工作日")]
+        [InlineData(true, 0)]
+        [InlineData(true, 1)]
+        [InlineData(true, 2)]
+        [InlineData(true, 3)]
+        [InlineData(true, 4)]
+        [InlineData(false, 5)]
+        [InlineData(false, 6)]
         public void IsWeekDay(bool isWeekend, int beAddDays)
         {
-            DateTime monday = new DateTime(2019, 12, 16);
-            Assert.True(monday.AddDays(beAddDays).IsWeekend() == isWeekend);
+            DateTime monday = new DateTime(2020, 4, 13);
+            Assert.True(monday.AddDays(beAddDays).IsWeekday() == isWeekend);
         }
 
         [Theory(DisplayName = "是否是今天")]

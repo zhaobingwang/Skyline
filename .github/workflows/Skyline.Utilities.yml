@@ -20,7 +20,7 @@ jobs:
     - name: Build
       run: dotnet build Skyline.Utilities.sln --configuration Release --no-restore
     - name: Test
-      run: dotnet test --no-restore --verbosity normal
+      run: dotnet test Skyline.Utilities.sln --no-restore --verbosity normal
 
   publish:
     needs: [build]

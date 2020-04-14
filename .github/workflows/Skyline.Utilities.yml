@@ -1,0 +1,53 @@
+name: Skyline.Utilities Release
+
+on:
+  push:
+    branches: release/utilities
+
+jobs:
+  build:
+    name: Build Project Skyline.Utilities
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.101
+    - name: Install dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+    - name: Test
+      run: dotnet test --no-restore --verbosity normal
+
+  test:
+    needs: [build]
+    name: Run Skyline.Utilities Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.101
+    - name: Test
+      run: dotnet test test/Skyline.Utilities.UnitTests --configuration Release
+
+  publish:
+    needs: [test]
+    name: Publish Skyline.Utilities To NuGet
+    runs-on: [ubuntu-latest]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.101
+    - name: Publish
+      run: |
+        dotnet build src/Skyline.Utilities --configuration Release
+        dotnet nuget push src/Skyline.Utilities/bin/Release/Skyline.Utilities.*.nupkg -k ${APIKEY} -s https://www.nuget.org/api/v2/package
+      env:
+        APIKEY: ${{ secrets.nuget }}

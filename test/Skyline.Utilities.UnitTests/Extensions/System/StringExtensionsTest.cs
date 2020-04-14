@@ -1,6 +1,7 @@
-﻿using Xunit;
+﻿using System;
+using Xunit;
 
-namespace Skyline.Utilities.UnitTests.Extensions
+namespace Skyline.Utilities.UnitTests.System
 {
     [Trait("扩展方法", "String扩展")]
     public class StringExtensionsTest

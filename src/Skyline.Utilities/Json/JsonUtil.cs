@@ -1,7 +1,11 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.Text.Json;
 
 namespace Skyline.Utilities
 {
+    /// <summary>
+    /// Json工具类
+    /// </summary>
     public static partial class JsonUtil
     {
         /// <summary>

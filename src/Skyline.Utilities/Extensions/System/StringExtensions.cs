@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Skyline.Utilities
+namespace System
 {
+    /// <summary>
+    /// <see cref="string" 的扩展方法/>
+    /// </summary>
     public static partial class StringExtensions
     {
         /// <summary>

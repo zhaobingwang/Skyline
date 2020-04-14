@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Skyline.Utilities
+namespace System
 {
     /// <summary>
     /// 日期时间扩展

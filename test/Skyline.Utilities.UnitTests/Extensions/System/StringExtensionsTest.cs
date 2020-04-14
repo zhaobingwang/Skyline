@@ -43,5 +43,23 @@ namespace Skyline.Utilities.UnitTests.System
             var pattern = "[0-9]+";
             Assert.True(source.Match(pattern) == target);
         }
+
+        [Fact(DisplayName = "计算字符串的MD5值 32位大写")]
+        public void ToMd5()
+        {
+            string str = "123456";
+            string expected = "E10ADC3949BA59ABBE56E057F20F883E";
+            var md5 = str.ToMd5();
+            Assert.True(md5 == expected);
+        }
+
+        [Fact(DisplayName = "计算字符串的MD5值 32位小写")]
+        public void ToMd5Lower()
+        {
+            string str = "123456";
+            string expected = "e10adc3949ba59abbe56e057f20f883e";
+            var md5 = str.ToMd5(true);
+            Assert.True(md5 == expected);
+        }
     }
 }

@@ -9,5 +9,9 @@ namespace Skyline.Domain.Identity
     // Add profile data for application users by adding properties to the AppUser class
     public class AppUser : IdentityUser
     {
+        public string LoginId { get; set; }
+        public string Name { get; set; }
+        public string NickName { get; set; }
+        public DateTime? DOB { get; set; }
     }
 }

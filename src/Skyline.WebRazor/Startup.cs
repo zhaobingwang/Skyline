@@ -45,6 +45,7 @@ namespace Skyline.WebRazor
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

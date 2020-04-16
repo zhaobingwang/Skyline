@@ -11,9 +11,13 @@ namespace Skyline.Infrastructure.Core
     public class EFContext : DbContext, IUnitOfWork, ITransaction
     {
         protected IMediator _mediator;
+        public EFContext(DbContextOptions options) : base(options)
+        {
+
+        }
         public EFContext(DbContextOptions options, IMediator mediator) : base(options)
         {
-            _mediator = mediator;
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         #region 工作单元

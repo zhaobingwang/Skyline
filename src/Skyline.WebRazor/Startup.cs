@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,8 +12,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Skyline.Domain.ContactAggregate;
 using Skyline.Infrastructure;
 using Skyline.Infrastructure.Repositories;
+using Skyline.WebRazor.Application.Queries;
+using Microsoft.Extensions.Logging;
 
 namespace Skyline.WebRazor
 {
@@ -42,6 +46,8 @@ namespace Skyline.WebRazor
             });
 
             services.AddScoped<IContactRepository, ContactRepository>();
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ApplicationDbContextTransactionBehavior<,>));
+            services.AddMediatR(typeof(Contact).Assembly, typeof(Startup).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

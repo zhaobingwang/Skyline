@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,15 +12,16 @@ using Skyline.Domain.ContactAggregate;
 using Skyline.Domain.Identity;
 using Skyline.Infrastructure;
 using Skyline.Infrastructure.Repositories;
+using Skyline.WebRazor.Application.Queries;
 
 namespace Skyline.WebRazor.Pages.Contacts
 {
     public class IndexModel : DI_BasePageModel
     {
-        IContactRepository _contactRepository;
-        public IndexModel(IContactRepository contactRepository, IAuthorizationService authorizationService, UserManager<AppUser> userManager) : base(authorizationService, userManager)
+        IMediator _mediator;
+        public IndexModel(IMediator mediator, IAuthorizationService authorizationService, UserManager<AppUser> userManager) : base(authorizationService, userManager)
         {
-            _contactRepository = contactRepository;
+            _mediator = mediator;
         }
         public List<Contact> Contacts { get; set; }
         public async Task OnGet()
@@ -29,15 +31,8 @@ namespace Skyline.WebRazor.Pages.Contacts
             var isAuthorized = User.IsInRole(Constants.ContactAdministratorsRole)
                 || User.IsInRole(Constants.ContactManagersRole);
 
-            // 只能查看审核通过的通讯录，除非被授权或是该通讯录的创建者
-            if (!isAuthorized)
-            {
-                Contacts = await _contactRepository.GetContacts(currentUserId);
-            }
-            else
-            {
-                Contacts = await _contactRepository.GetAllContacts();
-            }
+            var query = new ContactListQuery(currentUserId, isAuthorized);
+            Contacts = await _mediator.Send(query);
         }
     }
 }

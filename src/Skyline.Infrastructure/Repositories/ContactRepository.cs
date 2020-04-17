@@ -17,7 +17,7 @@ namespace Skyline.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<List<Contact>> GetAllContacts()
+        public async Task<List<Contact>> GetAllContactsWithAuthorized()
         {
             var contacts = await _dbContext.Contacts.ToListAsync();
             return contacts;
@@ -28,7 +28,7 @@ namespace Skyline.Infrastructure.Repositories
         /// TODO:表达式树实现条件查询
         /// </summary>
         /// <returns></returns>
-        public async Task<List<Contact>> GetContacts(string currentUserId)
+        public async Task<List<Contact>> GetContactsWithOutAuthorized(string currentUserId)
         {
             var contacts = _dbContext.Contacts.Where(c => c.Status == ContactStatus.Approved
                  || c.OwnerId == currentUserId);

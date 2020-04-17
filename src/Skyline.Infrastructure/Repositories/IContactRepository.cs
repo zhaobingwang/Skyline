@@ -14,8 +14,8 @@ namespace Skyline.Infrastructure.Repositories
         /// TODO:表达式树实现条件查询
         /// </summary>
         /// <returns></returns>
-        Task<List<Contact>> GetContacts(string currentUserId);
+        Task<List<Contact>> GetContactsWithOutAuthorized(string currentUserId);
 
-        Task<List<Contact>> GetAllContacts();
+        Task<List<Contact>> GetAllContactsWithAuthorized();
     }
 }

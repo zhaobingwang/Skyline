@@ -22,6 +22,7 @@ namespace Skyline.WebRazor.Areas.Identity
                         context.Configuration.GetConnectionString("IdentityContextConnection")));
 
                 services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                    .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<AppIdentityDbContext>();
 
                 services.Configure<IdentityOptions>(options =>

@@ -24,6 +24,17 @@ namespace Skyline.WebRazor.Pages.Contacts
             var contact = from c in Context.Contacts
                           select c;
             var currentUserId = UserManager.GetUserId(User);
+
+            var isAuthorized = User.IsInRole(Constants.ContactAdministratorsRole)
+                || User.IsInRole(Constants.ContactManagersRole);
+
+            // 只能查看审核通过的通讯录，除非被授权或是该通讯录的创建者
+            if (!isAuthorized)
+            {
+                contact = contact.Where(c => c.Status == ContactStatus.Approved
+                || c.OwnerId == currentUserId);
+            }
+
             Contacts = await contact.ToListAsync();
         }
     }

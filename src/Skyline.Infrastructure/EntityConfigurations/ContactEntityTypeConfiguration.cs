@@ -13,7 +13,7 @@ namespace Skyline.Infrastructure.EntityConfigurations
         {
             builder.ToTable("Contacts");
             builder.HasKey(c => c.Id);
-            builder.Property(c => c.OwnerId).HasMaxLength(32).IsRequired();
+            builder.Property(c => c.OwnerId).HasMaxLength(64).IsRequired();
             builder.Property(c => c.Name).HasMaxLength(32).IsRequired();
             builder.Property(c => c.Address).HasMaxLength(256);
             builder.Property(c => c.Province).HasMaxLength(32);

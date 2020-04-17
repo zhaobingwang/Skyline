@@ -4,7 +4,7 @@ using Xunit;
 namespace Skyline.Utilities.UnitTests.System
 {
     [Trait("扩展方法", "System.DateTime")]
-    public class DateTimeExtensions
+    public class DateTimeExtensionsTest
     {
         [Fact(DisplayName = "转中文日期格式-成功测试")]
         public void ToChineseDateStringShouldSuccess()

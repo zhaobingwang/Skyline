@@ -18,6 +18,7 @@ namespace Skyline.Domain.ContactAggregate
 
     public enum ContactStatus
     {
+        None,
         Submitted,
         Approved,
         Rejected

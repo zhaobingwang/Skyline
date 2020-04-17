@@ -28,15 +28,7 @@ namespace Skyline.Infrastructure
                 var managerID = await EnsureUser(serviceProvider, testUserPw, "manager", "manager@contoso.com");
                 await EnsureRole(serviceProvider, managerID, Constants.ContactManagersRole);
 
-                try
-                {
-                    SeedDB(context, adminID);
-                }
-                catch (Exception ex)
-                {
-
-                    throw;
-                }
+                SeedDB(context, adminID);
             }
         }
 

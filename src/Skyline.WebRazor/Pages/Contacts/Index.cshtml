@@ -1,0 +1,63 @@
+﻿@page
+@model Skyline.WebRazor.Pages.Contacts.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Contacts[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contacts[0].Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contacts[0].Province)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contacts[0].City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contacts[0].Zip)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contacts[0].Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contacts[0].Status)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var contact in Model.Contacts)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(c => contact.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(c => contact.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(c => contact.Province)
+                </td>
+                <td>
+                    @Html.DisplayFor(c => contact.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(c => contact.Zip)
+                </td>
+                <td>
+                    @Html.DisplayFor(c => contact.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(c => contact.Status)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

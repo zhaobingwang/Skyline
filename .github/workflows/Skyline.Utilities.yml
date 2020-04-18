@@ -16,11 +16,11 @@ jobs:
       with:
         dotnet-version: 3.1.101
     - name: Install dependencies
-      run: dotnet restore Utilities/Skyline.Utilities.sln
+      run: dotnet restore Skyline.Utilities.sln
     - name: Build
-      run: dotnet build Utilities/Skyline.Utilities.sln --configuration Release --no-restore
+      run: dotnet build Skyline.Utilities.sln --configuration Release --no-restore
     - name: Test
-      run: dotnet test Utilities/Skyline.Utilities.sln --no-restore --verbosity normal
+      run: dotnet test Skyline.Utilities.sln --no-restore --verbosity normal
 
   publish:
     needs: [build]
@@ -34,7 +34,7 @@ jobs:
         dotnet-version: 3.1.101
     - name: Publish
       run: |
-        dotnet build Utilities/src/Skyline.Utilities --configuration Release
-        dotnet nuget push Utilities/src/Skyline.Utilities/bin/Release/Skyline.Utilities.*.nupkg -k ${APIKEY} -s https://www.nuget.org/api/v2/package
+        dotnet build src/Skyline.Utilities --configuration Release
+        dotnet nuget push src/Skyline.Utilities/bin/Release/Skyline.Utilities.*.nupkg -k ${APIKEY} -s https://www.nuget.org/api/v2/package
       env:
         APIKEY: ${{ secrets.nuget }}

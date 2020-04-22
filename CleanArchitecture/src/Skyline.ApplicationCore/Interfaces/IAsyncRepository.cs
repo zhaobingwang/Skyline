@@ -10,5 +10,10 @@ namespace Skyline.ApplicationCore.Interfaces
     {
         Task<TEntity> GetByIdAsync(TKey id);
         Task<IReadOnlyList<TEntity>> ListAllAsync();
+        Task<IReadOnlyList<TEntity>> ListAsync(ISpecification<TEntity> specification);
+        Task<TEntity> AddAsync(TEntity entity);
+        Task UpdateAsync(TEntity entity);
+        Task DeleteAsync(TEntity entity);
+        Task<int> CountAsync(ISpecification<TEntity> specification);
     }
 }

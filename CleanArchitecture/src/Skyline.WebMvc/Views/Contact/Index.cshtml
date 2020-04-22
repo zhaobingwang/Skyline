@@ -1,12 +1,16 @@
-﻿
+﻿@using Skyline.WebMvc.ViewModels;
+@model IEnumerable<ContactViewModel>
 @{
     ViewData["Title"] = "Index";
 }
 <h1>Contacts</h1>
 
-<table>
+<table class="table">
     <thead>
         <tr>
+            <td>
+                Id
+            </td>
             <td>
                 Name
             </td>
@@ -31,6 +35,34 @@
         </tr>
     </thead>
     <tbody>
-
+        @foreach (var contact in Model)
+        {
+            <tr>
+                <td>
+                    @contact.Id
+                </td>
+                <td>
+                    @contact.Name
+                </td>
+                <td>
+                    @contact.Province
+                </td>
+                <td>
+                    @contact.City
+                </td>
+                <td>
+                    @contact.Address
+                </td>
+                <td>
+                    @contact.Email
+                </td>
+                <td>
+                    @contact.MobileNumber
+                </td>
+                <td>
+                    @contact.Status
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

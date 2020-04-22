@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Skyline.ApplicationCore.Interfaces;
 using Skyline.Infrastructure.Data;
 
 namespace Skyline.WebMvc
@@ -42,6 +44,10 @@ namespace Skyline.WebMvc
             {
                 options.UseSqlServer(Configuration.GetConnectionString("SkylineDbContextConnection"));
             });
+
+            services.AddMediatR(typeof(Startup).Assembly);
+
+            services.AddScoped<IContactRepository, ContactRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -2,8 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Skyline.ApplicationCore.Constants;
+using Skyline.ApplicationCore.Entities.ContactAggregate;
+using Skyline.Infrastructure.Data;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,6 +21,11 @@ namespace Skyline.Infrastructure.Identity
 
             var managerId = await EnsureUser(serviceProvider, "manager_nick", "manager@contoso.com", pw);
             await EnsureRole(serviceProvider, managerId, IdentityConstants.Roles.MANAGERS);
+
+            using (var context = new SkylineDbContext(serviceProvider.GetRequiredService<DbContextOptions<SkylineDbContext>>()))
+            {
+                SeedContactData(context, adminId);
+            }
         }
 
         private static async Task<string> EnsureUser(IServiceProvider serviceProvider, string nickName, string userName, string pw)
@@ -64,6 +72,77 @@ namespace Skyline.Infrastructure.Identity
             IR = await userManager.AddToRoleAsync(user, role);
 
             return IR;
+        }
+
+        public static void SeedContactData(SkylineDbContext context, string adminId)
+        {
+            if (context.Contacts.Any())
+            {
+                return;   // DB has been seeded
+            }
+
+            context.Contacts.AddRange(
+                new Contact
+                {
+                    Name = "叶文洁",
+                    Address = "文一路",
+                    City = "杭州市",
+                    Province = "浙江省",
+                    Zip = "310000",
+                    Email = "yewenjie@example.com",
+                    MobileNumber = "",
+                    Status = ContactStatus.Approved,
+                    OwnerId = adminId
+                },
+                new Contact
+                {
+                    Name = "汪淼",
+                    Address = "文二路",
+                    City = "杭州市",
+                    Province = "浙江省",
+                    Zip = "310000",
+                    Email = "wangmiao@example.com",
+                    MobileNumber = "",
+                    Status = ContactStatus.Submitted,
+                    OwnerId = adminId
+                },
+                new Contact
+                {
+                    Name = "史强",
+                    Address = "文三路",
+                    City = "杭州市",
+                    Province = "浙江省",
+                    Zip = "310000",
+                    Email = "shiqiang@example.com",
+                    MobileNumber = "",
+                    Status = ContactStatus.Rejected,
+                    OwnerId = adminId
+                },
+                new Contact
+                {
+                    Name = "罗辑",
+                    Address = "天目山路",
+                    City = "杭州市",
+                    Province = "浙江省",
+                    Zip = "310000",
+                    Email = "luoji@example.com",
+                    MobileNumber = "",
+                    Status = ContactStatus.Submitted,
+                    OwnerId = adminId
+                },
+                new Contact
+                {
+                    Name = "章北海",
+                    Address = "万塘路",
+                    City = "杭州市",
+                    Province = "浙江省",
+                    Zip = "310000",
+                    Email = "zhangbeihai@example.com",
+                    MobileNumber = "",
+                    OwnerId = adminId
+                }
+             );
+            context.SaveChanges();
         }
     }
 }

@@ -20,7 +20,6 @@ namespace Skyline.Infrastructure
                 // Password is set with the following:
                 // dotnet user-secrets set SeedUserPW <pw>
                 // The admin user can do anything
-
                 var adminID = await EnsureUser(serviceProvider, testUserPw, "admin", "admin@contoso.com");
                 await EnsureRole(serviceProvider, adminID, Constants.ContactAdministratorsRole);
 

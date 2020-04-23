@@ -17,10 +17,10 @@ namespace Skyline.Infrastructure.Identity
         public static async Task SeedAsync(IServiceProvider serviceProvider, string pw)
         {
             var adminId = await EnsureUser(serviceProvider, "admin_nick", "admin@contoso.com", pw);
-            await EnsureRole(serviceProvider, adminId, IdentityConstants.Roles.ADMINISTRATORS);
+            await EnsureRole(serviceProvider, adminId, AppIdentityConstants.Roles.ADMINISTRATORS);
 
             var managerId = await EnsureUser(serviceProvider, "manager_nick", "manager@contoso.com", pw);
-            await EnsureRole(serviceProvider, managerId, IdentityConstants.Roles.MANAGERS);
+            await EnsureRole(serviceProvider, managerId, AppIdentityConstants.Roles.MANAGERS);
 
             using (var context = new SkylineDbContext(serviceProvider.GetRequiredService<DbContextOptions<SkylineDbContext>>()))
             {

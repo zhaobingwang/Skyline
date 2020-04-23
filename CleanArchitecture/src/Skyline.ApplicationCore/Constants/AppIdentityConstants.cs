@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Skyline.ApplicationCore.Constants
 {
-    public class IdentityConstants
+    public class AppIdentityConstants
     {
         public static class Roles
         {
@@ -17,6 +17,10 @@ namespace Skyline.ApplicationCore.Constants
             /// 经理
             /// </summary>
             public const string MANAGERS = "MANAGERS";
+        }
+        public static class Roles2
+        {
+            public const string ADMINISTRATORS = "Administrators";
         }
     }
 }

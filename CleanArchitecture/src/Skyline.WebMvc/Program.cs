@@ -1,13 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Skyline.Infrastructure.Identity;
+using Skyline.Infrastructure.Data;
+using System;
 
 namespace Skyline.WebMvc
 {
@@ -28,7 +25,7 @@ namespace Skyline.WebMvc
                     var pw = config["Identity:DefaultPassword"];
 
                     // Seed Identity Data
-                    AppIdentityDbContextSeedData.SeedAsync(service, pw).Wait();
+                    SeedData.SeedAsync(service, pw).Wait();
                 }
                 catch (Exception ex)
                 {

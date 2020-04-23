@@ -3,16 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Skyline.ApplicationCore.Constants;
 using Skyline.ApplicationCore.Entities.ContactAggregate;
-using Skyline.Infrastructure.Data;
+using Skyline.Infrastructure.Identity;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Skyline.Infrastructure.Identity
+namespace Skyline.Infrastructure.Data
 {
-    public class AppIdentityDbContextSeedData
+    public class SeedData
     {
         public static async Task SeedAsync(IServiceProvider serviceProvider, string pw)
         {
@@ -21,6 +19,9 @@ namespace Skyline.Infrastructure.Identity
 
             var managerId = await EnsureUser(serviceProvider, "manager_nick", "manager@contoso.com", pw);
             await EnsureRole(serviceProvider, managerId, AppIdentityConstants.Roles.MANAGERS);
+
+            var devId = await EnsureUser(serviceProvider, "dev_nick", "dev@contoso.com", pw);
+            await EnsureRole(serviceProvider, managerId, AppIdentityConstants.Roles.DEVELOPERS);
 
             using (var context = new SkylineDbContext(serviceProvider.GetRequiredService<DbContextOptions<SkylineDbContext>>()))
             {

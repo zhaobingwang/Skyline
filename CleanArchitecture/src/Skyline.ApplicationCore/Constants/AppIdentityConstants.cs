@@ -17,10 +17,11 @@ namespace Skyline.ApplicationCore.Constants
             /// 经理
             /// </summary>
             public const string MANAGERS = "MANAGERS";
-        }
-        public static class Roles2
-        {
-            public const string ADMINISTRATORS = "Administrators";
+
+            /// <summary>
+            /// 开发者
+            /// </summary>
+            public const string DEVELOPERS = "Developers";
         }
     }
 }

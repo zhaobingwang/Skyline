@@ -217,6 +217,39 @@ namespace Skyline.Utilities.UnitTests.System
 
             Assert.True(source.AddDays(beAddDays).IsToday(today) == isToday);
         }
+
+        [Theory]
+        [InlineData(false, "1900-1-1")]
+        [InlineData(true, "2000-1-1")]
+        [InlineData(true, "1996-1-1")]
+        [InlineData(true, "2004-1-1")]
+        public void IsLeapYear(bool isLeapYear, string dateTimeVal)
+        {
+            var dateTime = Convert.ToDateTime(dateTimeVal);
+            Assert.True(isLeapYear == dateTime.IsLeapYear());
+        }
+        #endregion
+
+        #region 获取天数
+        [Theory]
+        [InlineData(364, "1900-1-1")]
+        [InlineData(364, "2019-1-1")]
+        [InlineData(365, "2020-1-1")]
+        [InlineData(0, "2020-12-31")]
+        public void RemainingDaysOfYear(int days, string dateTimeVal)
+        {
+            var dateTime = Convert.ToDateTime(dateTimeVal);
+            Assert.True(days == dateTime.RemainingDaysOfYear());
+        }
+        [Theory]
+        [InlineData(6, "2020-4-24")]
+        [InlineData(28, "2020-2-1")]
+        [InlineData(30, "2020-1-1")]
+        public void RemainingDaysOfMonth(int days, string dateTimeVal)
+        {
+            var dateTime = Convert.ToDateTime(dateTimeVal);
+            Assert.True(days == dateTime.RemainingDaysOfMonth());
+        }
         #endregion
 
         #region 特殊时间

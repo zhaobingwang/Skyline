@@ -240,6 +240,32 @@ namespace System
         }
         #endregion
 
+        #region 获取天数
+        /// <summary>
+        /// 获取当年剩余天数
+        /// </summary>
+        /// <param name="dateTime">源日期时间</param>
+        /// <returns></returns>
+        public static int RemainingDaysOfYear(this DateTime dateTime)
+        {
+            var lastDate = new DateTime(dateTime.Year, 12, 31);
+            double days = (lastDate - dateTime).TotalDays;
+            return (int)Math.Ceiling(days);
+        }
+
+        /// <summary>
+        /// 获取当月剩余天数
+        /// </summary>
+        /// <param name="dateTime">源日期时间</param>
+        /// <returns></returns>
+        public static int RemainingDaysOfMonth(this DateTime dateTime)
+        {
+            var lastDate = new DateTime(dateTime.Year, dateTime.Month, DateTime.DaysInMonth(dateTime.Year, dateTime.Month));
+            var days = (lastDate - dateTime).TotalDays;
+            return (int)Math.Ceiling(days);
+        }
+        #endregion
+
         #region 其他
         /// <summary>
         /// 转为友好的时间信息
@@ -281,6 +307,17 @@ namespace System
             if (timeSince.TotalDays < 730)
                 return "去年";
             return $"{Math.Floor(timeSince.TotalDays / 365)}年前";
+        }
+
+        /// <summary>
+        /// 是否是闰年
+        /// </summary>
+        /// <param name="dateTime">日期时间</param>
+        /// <returns></returns>
+        public static bool IsLeapYear(this DateTime dateTime)
+        {
+            var year = dateTime.Year;
+            return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
         }
         #endregion
 

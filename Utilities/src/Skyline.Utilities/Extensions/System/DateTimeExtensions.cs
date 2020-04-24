@@ -17,9 +17,9 @@ namespace System
         public static readonly DayOfWeek[] Weekend = { DayOfWeek.Saturday, DayOfWeek.Sunday };
         #endregion
 
-        #region 特定时间格式
+        #region 时间格式转换
         /// <summary>
-        /// 转为中文日期
+        /// 转为 yyyy年MM月dd日 中文日期
         /// </summary>
         /// <param name="dateTime">日期时间</param>
         /// <returns></returns>
@@ -29,7 +29,7 @@ namespace System
         }
 
         /// <summary>
-        /// 转为中文日期
+        /// 转为 yyyy年MM月dd日 中文日期
         /// </summary>
         /// <param name="dateTime">日期时间</param>
         /// <returns></returns>
@@ -42,7 +42,7 @@ namespace System
         }
 
         /// <summary>
-        /// 转为中文日期时间
+        /// 转为 yyyy年MM月dd日HH时mm分ss秒 中文日期时间
         /// </summary>
         /// <param name="dateTime">日期时间</param>
         /// <returns></returns>
@@ -52,7 +52,7 @@ namespace System
         }
 
         /// <summary>
-        /// 转为中文日期时间
+        /// 转为 yyyy年MM月dd日HH时mm分ss秒 中文日期时间
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns></returns>
@@ -65,7 +65,7 @@ namespace System
         }
 
         /// <summary>
-        /// 转为yyyy-MM-dd格式字符串
+        /// 转为 yyyy-MM-dd 格式字符串
         /// </summary>
         /// <param name="dateTime">时间日期</param>
         /// <returns></returns>
@@ -75,7 +75,7 @@ namespace System
         }
 
         /// <summary>
-        /// 转为yyyy-MM-dd格式字符串
+        /// 转为 yyyy-MM-dd 格式字符串
         /// </summary>
         /// <param name="dateTime">时间日期</param>
         /// <returns></returns>
@@ -84,7 +84,80 @@ namespace System
             if (dateTime == null)
                 return string.Empty;
             return dateTime.Value.ToString("yyyy-MM-dd");
-            //return ToDateString(dateTime.Value);    // 很容易忘记写.velue,造成死循环
+        }
+
+        /// <summary>
+        /// 转为 yyyy-MM-dd HH:mm:ss 格式字符串
+        /// </summary>
+        /// <param name="dateTime">日期时间</param>
+        /// <param name="withSecond">是否包含秒值，默认包含</param>
+        /// <returns></returns>
+        public static string ToDateTimeString(this DateTime dateTime, bool withSecond = true)
+        {
+            if (withSecond)
+                return dateTime.ToString("yyyy-MM-dd HH:mm:ss");
+            return dateTime.ToString("yyyy-MM-dd HH:mm");
+        }
+
+        /// <summary>
+        /// 转为 yyyy-MM-dd HH:mm:ss 格式字符串
+        /// </summary>
+        /// <param name="dateTime">日期时间</param>
+        /// <param name="withSecond">是否包含秒值，默认包含</param>
+        /// <returns></returns>
+        public static string ToDateTimeString(this DateTime? dateTime, bool withSecond = true)
+        {
+            if (dateTime == null)
+                return string.Empty;
+            if (withSecond)
+                return dateTime.Value.ToString("yyyy-MM-dd HH:mm:ss");
+            return dateTime.Value.ToString("yyyy-MM-dd HH:mm");
+        }
+        #endregion
+
+        #region unix时间戳
+        /// <summary>
+        /// unix时间戳（秒）
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static double ToUnixTimeSeconds(this DateTime dateTime)
+        {
+            return new DateTimeOffset(dateTime).ToUnixTimeSeconds();
+        }
+
+        /// <summary>
+        /// unix时间戳（秒）
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static double ToUnixTimeSeconds(this DateTime? dateTime)
+        {
+            if (dateTime == null)
+                return 0;
+            return new DateTimeOffset(dateTime.Value).ToUnixTimeSeconds();
+        }
+
+        /// <summary>
+        /// unix时间戳（毫秒）
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static double ToUnixTimeMilliseconds(this DateTime dateTime)
+        {
+            return new DateTimeOffset(dateTime).ToUnixTimeMilliseconds();
+        }
+
+        /// <summary>
+        /// unix时间戳（毫秒）
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static double ToUnixTimeMilliseconds(this DateTime? dateTime)
+        {
+            if (dateTime == null)
+                return 0;
+            return new DateTimeOffset(dateTime.Value).ToUnixTimeMilliseconds();
         }
         #endregion
 

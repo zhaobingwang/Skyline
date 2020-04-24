@@ -6,6 +6,7 @@ namespace Skyline.Utilities.UnitTests.System
     [Trait("扩展方法", "System.DateTime")]
     public class DateTimeExtensionsTest
     {
+        #region 时间格式 测试
         [Fact(DisplayName = "转中文日期格式-成功测试")]
         public void ToChineseDateStringShouldSuccess()
         {
@@ -47,6 +48,25 @@ namespace Skyline.Utilities.UnitTests.System
             Assert.True(nullDateTime1.ToDateString() == string.Empty);
             Assert.True(nullDateTime2.ToDateString() == expected);
         }
+
+        [Fact]
+        public void ToDateTimeString_ShouldSuccess()
+        {
+            var datetime = Convert.ToDateTime("2019-12-11 23:10:10");
+            var expected = "2019-12-11 23:10:10";
+            var expectedWithOutSeconds = "2019-12-11 23:10";
+
+            DateTime? nullDateTime1 = null;
+            DateTime? nullDateTime2 = datetime;
+
+            Assert.True(datetime.ToDateTimeString() == expected);
+            Assert.True(nullDateTime1.ToDateTimeString() == string.Empty);
+            Assert.True(nullDateTime2.ToDateTimeString() == expected);
+
+            Assert.True(datetime.ToDateTimeString(false) == expectedWithOutSeconds);
+            Assert.True(nullDateTime2.ToDateTimeString(false) == expectedWithOutSeconds);
+        }
+        #endregion
 
         #region 友好时间提示 测试
         [Theory(DisplayName = "转为友好的时间信息-成功测试")]
@@ -92,6 +112,46 @@ namespace Skyline.Utilities.UnitTests.System
             var now = new DateTime(2019, 12, 12, 18, 30, 0);
 
             Assert.True(publishTime.AddSeconds(-1 * beSubtractSeconds).ToFriendlyDateString(now) == friendlyInfo);
+        }
+        #endregion
+
+        #region unix时间戳 测试
+        [Fact]
+        public void ToUnixTimeSeconds_ShouldSuccess()
+        {
+            var dateTime = new DateTime(2020, 4, 24, 12, 10, 1);
+            double expected = 1587701401D;
+            Assert.True(dateTime.ToUnixTimeSeconds() == expected);
+        }
+
+        [Fact]
+        public void ToUnixTimeSeconds_ShouldSuccess_WithNullable()
+        {
+            DateTime? dateTime = new DateTime(2020, 4, 24, 12, 10, 1);
+            DateTime? dateTime2 = null;
+            double expected = 1587701401D;
+            double expected2 = 0D;
+            Assert.True(dateTime.ToUnixTimeSeconds() == expected);
+            Assert.True(dateTime2.ToUnixTimeSeconds() == expected2);
+        }
+
+        [Fact]
+        public void ToUnixTimeMilliseconds_ShouldSuccess()
+        {
+            var dateTime = new DateTime(2020, 4, 24, 12, 10, 1);
+            double expected = 1587701401000D;
+            Assert.True(dateTime.ToUnixTimeMilliseconds() == expected);
+        }
+
+        [Fact]
+        public void ToUnixTimeMilliseconds_ShouldSuccess_WithNullable()
+        {
+            DateTime? dateTime = new DateTime(2020, 4, 24, 12, 10, 1);
+            DateTime? dateTime2 = null;
+            double expected = 1587701401000D;
+            double expected2 = 0D;
+            Assert.True(dateTime.ToUnixTimeMilliseconds() == expected);
+            Assert.True(dateTime2.ToUnixTimeMilliseconds() == expected2);
         }
         #endregion
 

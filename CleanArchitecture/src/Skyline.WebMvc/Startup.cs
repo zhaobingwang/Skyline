@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Skyline.ApplicationCore.Interfaces;
 using Skyline.Infrastructure.Data;
+using Skyline.WebMvc.Authorization;
 
 namespace Skyline.WebMvc
 {
@@ -48,6 +49,11 @@ namespace Skyline.WebMvc
             services.AddMediatR(typeof(Startup).Assembly);
 
             services.AddScoped<IContactRepository, ContactRepository>();
+
+            // Authorization handlers.
+            services.AddScoped<IAuthorizationHandler, ContactIsOwnerAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationHandler, ContactAdministratorsAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationHandler, ContactManagerAuthorizationHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

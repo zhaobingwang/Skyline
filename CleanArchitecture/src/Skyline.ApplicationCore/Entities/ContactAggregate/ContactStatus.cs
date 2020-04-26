@@ -6,7 +6,6 @@ namespace Skyline.ApplicationCore.Entities.ContactAggregate
 {
     public enum ContactStatus
     {
-        None,
         Submitted,
         Approved,
         Rejected

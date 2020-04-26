@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Skyline.WebMvc.Commands
+namespace Skyline.WebMvc.Queries
 {
     public class ContactList : IRequest<IEnumerable<ContactViewModel>>
     {

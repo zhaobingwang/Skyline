@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Skyline.WebMvc.Commands
+namespace Skyline.WebMvc.Queries
 {
     public class ContactListHandler : IRequestHandler<ContactList, IEnumerable<ContactViewModel>>
     {

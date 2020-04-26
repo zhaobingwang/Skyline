@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Skyline.WebMvc.ViewModels
 {
-    public class ContactCreateViewModel
+    public class ContactCreateViewModel: ContactBaseViewModel
     {
         public string Name { get; set; }
         public string Province { get; set; }

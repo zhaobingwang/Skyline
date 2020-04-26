@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Skyline.ApplicationCore.Constants;
+using Skyline.ApplicationCore.Entities.ContactAggregate;
 using Skyline.Infrastructure.Identity;
+using Skyline.WebMvc.Authorization;
 using Skyline.WebMvc.Commands;
 using Skyline.WebMvc.Queries;
 using Skyline.WebMvc.ViewModels;
@@ -17,17 +20,19 @@ namespace Skyline.WebMvc.Controllers
     {
         private readonly IMediator _mediator;
         private readonly UserManager<AppUser> _userManager;
-        public ContactController(IMediator mediator, UserManager<AppUser> userManager)
+        IAuthorizationService AuthorizationService;
+        public ContactController(IMediator mediator, UserManager<AppUser> userManager, IAuthorizationService authorizationService)
         {
             _mediator = mediator;
             _userManager = userManager;
+            AuthorizationService = authorizationService;
         }
         public async Task<IActionResult> Index()
         {
             var currentUserId = _userManager.GetUserId(User);
             var isAuthorized = User.IsInRole(AppIdentityConstants.Roles.ADMINISTRATORS)
                 || User.IsInRole(AppIdentityConstants.Roles.MANAGERS);
-            var vm = await _mediator.Send(new ContactList(currentUserId, isAuthorized));
+            var vm = await _mediator.Send(new ContactListQuery(currentUserId, isAuthorized));
             return View(vm);
         }
 
@@ -54,7 +59,35 @@ namespace Skyline.WebMvc.Controllers
                 return View(vm);
             }
             var currentUserId = _userManager.GetUserId(User);
+            var isAuthorized = await AuthorizationService.AuthorizeAsync(User, vm, ContactOperations.Create);
+            if (!isAuthorized.Succeeded)
+            {
+                return Forbid();
+            }
             var success = await _mediator.Send(new ContactCreate(currentUserId, vm));
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var contact = await _mediator.Send(new ContactEditQuery(id));
+            return View(contact);
+        }
+
+        public async Task<IActionResult> Edit(ContactEditViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(vm);
+            }
+            var currentUserId = _userManager.GetUserId(User);
+            var isAuthorized = await AuthorizationService.AuthorizeAsync(User, vm, ContactOperations.Update);
+            if (!isAuthorized.Succeeded)
+            {
+                return Forbid();
+            }
+            await _mediator.Send(new ContactEdit(vm));
             return RedirectToAction(nameof(Index));
         }
     }

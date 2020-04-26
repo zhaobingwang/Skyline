@@ -38,7 +38,7 @@ namespace Skyline.WebMvc
                 var policy = new AuthorizationPolicyBuilder()
                     .RequireAuthenticatedUser()
                     .Build();
-                config.Filters.Add(new AuthorizeFilter());
+                config.Filters.Add(new AuthorizeFilter(policy));
             });
 
             services.AddDbContext<SkylineDbContext>(options =>

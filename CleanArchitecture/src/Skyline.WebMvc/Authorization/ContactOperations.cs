@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Skyline.ApplicationCore.Constants;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Skyline.ApplicationCore.Entities.ContactAggregate
+namespace Skyline.WebMvc.Authorization
 {
     public class ContactOperations
     {

@@ -1,17 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Skyline.ApplicationCore.Constants;
-using Skyline.ApplicationCore.Entities.ContactAggregate;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Skyline.WebMvc.ViewModels;
 using System.Threading.Tasks;
 
 namespace Skyline.WebMvc.Authorization
 {
-    public class ContactAdministratorsAuthorizationHandler : AuthorizationHandler<OperationAuthorizationRequirement, Contact>
+    public class ContactAdministratorsAuthorizationHandler : AuthorizationHandler<OperationAuthorizationRequirement, ContactBaseViewModel>
     {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, Contact resource)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, ContactBaseViewModel resource)
         {
             if (context.User == null)
             {

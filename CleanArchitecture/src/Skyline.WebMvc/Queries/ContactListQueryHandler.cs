@@ -12,14 +12,14 @@ using System.Threading.Tasks;
 
 namespace Skyline.WebMvc.Queries
 {
-    public class ContactListHandler : IRequestHandler<ContactList, IEnumerable<ContactViewModel>>
+    public class ContactListQueryHandler : IRequestHandler<ContactListQuery, IEnumerable<ContactViewModel>>
     {
         private readonly IContactRepository _contactRepository;
-        public ContactListHandler(IContactRepository contactRepository)
+        public ContactListQueryHandler(IContactRepository contactRepository)
         {
             _contactRepository = contactRepository;
         }
-        public async Task<IEnumerable<ContactViewModel>> Handle(ContactList request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<ContactViewModel>> Handle(ContactListQuery request, CancellationToken cancellationToken)
         {
             IReadOnlyList<ApplicationCore.Entities.ContactAggregate.Contact> contacts;
 
@@ -37,6 +37,7 @@ namespace Skyline.WebMvc.Queries
             return contacts.Select(c => new ContactViewModel
             {
                 Id = c.Id,
+                OwnerId = c.OwnerId,
                 Name = c.Name,
                 Address = c.Address,
                 Province = c.Province,

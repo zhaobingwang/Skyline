@@ -75,6 +75,7 @@ namespace Skyline.WebMvc.Controllers
             return View(contact);
         }
 
+        [HttpPost]
         public async Task<IActionResult> Edit(ContactEditViewModel vm)
         {
             if (!ModelState.IsValid)
@@ -89,6 +90,13 @@ namespace Skyline.WebMvc.Controllers
             }
             await _mediator.Send(new ContactEdit(vm));
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var vm = await _mediator.Send(new ContactDetailsQuery(id));
+            return View(vm);
         }
     }
 }

@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace Skyline.WebMvc.Commands
 {
-    public class EditStatusCommandHandler : IRequestHandler<EditStatusCommand, bool>
+    public class ContactEditStatusCommandHandler : IRequestHandler<ContactEditStatusCommand, bool>
     {
         private readonly IContactRepository _contactRepository;
-        public EditStatusCommandHandler(IContactRepository contactRepository)
+        public ContactEditStatusCommandHandler(IContactRepository contactRepository)
         {
             _contactRepository = contactRepository;
         }
-        public async Task<bool> Handle(EditStatusCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(ContactEditStatusCommand request, CancellationToken cancellationToken)
         {
             var entity = await _contactRepository.GetByIdAsync(request.EditStatusViewModel.Id);
             entity.Status = request.EditStatusViewModel.Status;

@@ -16,6 +16,7 @@ using Skyline.WebMvc.ViewModels;
 
 namespace Skyline.WebMvc.Controllers
 {
+    [Authorize(Roles = "Administrators,Managers,Developers")]
     public class ContactController : Controller
     {
         private readonly IMediator _mediator;
@@ -100,9 +101,9 @@ namespace Skyline.WebMvc.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditStatus(EditStatusViewModel vm)
+        public async Task<IActionResult> EditStatus(ContactEditStatusViewModel vm)
         {
-            await _mediator.Send(new EditStatusCommand(vm));
+            await _mediator.Send(new ContactEditStatusCommand(vm));
             return RedirectToAction(nameof(Index));
         }
 

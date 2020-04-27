@@ -16,7 +16,7 @@ namespace Skyline.ApplicationCore.Constants
             /// <summary>
             /// 经理
             /// </summary>
-            public const string MANAGERS = "MANAGERS";
+            public const string MANAGERS = "Managers";
 
             /// <summary>
             /// 开发者

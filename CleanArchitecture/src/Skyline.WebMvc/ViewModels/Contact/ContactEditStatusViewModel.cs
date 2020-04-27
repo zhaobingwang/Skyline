@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Skyline.WebMvc.ViewModels
 {
-    public class EditStatusViewModel
+    public class ContactEditStatusViewModel
     {
         public int Id { get; set; }
         public ContactStatus Status { get; set; }

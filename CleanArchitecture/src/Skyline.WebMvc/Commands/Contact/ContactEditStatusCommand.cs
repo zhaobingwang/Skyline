@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Skyline.WebMvc.Commands
 {
-    public class EditStatusCommand : IRequest<bool>
+    public class ContactEditStatusCommand : IRequest<bool>
     {
-        public EditStatusViewModel EditStatusViewModel { get; set; }
-        public EditStatusCommand(EditStatusViewModel vm)
+        public ContactEditStatusViewModel EditStatusViewModel { get; set; }
+        public ContactEditStatusCommand(ContactEditStatusViewModel vm)
         {
             EditStatusViewModel = vm;
         }

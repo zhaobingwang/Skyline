@@ -77,6 +77,10 @@
                     {
                         <a asp-action="Edit" asp-route-id="@contact.Id" class="btn btn-outline-warning btn-sm">Edit</a>
                     }
+                    @if ((await AuthorizationService.AuthorizeAsync(User, contact, ContactOperations.Delete)).Succeeded)
+                    {
+                        <a asp-action="Delete" asp-route-id="@contact.Id" class="btn btn-outline-danger btn-sm">Delete</a>
+                    }
                     <a asp-action="Details" asp-route-id="@contact.Id" class="btn btn-outline-info btn-sm">Details</a>
                 </td>
             </tr>

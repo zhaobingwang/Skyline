@@ -98,5 +98,18 @@ namespace Skyline.WebMvc.Controllers
             var vm = await _mediator.Send(new ContactDetailsQuery(id));
             return View(vm);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var currentUserId = _userManager.GetUserId(User);
+            var isAuthorized = await AuthorizationService.AuthorizeAsync(User, new ContactDetailsViewModel(), ContactOperations.Delete);
+            if (!isAuthorized.Succeeded)
+            {
+                return Forbid();
+            }
+            await _mediator.Send(new ContactDeleteCommand(id));
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

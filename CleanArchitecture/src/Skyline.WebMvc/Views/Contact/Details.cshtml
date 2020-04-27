@@ -1,4 +1,6 @@
-﻿@model Skyline.WebMvc.ViewModels.ContactDetailsViewModel
+﻿@using Skyline.WebMvc.Authorization
+@model Skyline.WebMvc.ViewModels.ContactDetailsViewModel
+
 @{
     ViewData["Title"] = "Details";
 }
@@ -54,6 +56,30 @@
     </dl>
 </div>
 
+@if (Model.Status != Skyline.ApplicationCore.Entities.ContactAggregate.ContactStatus.Approved)
+{
+    if ((await AuthorizationService.AuthorizeAsync(User, Model, ContactOperations.Approve)).Succeeded)
+    {
+        <form style="display:inline;" method="post" asp-action="EditStatus">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <input type="hidden" name="status" value="@Skyline.ApplicationCore.Entities.ContactAggregate.ContactStatus.Approved" />
+            <button type="submit" class="btn btn-xs btn-success">Approve</button>
+        </form>
+    }
+}
+@if (Model.Status != Skyline.ApplicationCore.Entities.ContactAggregate.ContactStatus.Rejected)
+{
+    if ((await AuthorizationService.AuthorizeAsync(User, Model, ContactOperations.Reject)).Succeeded)
+    {
+        <form style="display:inline;" method="post" asp-action="EditStatus">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <input type="hidden" name="status" value="@Skyline.ApplicationCore.Entities.ContactAggregate.ContactStatus.Rejected" />
+            <button type="submit" class="btn btn-xs btn-danger">Reject</button>
+        </form>
+    }
+}
+
 <div>
+    <br />
     <a asp-action="Index" class="btn btn-info">Back to List</a>
 </div>

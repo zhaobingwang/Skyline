@@ -99,6 +99,13 @@ namespace Skyline.WebMvc.Controllers
             return View(vm);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> EditStatus(EditStatusViewModel vm)
+        {
+            await _mediator.Send(new EditStatusCommand(vm));
+            return RedirectToAction(nameof(Index));
+        }
+
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {

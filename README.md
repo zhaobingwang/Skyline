@@ -1,6 +1,3 @@
-# Skyline
-My ASP.NET Application template
-
 # Nuget Packages
 | Package Name | Nuget | Build |
 |--|--|--|

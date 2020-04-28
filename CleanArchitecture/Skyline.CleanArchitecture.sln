@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E82AA5AD-6BFE-4C3D-B31B-F8A5648A7B63}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 src", "02 src", "{E82AA5AD-6BFE-4C3D-B31B-F8A5648A7B63}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{670141C7-7520-4E1C-9EBA-2616F69DBF5C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 tests", "03 tests", "{670141C7-7520-4E1C-9EBA-2616F69DBF5C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skyline.WebMvc", "src\Skyline.WebMvc\Skyline.WebMvc.csproj", "{274CCB8E-9DF0-4ABB-B160-986FCBA5061B}"
 EndProject
@@ -21,12 +21,20 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skyline.IntegrationTests", 
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{4AAA69B7-1531-40DF-8DAF-5C73C435BBA4}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C70A5845-4E9C-49E3-ADD4-2795DA23434A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 Solution Items", "01 Solution Items", "{C70A5845-4E9C-49E3-ADD4-2795DA23434A}"
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.override.yml = docker-compose.override.yml
 		docker-compose.yml = docker-compose.yml
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{BC71DDB4-C0D0-4BBE-A536-0404812328DA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skyline", "..\Shared\src\Skyline\Skyline.csproj", "{EBEF8B1B-DA56-4D07-9EBF-B029732C4016}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 tools", "04 tools", "{4D042362-AC80-454A-BBDD-D7BF590D0DD5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skyline.Tools.SeedData", "..\devtools\Skyline.Tools.SeedData\Skyline.Tools.SeedData.csproj", "{76A76F0A-5AA9-4040-A4B6-A20DD7618CB7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,6 +70,14 @@ Global
 		{4AAA69B7-1531-40DF-8DAF-5C73C435BBA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AAA69B7-1531-40DF-8DAF-5C73C435BBA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AAA69B7-1531-40DF-8DAF-5C73C435BBA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBEF8B1B-DA56-4D07-9EBF-B029732C4016}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBEF8B1B-DA56-4D07-9EBF-B029732C4016}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBEF8B1B-DA56-4D07-9EBF-B029732C4016}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBEF8B1B-DA56-4D07-9EBF-B029732C4016}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76A76F0A-5AA9-4040-A4B6-A20DD7618CB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76A76F0A-5AA9-4040-A4B6-A20DD7618CB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76A76F0A-5AA9-4040-A4B6-A20DD7618CB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76A76F0A-5AA9-4040-A4B6-A20DD7618CB7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,6 +89,8 @@ Global
 		{DD7FE0F8-B20D-45A9-A5CB-61771D44A6BF} = {670141C7-7520-4E1C-9EBA-2616F69DBF5C}
 		{9A889135-0997-4781-A1B8-5C5D1F04CB10} = {670141C7-7520-4E1C-9EBA-2616F69DBF5C}
 		{05624732-9D5C-4771-A404-1CEEF695EF60} = {670141C7-7520-4E1C-9EBA-2616F69DBF5C}
+		{EBEF8B1B-DA56-4D07-9EBF-B029732C4016} = {BC71DDB4-C0D0-4BBE-A536-0404812328DA}
+		{76A76F0A-5AA9-4040-A4B6-A20DD7618CB7} = {4D042362-AC80-454A-BBDD-D7BF590D0DD5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {44964288-BE25-429D-A499-E849A8765441}

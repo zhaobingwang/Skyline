@@ -75,10 +75,14 @@ namespace Skyline.Tools.SeedData
                     List<Tmp> list = new List<Tmp>();
                     StringBuilder sb = new StringBuilder();
 
+                    var now = DateTime.Now;
+                    var utcNow = DateTime.UtcNow;
+                    var nowOffset = DateTimeOffset.Now;
                     sb.Append("insert into tmp (time,time_utc,time_offset,remark,is_delete) values ");
-                    for (int i = 0; i < 1000; i++)
+                    for (int i = 0; i < 10000; i++)
                     {
-                        sb.AppendFormat($"('{DateTime.Now}','{DateTime.UtcNow}','{DateTimeOffset.Now}','remark{i}',{(i % 3 == 0 ? 1 : 0)}),");
+                        //sb.Append($"('{DateTime.Now}','{DateTime.UtcNow}','{DateTimeOffset.Now}','remark{i}',{(i % 3 == 0 ? 1 : 0)}),");
+                        sb.AppendFormat("('{0}','{1}','{2}','{3}',(4)),", now, utcNow, nowOffset, "remark" + i, i % 3 == 0 ? 1 : 0);
                         //sb.Append("(");
                         //sb.Append($"'{DateTime.Now}',");
                         //sb.Append($"'{DateTime.UtcNow}',");

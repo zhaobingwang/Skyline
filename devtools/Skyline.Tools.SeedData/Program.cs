@@ -24,7 +24,7 @@ namespace Skyline.Tools.SeedData
             logger.LogInformation(Path.Combine(Directory.GetCurrentDirectory()));
             logger.LogInformation(configuration.GetConnectionString("sqlite"));
             var worker = serviceProvider.GetRequiredService<DataWorker>();
-            await worker.Work();
+            await worker.WorkWithDapper();
         }
 
         private static ServiceProvider RegisterServices(string[] args)

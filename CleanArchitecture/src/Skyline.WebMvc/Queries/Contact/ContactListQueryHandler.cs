@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Skyline.ApplicationCore.Interfaces;
 using Skyline.ApplicationCore.Specifications;
@@ -12,10 +13,10 @@ using System.Threading.Tasks;
 
 namespace Skyline.WebMvc.Queries
 {
-    public class ContactListQueryHandler : IRequestHandler<ContactListQuery, IEnumerable<ContactViewModel>>
+    public class ContactListQueryHandler : BaseQueryHandler, IRequestHandler<ContactListQuery, IEnumerable<ContactViewModel>>
     {
         private readonly IContactRepository _contactRepository;
-        public ContactListQueryHandler(IContactRepository contactRepository)
+        public ContactListQueryHandler(IContactRepository contactRepository, IMapper mapper) : base(mapper)
         {
             _contactRepository = contactRepository;
         }
@@ -33,19 +34,7 @@ namespace Skyline.WebMvc.Queries
             {
                 contacts = await _contactRepository.ListAllAsync();
             }
-
-            return contacts.Select(c => new ContactViewModel
-            {
-                Id = c.Id,
-                OwnerId = c.OwnerId,
-                Name = c.Name,
-                Address = c.Address,
-                Province = c.Province,
-                City = c.City,
-                Email = c.Email,
-                MobileNumber = c.MobileNumber,
-                Status = c.Status
-            });
+            return _mapper.Map<IEnumerable<ContactViewModel>>(contacts);
         }
     }
 }

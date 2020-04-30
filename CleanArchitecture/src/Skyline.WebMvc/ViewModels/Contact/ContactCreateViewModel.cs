@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Skyline.ApplicationCore.Entities.ContactAggregate;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Skyline.WebMvc.ViewModels
 {
-    public class ContactCreateViewModel: ContactBaseViewModel
+    public class ContactCreateViewModel : ContactBaseViewModel
     {
         public string Name { get; set; }
         public string Province { get; set; }
@@ -13,5 +14,7 @@ namespace Skyline.WebMvc.ViewModels
         public string Address { get; set; }
         public string Email { get; set; }
         public string MobileNumber { get; set; }
+        public ContactStatus Status { get; set; } = ContactStatus.Submitted;
+        public string Zip { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Skyline.ApplicationCore.Interfaces;
 using Skyline.WebMvc.ViewModels;
 using System;
@@ -9,27 +10,18 @@ using System.Threading.Tasks;
 
 namespace Skyline.WebMvc.Queries
 {
-    public class ContactEditQueryHandler : IRequestHandler<ContactEditQuery, ContactEditViewModel>
+    public class ContactEditQueryHandler : BaseQueryHandler, IRequestHandler<ContactEditQuery, ContactEditViewModel>
     {
         private readonly IContactRepository _contactRepository;
-        public ContactEditQueryHandler(IContactRepository contactRepository)
+        public ContactEditQueryHandler(IContactRepository contactRepository, IMapper mapper) : base(mapper)
         {
             _contactRepository = contactRepository;
         }
+
         public async Task<ContactEditViewModel> Handle(ContactEditQuery request, CancellationToken cancellationToken)
         {
             var entity = await _contactRepository.GetByIdAsync(request.ContactId);
-            return new ContactEditViewModel
-            {
-                Id = entity.Id,
-                Name = entity.Name,
-                OwnerId = entity.OwnerId,
-                Province = entity.Province,
-                City = entity.City,
-                Address = entity.Address,
-                Email = entity.Email,
-                MobileNumber = entity.MobileNumber
-            };
+            return _mapper.Map<ContactEditViewModel>(entity);
         }
     }
 }

@@ -1,25 +1,18 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Polly;
-using Polly.Extensions.Http;
 using Skyline.ApplicationCore.Interfaces;
 using Skyline.Infrastructure.Data;
 using Skyline.WebMvc.Authorization;
+using Skyline.WebMvc.HttpPolicies;
 using Skyline.WebMvc.Services;
+using System;
 
 namespace Skyline.WebMvc
 {
@@ -49,33 +42,15 @@ namespace Skyline.WebMvc
                 config.Filters.Add(new AuthorizeFilter(policy));
             });
 
-            services.AddDbContext<SkylineDbContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("SkylineDbContextConnection"));
-            });
 
+            services.AddSqlServerDbContext(Configuration);
             services.AddMediatR(typeof(Startup).Assembly);
 
             services.AddScoped<IContactRepository, ContactRepository>();
 
-            // Authorization handlers.
-            services.AddScoped<IAuthorizationHandler, ContactIsOwnerAuthorizationHandler>();
-            services.AddSingleton<IAuthorizationHandler, ContactAdministratorsAuthorizationHandler>();
-            services.AddSingleton<IAuthorizationHandler, ContactManagerAuthorizationHandler>();
+            services.AddAuthorizationHandlers();
 
-            // HttpClient.
-            services.AddHttpClient<IWeatherForecastService, WeatherForecastService>(client =>
-            {
-                client.BaseAddress = new Uri(Configuration["API:Skyline:BaseUrl"]);
-            })
-                .SetHandlerLifetime(TimeSpan.FromMinutes(2))  // default value is 2 minutes.
-                .AddPolicyHandler(GetRetryPolicy());
-
-            //services.AddHttpClient("client.default",client=> {
-            //    client.BaseAddress = new Uri(Configuration["API.Skyline.BaseUrl"]);
-            //})
-            //    .SetHandlerLifetime(TimeSpan.FromMinutes(2))    // default value is 2 minutes.
-            //    .AddPolicyHandler(GetRetryPolicy());
+            services.AddHttpClient(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -108,12 +83,6 @@ namespace Skyline.WebMvc
             });
         }
 
-        private IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
-        {
-            return HttpPolicyExtensions
-                .HandleTransientHttpError()
-                .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
-                .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
-        }
+
     }
 }

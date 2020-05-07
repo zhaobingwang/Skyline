@@ -2,6 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>ZhaoBingwang</Authors>
+    <PackageProjectUrl>https://github.com/zhaobingwang/Skyline</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/zhaobingwang/Skyline</RepositoryUrl>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <DocumentationFile>.\bin\Skyline.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

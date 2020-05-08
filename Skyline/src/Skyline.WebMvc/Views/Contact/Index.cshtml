@@ -1,0 +1,104 @@
+﻿@using Skyline.WebMvc.ViewModels
+@using Microsoft.AspNetCore.Authorization
+@using Skyline.WebMvc.Authorization
+@model IEnumerable<ContactViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<h1>Contacts</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Address
+            </th>
+            <th>
+                Province
+            </th>
+            <th>
+                City
+            </th>
+            <th>
+                EMail
+            </th>
+            <th>
+                Mobile Number
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var contact in Model)
+        {
+            <tr>
+                <td>
+                    @contact.Id
+                </td>
+                <td>
+                    @contact.Name
+                </td>
+                <td>
+                    @contact.Province
+                </td>
+                <td>
+                    @contact.City
+                </td>
+                <td>
+                    @contact.Address
+                </td>
+                <td>
+                    @contact.Email
+                </td>
+                <td>
+                    @contact.MobileNumber
+                </td>
+                <td>
+                    @if (contact.Status == Skyline.ApplicationCore.Entities.ContactAggregate.ContactStatus.Submitted)
+                    {
+                        <span class="badge badge-info">@contact.Status</span>
+                    }
+                    else if (contact.Status == Skyline.ApplicationCore.Entities.ContactAggregate.ContactStatus.Approved)
+                    {
+                        <span class="badge badge-success">@contact.Status</span>
+                    }
+                    else if (contact.Status == Skyline.ApplicationCore.Entities.ContactAggregate.ContactStatus.Rejected)
+                    {
+                        <span class="badge badge-danger">@contact.Status</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-info">@contact.Status</span>
+                    }
+                </td>
+                <td>
+                    @if ((await AuthorizationService.AuthorizeAsync(User, contact, ContactOperations.Update)).Succeeded)
+                    {
+                        <a asp-action="Edit" asp-route-id="@contact.Id" class="btn btn-outline-warning btn-sm">Edit</a>
+                    }
+                    @if ((await AuthorizationService.AuthorizeAsync(User, contact, ContactOperations.Delete)).Succeeded)
+                    {
+                        <a asp-action="Delete" asp-route-id="@contact.Id" class="btn btn-outline-danger btn-sm">Delete</a>
+                    }
+                    <a asp-action="Details" asp-route-id="@contact.Id" class="btn btn-outline-info btn-sm">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

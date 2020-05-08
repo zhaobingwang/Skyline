@@ -1,0 +1,39 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skyline-api
+  namespace: aspnetcore
+  labels:
+    k8s-app: skyline-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: skyline-api
+  template:
+    metadata:
+      labels:
+        k8s-app: skyline-api
+    spec:
+      containers:
+        - name: skyline-api
+          image: zhaobingwang/skyline-api:dev
+          ports:
+            - containerPort: 80
+          imagePullPolicy: Always
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    k8s-app: kubernetes-dashboard
+  name: skyline-api
+  namespace: aspnetcore
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    k8s-app: skyline-api

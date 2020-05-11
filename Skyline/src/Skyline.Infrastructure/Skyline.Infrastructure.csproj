@@ -13,4 +13,8 @@
     <ProjectReference Include="..\Skyline.ApplicationCore\Skyline.ApplicationCore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>

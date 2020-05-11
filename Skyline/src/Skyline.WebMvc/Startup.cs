@@ -7,8 +7,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Skyline.ApplicationCore.Email;
 using Skyline.ApplicationCore.Interfaces;
 using Skyline.Infrastructure.Data;
+using Skyline.Infrastructure.Email;
 using Skyline.WebMvc.Authorization;
 using Skyline.WebMvc.HttpPolicies;
 using Skyline.WebMvc.Services;
@@ -45,6 +48,9 @@ namespace Skyline.WebMvc
 
             services.AddSqlServerDbContext(Configuration);
             services.AddMediatR(typeof(Startup).Assembly);
+
+            //services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IEmailSender>(e => new EmailSender(e.GetRequiredService<ILogger<EmailSender>>(), new EmailConfiguration(Configuration["EmailConfigurations:FromEmail"])));
 
             services.AddScoped<IContactRepository, ContactRepository>();
 

@@ -50,7 +50,13 @@ namespace Skyline.WebMvc
             services.AddMediatR(typeof(Startup).Assembly);
 
             //services.AddTransient<IEmailSender, EmailSender>();
-            services.AddTransient<IEmailSender>(e => new EmailSender(e.GetRequiredService<ILogger<EmailSender>>(), new EmailConfiguration(Configuration["EmailConfigurations:FromEmail"])));
+            services.AddTransient<IEmailSender>(e => new EmailSender(e.GetRequiredService<ILogger<EmailSender>>(),
+                new EmailConfiguration(
+                    Configuration["EmailConfigurations:FromEmail"],
+                    Configuration["EmailConfigurations:FromPassword"],
+                    Configuration["EmailConfigurations:Host"],
+                    int.Parse(Configuration["EmailConfigurations:Port"])))
+            );
 
             services.AddScoped<IContactRepository, ContactRepository>();
 

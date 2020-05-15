@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Skyline.Infrastructure.Data;
+using Skyline.Infrastructure.Identity;
 using System;
 
 namespace Skyline.WebMvc
@@ -16,9 +18,17 @@ namespace Skyline.WebMvc
             using (var scope = host.Services.CreateScope())
             {
                 var service = scope.ServiceProvider;
+                var appIdentityDbContext = service.GetRequiredService<AppIdentityDbContext>();
+                var skylineDbContext = service.GetRequiredService<SkylineDbContext>();
                 var logger = service.GetRequiredService<ILogger<Program>>();
                 try
                 {
+                    appIdentityDbContext.Database.EnsureDeleted();
+                    skylineDbContext.Database.EnsureDeleted();
+
+                    appIdentityDbContext.Database.Migrate();
+                    skylineDbContext.Database.Migrate();
+
                     var config = host.Services.GetRequiredService<IConfiguration>();
                     // Set password with the Secret Manager tool
                     // or dotnet user-secrets set Identity:DefaultPassword <pw>

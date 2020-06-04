@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Skyline.Identity.API
+namespace Skyline.Identity
 {
     public class Program
     {

@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Skyline.Identity.API.Models;
+using Skyline.Identity.Models;
 
-namespace Skyline.Identity.API.Controllers
+namespace Skyline.Identity.Controllers
 {
     public class HomeController : Controller
     {

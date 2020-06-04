@@ -1,6 +1,6 @@
 using System;
 
-namespace Skyline.Identity.API.Models
+namespace Skyline.Identity.Models
 {
     public class ErrorViewModel
     {

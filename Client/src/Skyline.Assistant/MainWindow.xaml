@@ -7,6 +7,13 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Menu>
+            <MenuItem Header="Password" FontFamily="微软雅黑">
+                <MenuItem Header="密码管理" Click="MenuItem_PasswordManager_Click">
+
+                </MenuItem>
+            </MenuItem>
+        </Menu>
 
     </Grid>
 </Window>

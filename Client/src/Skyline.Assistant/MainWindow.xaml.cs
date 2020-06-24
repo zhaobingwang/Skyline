@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Skyline.Assistant.Data;
+using Skyline.Assistant.Secret;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +26,12 @@ namespace Skyline.Assistant
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void MenuItem_PasswordManager_Click(object sender, RoutedEventArgs e)
+        {
+            SecretAssistant secretAssistant = new SecretAssistant();
+            secretAssistant.Show();
         }
     }
 }

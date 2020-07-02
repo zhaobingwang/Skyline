@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skyline.Assistant", "src\Skyline.Assistant\Skyline.Assistant.csproj", "{83154368-2FA6-49BA-9AAE-9E1163C7E637}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skyline.Assistant", "src\Skyline.Assistant\Skyline.Assistant.csproj", "{83154368-2FA6-49BA-9AAE-9E1163C7E637}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

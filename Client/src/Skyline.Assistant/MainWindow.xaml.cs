@@ -1,5 +1,4 @@
-﻿using Skyline.Assistant.UI.WPF.Secret;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -25,12 +24,6 @@ namespace Skyline.Assistant.UI.WPF
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void MenuItem_PasswordManager_Click(object sender, RoutedEventArgs e)
-        {
-            SecretAssistant secretAssistant = new SecretAssistant();
-            secretAssistant.Show();
         }
     }
 }

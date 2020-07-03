@@ -5,25 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Skyline.Assistant.UI.WPF"
         mc:Ignorable="d"
-        Title="Assistant" Height="450" Width="800"
-         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+        Title="Assistant" Height="450" Width="800">
     <Grid>
-        <Menu IsMainMenu="True">
-            <MenuItem Header="Tools">
-                <MenuItem.Icon>
-                    <materialDesign:PackIcon Kind="Tools" />
-                </MenuItem.Icon>
-                <MenuItem Header="Password" Click="MenuItem_PasswordManager_Click">
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="LockQuestion" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="Exit" InputGestureText="Ctrl+E">
-                    <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="ExitToApp" />
-                    </MenuItem.Icon>
-                </MenuItem>
-            </MenuItem>
-        </Menu>
     </Grid>
 </Window>

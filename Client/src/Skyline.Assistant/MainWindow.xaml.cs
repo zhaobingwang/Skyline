@@ -1,5 +1,4 @@
-﻿using Skyline.Assistant.Data;
-using Skyline.Assistant.Secret;
+﻿using Skyline.Assistant.UI.WPF.Secret;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -16,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Skyline.Assistant
+namespace Skyline.Assistant.UI.WPF
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

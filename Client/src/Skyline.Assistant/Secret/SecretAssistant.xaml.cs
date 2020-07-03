@@ -1,8 +1,6 @@
 ﻿using MaterialDesignThemes.Wpf;
-using Skyline.Assistant.Data;
-using Skyline.Assistant.Entities;
-using Skyline.Assistant.Share.Dialogs;
-using Skyline.Assistant.ViewModel;
+using Skyline.Assistant.Infrastructure.Data;
+using Skyline.Assistant.UI.WPF.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,21 +14,21 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Skyline.Assistant.Secret
+namespace Skyline.Assistant.UI.WPF.Secret
 {
     /// <summary>
     /// Interaction logic for SecretAssistant.xaml
     /// </summary>
     public partial class SecretAssistant : Window
     {
-        AssistantDbContext dbContext;
+        AssistantSqliteDbContext dbContext;
         List<SecretViewModel> secrets;
         public SecretAssistant()
         {
             InitializeComponent();
 
 
-            dbContext = new AssistantDbContext();
+            dbContext = new AssistantSqliteDbContext();
             secrets = new List<SecretViewModel>();
         }
 

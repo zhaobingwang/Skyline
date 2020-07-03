@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Skyline.Assistant.ViewModel
+namespace Skyline.Assistant.UI.WPF.ViewModel
 {
     public class SecretViewModel
     {

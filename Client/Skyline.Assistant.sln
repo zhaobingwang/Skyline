@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skyline.Assistant", "src\Skyline.Assistant\Skyline.Assistant.csproj", "{83154368-2FA6-49BA-9AAE-9E1163C7E637}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skyline.Assistant.UI.WPF", "src\Skyline.Assistant\Skyline.Assistant.UI.WPF.csproj", "{83154368-2FA6-49BA-9AAE-9E1163C7E637}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skyline.Assistant.Infrastructure", "src\Skyline.Assistant.Infrastructure\Skyline.Assistant.Infrastructure.csproj", "{4C624C08-400E-4FE4-BF91-B627E07482DD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skyline.Assistant.ApplicationCore", "src\Skyline.Assistant.ApplicationCore\Skyline.Assistant.ApplicationCore.csproj", "{00401A72-6ED4-462B-84CD-A9C2C3C028BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skyline.Assistant.UI.Winform", "src\Skyline.Assistant.UI.Winform\Skyline.Assistant.UI.Winform.csproj", "{A3A86640-934A-4782-80FA-586AA3EEBF5E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{83154368-2FA6-49BA-9AAE-9E1163C7E637}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83154368-2FA6-49BA-9AAE-9E1163C7E637}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83154368-2FA6-49BA-9AAE-9E1163C7E637}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C624C08-400E-4FE4-BF91-B627E07482DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C624C08-400E-4FE4-BF91-B627E07482DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C624C08-400E-4FE4-BF91-B627E07482DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C624C08-400E-4FE4-BF91-B627E07482DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00401A72-6ED4-462B-84CD-A9C2C3C028BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00401A72-6ED4-462B-84CD-A9C2C3C028BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00401A72-6ED4-462B-84CD-A9C2C3C028BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00401A72-6ED4-462B-84CD-A9C2C3C028BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3A86640-934A-4782-80FA-586AA3EEBF5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3A86640-934A-4782-80FA-586AA3EEBF5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3A86640-934A-4782-80FA-586AA3EEBF5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3A86640-934A-4782-80FA-586AA3EEBF5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

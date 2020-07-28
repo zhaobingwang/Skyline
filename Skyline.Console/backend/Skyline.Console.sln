@@ -3,7 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skyline.Console.Api", "src\Skyline.Console.Api\Skyline.Console.Api.csproj", "{86A4C6B3-073C-4CCF-9AD7-8F97AA9A3B01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skyline.Console.Api", "src\Skyline.Console.Api\Skyline.Console.Api.csproj", "{86A4C6B3-073C-4CCF-9AD7-8F97AA9A3B01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skyline.Console.Infrastructure", "src\Skyline.Console.Infrastructure\Skyline.Console.Infrastructure.csproj", "{D1C8372C-183A-4E41-90C9-938328C51039}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skyline.Console.ApplicationCore", "src\Skyline.Console.ApplicationCore\Skyline.Console.ApplicationCore.csproj", "{34B9BB23-5381-4331-BB01-D03A2D3EB533}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skyline.Console.WebMvc", "src\Skyline.Console.WebMvc\Skyline.Console.WebMvc.csproj", "{D1244E78-5FAC-4EAF-BBC1-623E308BAFA0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{6C05DBF6-D53D-4457-A022-865C70D4ACB9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skyline", "..\..\Shared\src\Skyline\Skyline.csproj", "{DDDC2672-C59F-42D0-9248-8F26B54B053C}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{7A3E71F6-3313-40AF-8538-43772A4E53F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +27,33 @@ Global
 		{86A4C6B3-073C-4CCF-9AD7-8F97AA9A3B01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86A4C6B3-073C-4CCF-9AD7-8F97AA9A3B01}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86A4C6B3-073C-4CCF-9AD7-8F97AA9A3B01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1C8372C-183A-4E41-90C9-938328C51039}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1C8372C-183A-4E41-90C9-938328C51039}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1C8372C-183A-4E41-90C9-938328C51039}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1C8372C-183A-4E41-90C9-938328C51039}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34B9BB23-5381-4331-BB01-D03A2D3EB533}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34B9BB23-5381-4331-BB01-D03A2D3EB533}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34B9BB23-5381-4331-BB01-D03A2D3EB533}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34B9BB23-5381-4331-BB01-D03A2D3EB533}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1244E78-5FAC-4EAF-BBC1-623E308BAFA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1244E78-5FAC-4EAF-BBC1-623E308BAFA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1244E78-5FAC-4EAF-BBC1-623E308BAFA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1244E78-5FAC-4EAF-BBC1-623E308BAFA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDDC2672-C59F-42D0-9248-8F26B54B053C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDDC2672-C59F-42D0-9248-8F26B54B053C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDDC2672-C59F-42D0-9248-8F26B54B053C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDDC2672-C59F-42D0-9248-8F26B54B053C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A3E71F6-3313-40AF-8538-43772A4E53F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A3E71F6-3313-40AF-8538-43772A4E53F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A3E71F6-3313-40AF-8538-43772A4E53F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A3E71F6-3313-40AF-8538-43772A4E53F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{86A4C6B3-073C-4CCF-9AD7-8F97AA9A3B01} = {6C05DBF6-D53D-4457-A022-865C70D4ACB9}
+		{D1244E78-5FAC-4EAF-BBC1-623E308BAFA0} = {6C05DBF6-D53D-4457-A022-865C70D4ACB9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F6215BE9-B2A4-4FA9-A230-A23680D0440D}

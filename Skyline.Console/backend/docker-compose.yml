@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  skyline.console.webmvc:
+    image: ${DOCKER_REGISTRY-}skylineconsolewebmvc
+    build:
+      context: .
+      dockerfile: src/Skyline.Console.WebMvc/Dockerfile

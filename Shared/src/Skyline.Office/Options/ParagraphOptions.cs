@@ -14,5 +14,8 @@ namespace Skyline.Office.Options
         /// 对齐方式
         /// </summary>
         public Alignment Alignment { get; set; } = Alignment.Left;
+
+        public bool IsTitle { get; set; } = false;
+        public string TitleSize { get; set; } = "1";
     }
 }

@@ -2,6 +2,8 @@
 using NPOI.XWPF.UserModel;
 using Oracle.ManagedDataAccess.Client;
 using Skyline.Office;
+using Skyline.Office.Models;
+using Skyline.Office.Options;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -18,16 +20,13 @@ namespace Skyline.Tools.Db2WordFx
         static void Main(string[] args)
         {
             wordUtil = new WordUtil();
+            wordUtil.CreateDocument("table.docx");
             string connString = ConfigurationManager.ConnectionStrings["oracle"].ToString();
 
             IDbConnection conncetion = new OracleConnection(connString);
             var tables = GetTables(conncetion);
             var columns = GetColumns(conncetion).ToList();
             var tableTotalCount = tables.Count();
-
-            int idxFile = 1;
-            var stream = new FileStream("table.docx", FileMode.Create, FileAccess.ReadWrite);
-
 
             XWPFDocument document = new XWPFDocument();
             // Loop all tables.
@@ -36,66 +35,38 @@ namespace Skyline.Tools.Db2WordFx
             {
                 Console.WriteLine($"# {DateTime.Now.ToString("HH:mm:ss fff")} 当前正在处理表: {table.TableName}  处理进度:{idxCurTable}/{tableTotalCount}");
                 // Loop all fields of the current table.
-                var tableColumns = columns.FindAll(x => x.TableName == table.TableName);//GetTableColumns(conncetion, table.TableName);
+                var tableColumns = columns.FindAll(x => x.TableName == table.TableName);
                 string title = $"{table.TableName}  {table.TableComment}";
 
-                int headerIdx = 0;
-                document.SetParagraph(wordUtil.ParagraphSetting(document, title, true, 19, "宋体", ParagraphAlignment.CENTER), headerIdx);
-                document.SetParagraph(wordUtil.ParagraphSetting(document, $"ID:{Guid.NewGuid()}", false, 9, "宋体", ParagraphAlignment.LEFT, true, $"    创建时间：{DateTime.Now.ToShortDateString()}"), ++headerIdx);
-                headerIdx++;
+                wordUtil.AddTextParagraph(title, new ParagraphOptions { Alignment = Office.Styles.Alignment.Center }, new TextOptions { FontStyle = new Office.Styles.FontStyle { FontSize = 18, IsBold = true } });
+                wordUtil.AddTextParagraph($"ID: {Guid.NewGuid()}    创建时间：{DateTime.Now.ToShortDateString()}");
 
-                XWPFTable firstXwpfTable = document.CreateTable(tableColumns.Count() + 1, 6);
-                firstXwpfTable.Width = 6000;
-                firstXwpfTable.SetColumnWidth(0, 1000);
-                firstXwpfTable.SetColumnWidth(1, 1000);
-                firstXwpfTable.SetColumnWidth(2, 1000);
-                firstXwpfTable.SetColumnWidth(3, 1000);
-                firstXwpfTable.SetColumnWidth(4, 1000);
-                firstXwpfTable.SetColumnWidth(5, 1000);
-
-                firstXwpfTable.GetRow(0).GetCell(0).SetParagraph(wordUtil.SetTableParagraphSetting(firstXwpfTable, "序号", ParagraphAlignment.CENTER, 24, true));
-                firstXwpfTable.GetRow(0).GetCell(1).SetParagraph(wordUtil.SetTableParagraphSetting(firstXwpfTable, "参数名", ParagraphAlignment.CENTER, 24, true));
-                firstXwpfTable.GetRow(0).GetCell(2).SetParagraph(wordUtil.SetTableParagraphSetting(firstXwpfTable, "类型", ParagraphAlignment.CENTER, 24, true));
-                firstXwpfTable.GetRow(0).GetCell(3).SetParagraph(wordUtil.SetTableParagraphSetting(firstXwpfTable, "长度", ParagraphAlignment.CENTER, 24, true));
-                firstXwpfTable.GetRow(0).GetCell(4).SetParagraph(wordUtil.SetTableParagraphSetting(firstXwpfTable, "可否为空", ParagraphAlignment.CENTER, 24, true));
-                firstXwpfTable.GetRow(0).GetCell(5).SetParagraph(wordUtil.SetTableParagraphSetting(firstXwpfTable, "说明", ParagraphAlignment.CENTER, 24, true));
-
-                firstXwpfTable.GetRow(0).GetCell(0).SetColor("#fff312");
-                firstXwpfTable.GetRow(0).GetCell(1).SetColor("#fff312");
-                firstXwpfTable.GetRow(0).GetCell(2).SetColor("#fff312");
-                firstXwpfTable.GetRow(0).GetCell(3).SetColor("#fff312");
-                firstXwpfTable.GetRow(0).GetCell(4).SetColor("#fff312");
-                firstXwpfTable.GetRow(0).GetCell(5).SetColor("#fff312");
-
-                int currentColumn = 1;
+                TableModel tableModel = new TableModel();
+                tableModel.Headers = new string[] { "序号", "参数名", "类型", "长度", "可否为空", "说明" };
+                tableModel.Rows = new List<TableRow>();
+                int idxRow = 1;
                 foreach (var column in tableColumns)
                 {
-                    firstXwpfTable.GetRow(currentColumn).GetCell(0).SetParagraph(wordUtil.SetTableParagraphSetting(firstXwpfTable, currentColumn.ToString(), ParagraphAlignment.CENTER, 24, true));
-                    firstXwpfTable.GetRow(currentColumn).GetCell(1).SetParagraph(wordUtil.SetTableParagraphSetting(firstXwpfTable, column.ColumnName, ParagraphAlignment.CENTER, 24, true));
-                    firstXwpfTable.GetRow(currentColumn).GetCell(2).SetParagraph(wordUtil.SetTableParagraphSetting(firstXwpfTable, column.DataType ?? "-", ParagraphAlignment.CENTER, 24, true));
-                    firstXwpfTable.GetRow(currentColumn).GetCell(3).SetParagraph(wordUtil.SetTableParagraphSetting(firstXwpfTable, column.DataLength ?? "-", ParagraphAlignment.CENTER, 24, true));
-                    firstXwpfTable.GetRow(currentColumn).GetCell(4).SetParagraph(wordUtil.SetTableParagraphSetting(firstXwpfTable, column.Nullable ?? "-", ParagraphAlignment.CENTER, 24, true));
-                    firstXwpfTable.GetRow(currentColumn).GetCell(5).SetParagraph(wordUtil.SetTableParagraphSetting(firstXwpfTable, column.ColumnComment ?? "-", ParagraphAlignment.CENTER, 24, true));
-                    currentColumn++;
-                }
-                if (idxCurTable % 100 == 0)
-                {
-                    //idxFile++;
-                    //document.Write(stream);
+                    TableRow tableRowColumn = new TableRow();
+                    tableRowColumn.RowValue = $"第{idxRow}行";
+                    var columnValues = new List<string>();
+                    columnValues.Add(idxRow.ToString());
+                    columnValues.Add(column.ColumnName);
+                    columnValues.Add(column.DataType);
+                    columnValues.Add(column.DataLength);
+                    columnValues.Add(column.Nullable);
+                    columnValues.Add(column.ColumnComment ?? "-");
 
-                    //stream.Close();
-                    //stream.Dispose();
-                    //document = null;
+                    tableRowColumn.ColumnValues = columnValues;
+                    tableModel.Rows.Add(tableRowColumn);
+                    idxRow++;
 
-                    //document = new XWPFDocument();
-                    //stream = new FileStream("db" + idxFile + ".docx", FileMode.Create);
                 }
+                wordUtil.AddTableParagraph(table.TableName, tableModel, new ParagraphOptions { Alignment = Office.Styles.Alignment.Center }, new TextOptions { FontStyle = new Office.Styles.FontStyle { } });
+
                 idxCurTable++;
             }
-
-            //if (idxCurTable % 100 != 0)
-            document.Write(stream);
-
+            wordUtil.SaveDocument();
             Console.WriteLine("END...");
         }
 

@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Skyline.Console.ApplicationCore.Entities
 {
-    public class SysRole
+    public class Role
     {
-        public SysRole()
+        public Role()
         {
-            UserRoles = new HashSet<SysUserRole>();
-            RolePermissions = new HashSet<SysRolePermission>();
+            UserRoles = new HashSet<UserRoleMapping>();
+            RolePermissions = new HashSet<RolePermissionMapping>();
         }
 
         public string Code { get; set; }
@@ -20,7 +20,7 @@ namespace Skyline.Console.ApplicationCore.Entities
         public Status Status { get; set; }
         public IsDeleted IsDeleted { get; set; }
         public DateTime CreateTime { get; set; }
-        public Guid CreateUserId { get; set; }
+        public Guid CreateUserGuidId { get; set; }
         public string CreateUserName { get; set; }
         public DateTime? ModifyTime { get; set; }
         public Guid ModifiyUserId { get; set; }
@@ -32,7 +32,7 @@ namespace Skyline.Console.ApplicationCore.Entities
         /// </summary>
         public bool Builtin { get; set; }
 
-        public ICollection<SysUserRole> UserRoles { get; set; }
-        public ICollection<SysRolePermission> RolePermissions { get; set; }
+        public ICollection<UserRoleMapping> UserRoles { get; set; }
+        public ICollection<RolePermissionMapping> RolePermissions { get; set; }
     }
 }

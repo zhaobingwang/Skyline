@@ -6,9 +6,9 @@ using System.ComponentModel;
 
 namespace Skyline.Console.ApplicationCore.Entities
 {
-    public class SysUser
+    public class User
     {
-        public Guid Id { get; set; }
+        public Guid Guid { get; set; }
         public string LoginName { get; set; }
         public string NickName { get; set; }
         public string PasswordHash { get; set; }
@@ -27,7 +27,7 @@ namespace Skyline.Console.ApplicationCore.Entities
         public string LastModifyUserId { get; set; }
         public string LastModifyUserName { get; set; }
         public string Description { get; set; }
-        public ICollection<SysUserRole> UserRoles { get; set; }
+        public ICollection<UserRoleMapping> UserRoles { get; set; }
     }
 
 

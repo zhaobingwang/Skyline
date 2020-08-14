@@ -35,4 +35,22 @@ namespace Skyline.Console.ApplicationCore.Enums
         [Description("已锁定")]
         Locked = 1
     }
+
+    public enum YesOrNo
+    {
+        /// <summary>
+        /// 未知
+        /// </summary>
+        UnKnown = -1,
+
+        /// <summary>
+        /// 否
+        /// </summary>
+        No = 0,
+
+        /// <summary>
+        /// 是
+        /// </summary>
+        Yes = 1
+    }
 }

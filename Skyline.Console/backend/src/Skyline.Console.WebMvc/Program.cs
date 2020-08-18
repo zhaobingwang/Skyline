@@ -24,8 +24,8 @@ namespace Skyline.Console.WebMvc
                 var logger = service.GetRequiredService<ILogger<Program>>();
                 try
                 {
-                    dbContext.Database.EnsureDeleted();
-                    dbContext.Database.Migrate();
+                    //dbContext.Database.EnsureDeleted();
+                    //dbContext.Database.Migrate();
 
                     //var config = host.Services.GetRequiredService<IConfiguration>();
                     // Set password with the Secret Manager tool

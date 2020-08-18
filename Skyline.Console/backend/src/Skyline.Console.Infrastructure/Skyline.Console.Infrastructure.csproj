@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Shared\src\Skyline\Skyline.csproj" />
     <ProjectReference Include="..\Skyline.Console.ApplicationCore\Skyline.Console.ApplicationCore.csproj" />
   </ItemGroup>
 

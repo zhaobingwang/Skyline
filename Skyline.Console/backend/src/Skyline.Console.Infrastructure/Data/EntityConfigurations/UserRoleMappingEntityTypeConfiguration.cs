@@ -18,7 +18,7 @@ namespace Skyline.Console.Infrastructure.Data.EntityConfigurations
             });
 
             builder.HasOne(x => x.User)
-                .WithMany(x => x.UserRoles)
+                .WithMany(x => x.UserRoleMappings)
                 .HasForeignKey(x => x.UserGuid)
                 .OnDelete(DeleteBehavior.Restrict);
 

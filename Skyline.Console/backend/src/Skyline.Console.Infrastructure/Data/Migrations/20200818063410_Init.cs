@@ -93,16 +93,15 @@ namespace Skyline.Console.Infrastructure.Data.Migrations
                     NickName = table.Column<string>(type: "nvarchar(16)", nullable: true, comment: "昵称"),
                     PasswordHash = table.Column<string>(type: "nvarchar(255)", nullable: true, comment: "密码哈希值"),
                     Avatar = table.Column<string>(type: "nvarchar(255)", nullable: true, comment: "头像"),
-                    DOB = table.Column<DateTime>(nullable: false),
+                    DOB = table.Column<DateTime>(type: "date", nullable: false, comment: "出生日期"),
                     Type = table.Column<int>(nullable: false),
                     Status = table.Column<int>(nullable: false),
-                    MyProperty = table.Column<int>(nullable: false),
                     IsDeleted = table.Column<int>(nullable: false),
                     CreateTime = table.Column<DateTime>(nullable: false),
                     CreateUserId = table.Column<Guid>(nullable: false),
                     CreateUserName = table.Column<string>(nullable: true),
                     LastModifyTime = table.Column<DateTime>(nullable: false),
-                    LastModifyUserId = table.Column<string>(nullable: true),
+                    LastModifyUserId = table.Column<Guid>(nullable: false),
                     LastModifyUserName = table.Column<string>(nullable: true),
                     Description = table.Column<string>(type: "nvarchar(255)", nullable: true, comment: "描述信息")
                 },
@@ -142,7 +141,7 @@ namespace Skyline.Console.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserRoles",
+                name: "UserRoleMappings",
                 columns: table => new
                 {
                     UserGuid = table.Column<Guid>(nullable: false),
@@ -151,15 +150,15 @@ namespace Skyline.Console.Infrastructure.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserRoles", x => new { x.UserGuid, x.RoleCode });
+                    table.PrimaryKey("PK_UserRoleMappings", x => new { x.UserGuid, x.RoleCode });
                     table.ForeignKey(
-                        name: "FK_UserRoles_Roles_RoleCode",
+                        name: "FK_UserRoleMappings_Roles_RoleCode",
                         column: x => x.RoleCode,
                         principalTable: "Roles",
                         principalColumn: "Code",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UserRoles_Users_UserGuid",
+                        name: "FK_UserRoleMappings_Users_UserGuid",
                         column: x => x.UserGuid,
                         principalTable: "Users",
                         principalColumn: "Guid",
@@ -167,7 +166,7 @@ namespace Skyline.Console.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RolePermissions",
+                name: "RolePermissionMappings",
                 columns: table => new
                 {
                     RoleCode = table.Column<string>(nullable: false),
@@ -176,15 +175,15 @@ namespace Skyline.Console.Infrastructure.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RolePermissions", x => new { x.RoleCode, x.PermissionCode });
+                    table.PrimaryKey("PK_RolePermissionMappings", x => new { x.RoleCode, x.PermissionCode });
                     table.ForeignKey(
-                        name: "FK_RolePermissions_Permissions_PermissionCode",
+                        name: "FK_RolePermissionMappings_Permissions_PermissionCode",
                         column: x => x.PermissionCode,
                         principalTable: "Permissions",
                         principalColumn: "Code",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_RolePermissions_Roles_RoleCode",
+                        name: "FK_RolePermissionMappings_Roles_RoleCode",
                         column: x => x.RoleCode,
                         principalTable: "Roles",
                         principalColumn: "Code",
@@ -203,8 +202,8 @@ namespace Skyline.Console.Infrastructure.Data.Migrations
                 column: "MenuGuid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RolePermissions_PermissionCode",
-                table: "RolePermissions",
+                name: "IX_RolePermissionMappings_PermissionCode",
+                table: "RolePermissionMappings",
                 column: "PermissionCode");
 
             migrationBuilder.CreateIndex(
@@ -214,8 +213,8 @@ namespace Skyline.Console.Infrastructure.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRoles_RoleCode",
-                table: "UserRoles",
+                name: "IX_UserRoleMappings_RoleCode",
+                table: "UserRoleMappings",
                 column: "RoleCode");
         }
 
@@ -225,10 +224,10 @@ namespace Skyline.Console.Infrastructure.Data.Migrations
                 name: "Icons");
 
             migrationBuilder.DropTable(
-                name: "RolePermissions");
+                name: "RolePermissionMappings");
 
             migrationBuilder.DropTable(
-                name: "UserRoles");
+                name: "UserRoleMappings");
 
             migrationBuilder.DropTable(
                 name: "Permissions");

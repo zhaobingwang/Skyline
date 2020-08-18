@@ -32,7 +32,13 @@ namespace Skyline.Console.Infrastructure.Data.EntityConfigurations
 
             builder.Property(u => u.PasswordHash)
                 .HasColumnType("nvarchar(255)")
+                .IsRequired()
                 .HasComment("密码哈希值");
+
+            builder.Property(u => u.DOB)
+                .HasColumnType("date")
+                .IsRequired(false)
+                .HasComment("出生日期");
 
             builder.Property(u => u.Avatar)
                 .HasColumnType("nvarchar(255)")

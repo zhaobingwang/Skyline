@@ -44,6 +44,7 @@ namespace System
 
         /// <summary>
         /// 使用正则表达式验证匹配字符
+        /// 
         /// </summary>
         /// <param name="source"></param>
         /// <param name="pattern"></param>

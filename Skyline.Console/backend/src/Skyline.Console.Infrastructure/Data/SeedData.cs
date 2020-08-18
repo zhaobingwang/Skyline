@@ -11,57 +11,52 @@ namespace Skyline.Console.Infrastructure.Data
 {
     public class SeedData
     {
+        const string ROLE_CODE_SUPERADMIN = "SYS_SUPER_ADMIN";
         static DateTime now;
+        static Guid superAdminId;
         static SeedData()
         {
             now = DateTime.UtcNow;
+            superAdminId = Guid.NewGuid();
         }
 
         public static async Task SeedAsync(IServiceProvider provider)
         {
             var dbContext = provider.GetService<SkylineDbContext>();
             await InitMenus(dbContext);
-
+            await InitRoles(dbContext);
+            await InitUsers(dbContext);
+            await InitUserRoleMappings(dbContext);
         }
 
-
-        private const string ROLE_CODE_SUPERADMIN = "SYS_SUPER_ADMIN";
+        private static async Task InitUsers(SkylineDbContext dbContext)
+        {
+            if (!dbContext.Users.Any())
+            {
+                var users = GetUsers();
+                dbContext.Users.AddRange(users);
+                await dbContext.SaveChangesAsync();
+            }
+        }
         private static async Task InitRoles(SkylineDbContext dbContext)
         {
 
             if (!dbContext.Roles.Any())
             {
-                dbContext.Roles.AddRange(new Role
-                {
-
-                });
+                var roles = GetRoles();
+                dbContext.Roles.AddRange(roles);
+                await dbContext.SaveChangesAsync();
             }
         }
 
-        private static async Task InitUser(SkylineDbContext dbContext)
+        private static async Task InitUserRoleMappings(SkylineDbContext dbContext)
         {
-            if (!dbContext.Users.Any())
+
+            if (!dbContext.UserRoleMappings.Any())
             {
-                dbContext.Users.AddRange(new User
-                {
-                    Guid = Guid.NewGuid(),
-                    LoginName = "superadmin",
-                    Avatar = "",
-                    CreateTime = now,
-                    CreateUserId = Guid.Empty,
-                    CreateUserName = "System",
-                    Description = "超级管理员",
-                    DOB = new DateTime(2000, 8, 1),
-                    IsDeleted = IsDeleted.No,
-                    NickName = "超级管理员",
-                    Status = Status.Normal,
-                    Type = UserType.SuperAdmin,
-                    PasswordHash = "123456".MD5Hash(),
-                    LastModifyTime = now,
-                    LastModifyUserId = Guid.Empty,
-                    LastModifyUserName = "System",
-                    UserRoles
-                });
+                var maps = GetUserRoleMappings();
+                dbContext.UserRoleMappings.AddRange(maps);
+                await dbContext.SaveChangesAsync();
             }
         }
 
@@ -161,6 +156,33 @@ namespace Skyline.Console.Infrastructure.Data
             }
         }
 
+        private static List<User> GetUsers()
+        {
+            var users = new List<User>();
+            users.Add(new User
+            {
+                Guid = superAdminId,
+                LoginName = "superadmin",
+                Avatar = "",
+                CreateTime = now,
+                CreateUserId = Guid.Empty,
+                CreateUserName = "System",
+                Description = "超级管理员",
+                DOB = new DateTime(2000, 8, 1),
+                IsDeleted = IsDeleted.No,
+                NickName = "超级管理员",
+                Status = Status.Normal,
+                Type = UserType.SuperAdmin,
+                PasswordHash = "123456",//.MD5Hash(),
+                LastModifyTime = now,
+                LastModifyUserId = Guid.Empty,
+                LastModifyUserName = "System",
+                //UserRoleMappings = GetUserRoleMappings().FindAll(x => x.UserGuid == superAdminId)
+            });
+
+            return users;
+        }
+
         private static List<Role> GetRoles()
         {
 
@@ -179,6 +201,18 @@ namespace Skyline.Console.Infrastructure.Data
                 Description = "超级管理员",
             });
             return roles;
+        }
+
+        private static List<UserRoleMapping> GetUserRoleMappings()
+        {
+            var maps = new List<UserRoleMapping>();
+            maps.Add(new UserRoleMapping
+            {
+                UserGuid = superAdminId,
+                RoleCode = ROLE_CODE_SUPERADMIN,
+                CreateTime = now
+            });
+            return maps;
         }
     }
 }

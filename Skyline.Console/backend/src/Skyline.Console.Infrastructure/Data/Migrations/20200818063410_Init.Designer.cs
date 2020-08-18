@@ -10,7 +10,7 @@ using Skyline.Console.Infrastructure.Data;
 namespace Skyline.Console.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(SkylineDbContext))]
-    [Migration("20200814011946_Init")]
+    [Migration("20200818063410_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -278,7 +278,7 @@ namespace Skyline.Console.Infrastructure.Data.Migrations
 
                     b.HasIndex("PermissionCode");
 
-                    b.ToTable("RolePermissions");
+                    b.ToTable("RolePermissionMappings");
                 });
 
             modelBuilder.Entity("Skyline.Console.ApplicationCore.Entities.User", b =>
@@ -302,7 +302,8 @@ namespace Skyline.Console.Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DOB")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date")
+                        .HasComment("出生日期");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(255)")
@@ -314,8 +315,8 @@ namespace Skyline.Console.Infrastructure.Data.Migrations
                     b.Property<DateTime>("LastModifyTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("LastModifyUserId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("LastModifyUserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("LastModifyUserName")
                         .HasColumnType("nvarchar(max)");
@@ -324,9 +325,6 @@ namespace Skyline.Console.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(16)")
                         .HasComment("登录账户名");
-
-                    b.Property<int>("MyProperty")
-                        .HasColumnType("int");
 
                     b.Property<string>("NickName")
                         .HasColumnType("nvarchar(16)")
@@ -362,7 +360,7 @@ namespace Skyline.Console.Infrastructure.Data.Migrations
 
                     b.HasIndex("RoleCode");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("UserRoleMappings");
                 });
 
             modelBuilder.Entity("Skyline.Console.ApplicationCore.Entities.Permission", b =>
@@ -398,7 +396,7 @@ namespace Skyline.Console.Infrastructure.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("Skyline.Console.ApplicationCore.Entities.User", "User")
-                        .WithMany("UserRoles")
+                        .WithMany("UserRoleMappings")
                         .HasForeignKey("UserGuid")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();

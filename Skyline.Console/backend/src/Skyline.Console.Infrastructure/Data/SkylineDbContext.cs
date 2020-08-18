@@ -43,12 +43,12 @@ namespace Skyline.Console.Infrastructure.Data
         /// <summary>
         /// 用户-角色 多对多映射
         /// </summary>
-        public DbSet<UserRoleMapping> UserRoles { get; set; }
+        public DbSet<UserRoleMapping> UserRoleMappings { get; set; }
 
         /// <summary>
         /// 角色权限 多对多映射
         /// </summary>
-        public DbSet<RolePermissionMapping> RolePermissions { get; set; }
+        public DbSet<RolePermissionMapping> RolePermissionMappings { get; set; }
 
 
 

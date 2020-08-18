@@ -14,7 +14,7 @@ namespace Skyline.Console.ApplicationCore.Entities
         public string PasswordHash { get; set; }
 
         public string Avatar { get; set; }
-        public DateTime DOB { get; set; }
+        public DateTime? DOB { get; set; }
 
         public UserType Type { get; set; }
         public Status Status { get; set; }
@@ -26,7 +26,7 @@ namespace Skyline.Console.ApplicationCore.Entities
         public Guid LastModifyUserId { get; set; }
         public string LastModifyUserName { get; set; }
         public string Description { get; set; }
-        public ICollection<UserRoleMapping> UserRoles { get; set; }
+        public ICollection<UserRoleMapping> UserRoleMappings { get; set; }
     }
 
 

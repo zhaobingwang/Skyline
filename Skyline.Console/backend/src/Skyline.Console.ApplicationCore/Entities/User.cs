@@ -18,13 +18,12 @@ namespace Skyline.Console.ApplicationCore.Entities
 
         public UserType Type { get; set; }
         public Status Status { get; set; }
-        public int MyProperty { get; set; }
         public IsDeleted IsDeleted { get; set; }
         public DateTime CreateTime { get; set; }
         public Guid CreateUserId { get; set; }
         public string CreateUserName { get; set; }
         public DateTime LastModifyTime { get; set; }
-        public string LastModifyUserId { get; set; }
+        public Guid LastModifyUserId { get; set; }
         public string LastModifyUserName { get; set; }
         public string Description { get; set; }
         public ICollection<UserRoleMapping> UserRoles { get; set; }

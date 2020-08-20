@@ -17,13 +17,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skyline.Tests", "tests\Skyl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skyline.AutoMapper.Tests", "tests\Skyline.AutoMapper.Tests\Skyline.AutoMapper.Tests.csproj", "{5070F2AF-9C16-4C83-AA28-146570F4D1EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skyline.Datas.EntityFramework", "src\Skyline.Datas.EntityFramework\Skyline.Datas.EntityFramework.csproj", "{96F1C713-5BF3-4EDA-8243-3CBE2B65A0AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skyline.Datas.EntityFramework", "src\Skyline.Datas.EntityFramework\Skyline.Datas.EntityFramework.csproj", "{96F1C713-5BF3-4EDA-8243-3CBE2B65A0AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skyline.Datas.EntityFramework.Sqlite", "src\Skyline.Datas.EntityFramework.Sqlite\Skyline.Datas.EntityFramework.Sqlite.csproj", "{1DBF2234-C014-4CAD-B9BA-171EB7FA30F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skyline.Datas.EntityFramework.Sqlite", "src\Skyline.Datas.EntityFramework.Sqlite\Skyline.Datas.EntityFramework.Sqlite.csproj", "{1DBF2234-C014-4CAD-B9BA-171EB7FA30F9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skyline.Domain.Abstractions", "src\Skyline.Domain.Abstractions\Skyline.Domain.Abstractions.csproj", "{E4C437E5-EE2E-4A31-A863-E49417C568CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skyline.Infrastructure.Core", "src\Skyline.Infrastructure.Core\Skyline.Infrastructure.Core.csproj", "{1EAF4EA6-79A1-417C-9E57-C44D7BD7257C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skyline.Infrastructure.Core", "src\Skyline.Infrastructure.Core\Skyline.Infrastructure.Core.csproj", "{1EAF4EA6-79A1-417C-9E57-C44D7BD7257C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{419C1A08-EBC5-4639-B11C-1253D5B9EE9A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skyline.Elasticsearch", "src\Skyline.Elasticsearch\Skyline.Elasticsearch.csproj", "{FC516605-7FD4-4C48-9F3E-8C63DF4F7D25}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skyline.Elasticsearch.Sample.ConsoleApp", "sample\Skyline.Elasticsearch.Sample.ConsoleApp\Skyline.Elasticsearch.Sample.ConsoleApp.csproj", "{E7041DC3-45B4-4B80-A62C-40A3DE51F7BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skyline.Elasticsearch.Sample.WebApp", "sample\Skyline.Elasticsearch.Sample.WebApp\Skyline.Elasticsearch.Sample.WebApp.csproj", "{D3CA9C43-3FCF-43B1-95BD-F07FFA4A28F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +75,18 @@ Global
 		{1EAF4EA6-79A1-417C-9E57-C44D7BD7257C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1EAF4EA6-79A1-417C-9E57-C44D7BD7257C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1EAF4EA6-79A1-417C-9E57-C44D7BD7257C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC516605-7FD4-4C48-9F3E-8C63DF4F7D25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC516605-7FD4-4C48-9F3E-8C63DF4F7D25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC516605-7FD4-4C48-9F3E-8C63DF4F7D25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC516605-7FD4-4C48-9F3E-8C63DF4F7D25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7041DC3-45B4-4B80-A62C-40A3DE51F7BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7041DC3-45B4-4B80-A62C-40A3DE51F7BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7041DC3-45B4-4B80-A62C-40A3DE51F7BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7041DC3-45B4-4B80-A62C-40A3DE51F7BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3CA9C43-3FCF-43B1-95BD-F07FFA4A28F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3CA9C43-3FCF-43B1-95BD-F07FFA4A28F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3CA9C43-3FCF-43B1-95BD-F07FFA4A28F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3CA9C43-3FCF-43B1-95BD-F07FFA4A28F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +101,9 @@ Global
 		{1DBF2234-C014-4CAD-B9BA-171EB7FA30F9} = {554EE64D-1085-4425-BE88-762267853107}
 		{E4C437E5-EE2E-4A31-A863-E49417C568CD} = {554EE64D-1085-4425-BE88-762267853107}
 		{1EAF4EA6-79A1-417C-9E57-C44D7BD7257C} = {554EE64D-1085-4425-BE88-762267853107}
+		{FC516605-7FD4-4C48-9F3E-8C63DF4F7D25} = {554EE64D-1085-4425-BE88-762267853107}
+		{E7041DC3-45B4-4B80-A62C-40A3DE51F7BF} = {419C1A08-EBC5-4639-B11C-1253D5B9EE9A}
+		{D3CA9C43-3FCF-43B1-95BD-F07FFA4A28F8} = {419C1A08-EBC5-4639-B11C-1253D5B9EE9A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FD3DDE6E-4E69-4D7C-AA6D-2364A605B1C0}

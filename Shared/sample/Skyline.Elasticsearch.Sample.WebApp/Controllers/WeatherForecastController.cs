@@ -33,7 +33,7 @@ namespace Skyline.Elasticsearch.Sample.WebApp.Controllers
             }
             catch (Exception ex)
             {
-                _exceptionLogContext.InsertOne(new ExceptionLogModel
+                await _exceptionLogContext.InsertOne(new ExceptionLogModel
                 {
                     Code = "A10001",
                     ExceptionMessage = ex.Message,

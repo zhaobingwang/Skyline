@@ -20,6 +20,16 @@ namespace System
         }
 
         /// <summary>
+        /// 指示指定的字符串不是 null 还是空字符串
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static bool IsNotNullOrEmpty(this string source)
+        {
+            return !string.IsNullOrEmpty(source);
+        }
+
+        /// <summary>
         /// 指示指定的字符串是 null、空还是仅由空白字符组成
         /// </summary>
         /// <param name="source"></param>
@@ -27,6 +37,16 @@ namespace System
         public static bool IsNullOrWhiteSpace(this string source)
         {
             return string.IsNullOrWhiteSpace(source);
+        }
+
+        /// <summary>
+        /// 指示指定的字符串不是 null、空还是仅由空白字符组成
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static bool IsNotNullOrWhiteSpace(this string source)
+        {
+            return !string.IsNullOrWhiteSpace(source);
         }
 
         /// <summary>

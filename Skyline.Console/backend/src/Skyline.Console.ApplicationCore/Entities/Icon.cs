@@ -1,11 +1,12 @@
 ﻿using Skyline.Console.ApplicationCore.Enums;
+using Skyline.Console.ApplicationCore.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Skyline.Console.ApplicationCore.Entities
 {
-    public class Icon
+    public class Icon : BaseEntity, IAggregateRoot
     {
         public int Id { get; set; }
 

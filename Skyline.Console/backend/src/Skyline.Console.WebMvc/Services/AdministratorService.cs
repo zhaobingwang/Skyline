@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Skyline.Console.WebMvc.Services
 {
+    [Obsolete("见ApplicationCore.Service")]
     public class AdministratorService
     {
         private readonly SkylineDbContext _dbContext;

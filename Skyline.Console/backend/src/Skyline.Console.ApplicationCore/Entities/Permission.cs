@@ -1,11 +1,12 @@
 ﻿using Skyline.Console.ApplicationCore.Enums;
+using Skyline.Console.ApplicationCore.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Skyline.Console.ApplicationCore.Entities
 {
-    public class Permission
+    public class Permission : BaseEntity, IAggregateRoot
     {
         /// <summary>
         /// 权限编码

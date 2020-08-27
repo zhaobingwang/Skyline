@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Skyline.Console.ApplicationCore.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Skyline.Console.ApplicationCore.Entities
 {
-    public class RolePermissionMapping
+    public class RolePermissionMapping : BaseEntity, IAggregateRoot
     {
         public string RoleCode { get; set; }
         public string PermissionCode { get; set; }

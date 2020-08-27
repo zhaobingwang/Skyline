@@ -1,11 +1,12 @@
 ﻿using Skyline.Console.ApplicationCore.Enums;
+using Skyline.Console.ApplicationCore.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Skyline.Console.ApplicationCore.Entities
 {
-    public class Menu
+    public class Menu : BaseEntity, IAggregateRoot
     {
         public Guid Guid { get; set; }
         public string Name { get; set; }

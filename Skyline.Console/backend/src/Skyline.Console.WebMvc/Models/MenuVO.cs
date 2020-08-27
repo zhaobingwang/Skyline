@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Skyline.Console.WebMvc.VO
+namespace Skyline.Console.WebMvc.Models
 {
     public class MenuVO
     {

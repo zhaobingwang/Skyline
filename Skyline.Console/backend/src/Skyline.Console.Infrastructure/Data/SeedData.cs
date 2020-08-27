@@ -173,7 +173,7 @@ namespace Skyline.Console.Infrastructure.Data
                 NickName = "超级管理员",
                 Status = Status.Normal,
                 Type = UserType.SuperAdmin,
-                PasswordHash = "123456",//.MD5Hash(),
+                PasswordHash = "123456".MD5Hash(),
                 LastModifyTime = now,
                 LastModifyUserId = Guid.Empty,
                 LastModifyUserName = "System",

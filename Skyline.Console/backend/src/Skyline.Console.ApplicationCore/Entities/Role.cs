@@ -1,4 +1,5 @@
 ﻿using Skyline.Console.ApplicationCore.Enums;
+using Skyline.Console.ApplicationCore.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Skyline.Console.ApplicationCore.Entities
 {
-    public class Role
+    public class Role : BaseEntity, IAggregateRoot
     {
         public Role()
         {

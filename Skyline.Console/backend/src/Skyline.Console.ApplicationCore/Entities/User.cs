@@ -1,4 +1,5 @@
 ﻿using Skyline.Console.ApplicationCore.Enums;
+using Skyline.Console.ApplicationCore.Interfaces;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.ComponentModel;
 
 namespace Skyline.Console.ApplicationCore.Entities
 {
-    public class User
+    public class User : BaseEntity, IAggregateRoot
     {
         public Guid Guid { get; set; }
         public string LoginName { get; set; }

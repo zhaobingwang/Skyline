@@ -8,11 +8,10 @@ using Microsoft.Extensions.Logging;
 using Skyline.Console.ApplicationCore.Entities;
 using Skyline.Console.Infrastructure.Data;
 using Skyline.Console.WebMvc.Models;
-using Skyline.Console.WebMvc.VO;
 
 namespace Skyline.Console.WebMvc.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : Controller//BaseController
     {
         private readonly ILogger<HomeController> _logger;
         private readonly SkylineDbContext _dbContext;

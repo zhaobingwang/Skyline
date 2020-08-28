@@ -12,8 +12,7 @@ namespace Skyline.Mongo.Sample.ConsoleApp
         {
             MongoConfig config = new MongoConfig
             {
-                //ConnectionString = "mongodb://127.0.0.1:27017",
-                ConnectionString = "mongodb://10.10.77.19:27017",
+                ConnectionString = "mongodb://127.0.0.1:27017",
                 Database = "logs"
             };
 

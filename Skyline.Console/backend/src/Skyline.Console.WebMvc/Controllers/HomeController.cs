@@ -11,7 +11,7 @@ using Skyline.Console.WebMvc.Models;
 
 namespace Skyline.Console.WebMvc.Controllers
 {
-    public class HomeController : Controller//BaseController
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
         private readonly SkylineDbContext _dbContext;

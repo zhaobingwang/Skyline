@@ -1,4 +1,6 @@
-﻿using Skyline.Console.ApplicationCore.Entities;
+﻿using Skyline.Console.ApplicationCore.BO;
+using Skyline.Console.ApplicationCore.Constants;
+using Skyline.Console.ApplicationCore.Entities;
 using Skyline.Console.ApplicationCore.Enums;
 using Skyline.Console.ApplicationCore.Interfaces;
 using Skyline.Console.ApplicationCore.Specifications;
@@ -9,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace Skyline.Console.ApplicationCore.Services
 {
+    /// <summary>
+    /// 管理员服务
+    /// </summary>
     public class AdministratorService : ISkylineAutoDependence
     {
         private readonly IAsyncRepository<User> _userRepository;
@@ -17,17 +22,36 @@ namespace Skyline.Console.ApplicationCore.Services
             _userRepository = userRepository;
         }
 
-        public async Task<bool> LoginCheckAsync(string loginName, string password)
+        /// <summary>
+        /// 登录校验
+        /// </summary>
+        /// <param name="loginName"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public async Task<BizServiceResponse> LoginCheckAsync(string loginName, string password)
         {
             var loginCheckSpec = new LoginCheckSpecification(loginName, password);
             var user = await _userRepository.FirstOrDefaultAsync(loginCheckSpec);
             if (user == null)
-                return false;
+                return BizServiceResponse.IsFailed(AccountConst.USER_NOT_EXIST);
             if (user.Status != Status.Normal)
-                return false;
+                return BizServiceResponse.IsFailed(AccountConst.USER_STATUS_ABNORMAL);
             if (user.IsDeleted == IsDeleted.Yes)
-                return false;
-            return true;
+                return BizServiceResponse.IsFailed(AccountConst.USER_DELETED);
+            return BizServiceResponse.IsSuccess(AccountConst.VALID_SUCCESS, ToAdministratorBO(user));
+        }
+
+        // TODO: add automapper
+        private AdministratorBO ToAdministratorBO(User entity)
+        {
+            return new AdministratorBO
+            {
+                Id = entity.Guid,
+                Avatar = entity.Avatar,
+                DOB = entity.DOB,
+                LoginName = entity.LoginName,
+                NickName = entity.NickName
+            };
         }
     }
 }

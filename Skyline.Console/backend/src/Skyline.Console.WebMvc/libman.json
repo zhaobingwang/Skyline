@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "provider": "unpkg",
+      "library": "jquery-form@4.3.0",
+      "destination": "wwwroot/lib/jquery-form/",
+      "files": [
+        "dist/jquery.form.min.js"
+      ]
+    }
+  ]
+}

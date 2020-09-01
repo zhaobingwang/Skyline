@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Skyline;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Skyline.Extensions.System
+namespace System
 {
     /// <summary>
     /// Object扩展方法
@@ -27,6 +28,11 @@ namespace Skyline.Extensions.System
         public static bool IsNull(this object obj)
         {
             return obj == null;
+        }
+
+        public static string ToJson(this object obj)
+        {
+            return JsonUtil.ToJson(obj);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.Json;
+using System.Text.Unicode;
 
 namespace Skyline
 {
@@ -29,9 +30,11 @@ namespace Skyline
         /// <returns>Json字符串</returns>
         public static string ToJson(object target)
         {
+            var options = new JsonSerializerOptions();
+            options.Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(UnicodeRanges.All);
             if (target == null)
                 return string.Empty;
-            var result = JsonSerializer.Serialize(target);
+            var result = JsonSerializer.Serialize(target, options);
             return result;
         }
     }

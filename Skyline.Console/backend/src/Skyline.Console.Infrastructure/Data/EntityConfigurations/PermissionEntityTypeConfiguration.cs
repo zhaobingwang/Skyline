@@ -39,7 +39,6 @@ namespace Skyline.Console.Infrastructure.Data.EntityConfigurations
                 .HasComment("权限编码");
 
             builder.Property(p => p.Description)
-                .IsRequired()
                 .HasColumnType("nvarchar(max)")
                 .HasComment("描述信息");
         }

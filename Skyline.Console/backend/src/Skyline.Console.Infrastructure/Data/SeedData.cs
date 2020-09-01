@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +13,11 @@ namespace Skyline.Console.Infrastructure.Data
     public class SeedData
     {
         const string ROLE_CODE_SUPERADMIN = "SYS_SUPER_ADMIN";
+
+        // 菜单权限
+        const string DASHBOARD_MENU_ROOT = "D10000";
+        const string DASHBOARD_MENU_WORKBENCH = "D10001";
+
         static DateTime now;
         static Guid superAdminId;
         static SeedData()
@@ -27,6 +33,8 @@ namespace Skyline.Console.Infrastructure.Data
             await InitRoles(dbContext);
             await InitUsers(dbContext);
             await InitUserRoleMappings(dbContext);
+            await InitPermissions(dbContext);
+            await InitRolePermissionMappings(dbContext);
         }
 
         private static async Task InitUsers(SkylineDbContext dbContext)
@@ -40,7 +48,6 @@ namespace Skyline.Console.Infrastructure.Data
         }
         private static async Task InitRoles(SkylineDbContext dbContext)
         {
-
             if (!dbContext.Roles.Any())
             {
                 var roles = GetRoles();
@@ -66,92 +73,28 @@ namespace Skyline.Console.Infrastructure.Data
             if (!dbContext.Menus.Any())
             {
                 var dashBoardId = Guid.NewGuid();
-                dbContext.Menus.AddRange(
-                    new Menu
-                    {
-                        Guid = dashBoardId,
-                        Name = "DashBoard",
-                        Url = null,
-                        Alias = "",
-                        Icon = "layui-icon-console",
-                        ParentGuid = Guid.Empty,
-                        ParentName = null,
-                        Level = 0,
-                        Description = "仪表盘",
-                        Sort = 0,
-                        Status = Status.Normal,
-                        IsDeleted = IsDeleted.No,
-                        IsDefaultRouter = YesOrNo.Yes,
-                        CreateTime = now,
-                        CreateUserGuid = Guid.Empty,
-                        CreateUserLoginName = "System",
-                        LastModifyTime = now,
-                        HideMenu = YesOrNo.No,
-                    },
-                     new Menu
-                     {
-                         Guid = Guid.NewGuid(),
-                         Name = "工作台",
-                         Url = "DashBoard/Index",
-                         Alias = "",
-                         Icon = null,
-                         ParentGuid = dashBoardId,
-                         ParentName = null,
-                         Level = 0,
-                         Description = "工作台页面",
-                         Sort = 0,
-                         Status = Status.Normal,
-                         IsDeleted = IsDeleted.No,
-                         IsDefaultRouter = YesOrNo.Yes,
-                         CreateTime = now,
-                         CreateUserGuid = Guid.Empty,
-                         CreateUserLoginName = "System",
-                         LastModifyTime = now,
-                         HideMenu = YesOrNo.No,
-                     },
-                     new Menu
-                     {
-                         Guid = Guid.NewGuid(),
-                         Name = "分析",
-                         Url = "DashBoard/Analysis",
-                         Alias = "",
-                         Icon = null,
-                         ParentGuid = dashBoardId,
-                         ParentName = null,
-                         Level = 0,
-                         Description = "分析页面",
-                         Sort = 0,
-                         Status = Status.Normal,
-                         IsDeleted = IsDeleted.No,
-                         IsDefaultRouter = YesOrNo.Yes,
-                         CreateTime = now,
-                         CreateUserGuid = Guid.Empty,
-                         CreateUserLoginName = "System",
-                         LastModifyTime = now,
-                         HideMenu = YesOrNo.No,
-                     },
-                     new Menu
-                     {
-                         Guid = Guid.NewGuid(),
-                         Name = "监控",
-                         Url = "DashBoard/Monitor",
-                         Alias = "",
-                         Icon = null,
-                         ParentGuid = dashBoardId,
-                         ParentName = null,
-                         Level = 0,
-                         Description = "监控页面",
-                         Sort = 0,
-                         Status = Status.Normal,
-                         IsDeleted = IsDeleted.No,
-                         IsDefaultRouter = YesOrNo.Yes,
-                         CreateTime = now,
-                         CreateUserGuid = Guid.Empty,
-                         CreateUserLoginName = "System",
-                         LastModifyTime = now,
-                         HideMenu = YesOrNo.No,
-                     }
-                    );
+                var menus = GetMenus();
+                dbContext.Menus.AddRange(menus);
+                await dbContext.SaveChangesAsync();
+            }
+        }
+
+        private static async Task InitPermissions(SkylineDbContext dbContext)
+        {
+            if (!dbContext.Permissions.Any())
+            {
+                var permissions = GetPermissions();
+                dbContext.Permissions.AddRange(permissions);
+                await dbContext.SaveChangesAsync();
+            }
+        }
+
+        private static async Task InitRolePermissionMappings(SkylineDbContext dbContext)
+        {
+            if (!dbContext.RolePermissionMappings.Any())
+            {
+                var maps = GetRolePermissionMappings();
+                dbContext.RolePermissionMappings.AddRange(maps);
                 await dbContext.SaveChangesAsync();
             }
         }
@@ -185,7 +128,6 @@ namespace Skyline.Console.Infrastructure.Data
 
         private static List<Role> GetRoles()
         {
-
             var roles = new List<Role>();
             roles.Add(new Role
             {
@@ -214,5 +156,153 @@ namespace Skyline.Console.Infrastructure.Data
             });
             return maps;
         }
+
+        static Guid dashBoardId = Guid.NewGuid();
+        static Guid dashBoardWorkbenchId = Guid.NewGuid();
+        static Guid dashBoardAnalysisId = Guid.NewGuid();
+        static Guid dashBoardMonitorId = Guid.NewGuid();
+        private static List<Menu> GetMenus()
+        {
+            var menus = new List<Menu>();
+            menus.Add(
+                new Menu
+                {
+                    Guid = dashBoardId,
+                    Name = "DashBoard",
+                    Url = null,
+                    Alias = "",
+                    Icon = "layui-icon-console",
+                    ParentGuid = Guid.Empty,
+                    ParentName = null,
+                    Level = 0,
+                    Description = "仪表盘",
+                    Sort = 0,
+                    Status = Status.Normal,
+                    IsDeleted = IsDeleted.No,
+                    IsDefaultRouter = YesOrNo.Yes,
+                    CreateTime = now,
+                    CreateUserGuid = Guid.Empty,
+                    CreateUserLoginName = "System",
+                    LastModifyTime = now,
+                    HideMenu = YesOrNo.No,
+                });
+            menus.Add(new Menu
+            {
+                Guid = dashBoardWorkbenchId,
+                Name = "工作台",
+                Url = "DashBoard/Index",
+                Alias = "",
+                Icon = null,
+                ParentGuid = dashBoardId,
+                ParentName = null,
+                Level = 0,
+                Description = "工作台页面",
+                Sort = 0,
+                Status = Status.Normal,
+                IsDeleted = IsDeleted.No,
+                IsDefaultRouter = YesOrNo.Yes,
+                CreateTime = now,
+                CreateUserGuid = Guid.Empty,
+                CreateUserLoginName = "System",
+                LastModifyTime = now,
+                HideMenu = YesOrNo.No,
+            });
+            menus.Add(new Menu
+            {
+                Guid = dashBoardAnalysisId,
+                Name = "分析",
+                Url = "DashBoard/Analysis",
+                Alias = "",
+                Icon = null,
+                ParentGuid = dashBoardId,
+                ParentName = null,
+                Level = 0,
+                Description = "分析页面",
+                Sort = 0,
+                Status = Status.Normal,
+                IsDeleted = IsDeleted.No,
+                IsDefaultRouter = YesOrNo.Yes,
+                CreateTime = now,
+                CreateUserGuid = Guid.Empty,
+                CreateUserLoginName = "System",
+                LastModifyTime = now,
+                HideMenu = YesOrNo.No,
+            });
+            menus.Add(new Menu
+            {
+                Guid = dashBoardMonitorId,
+                Name = "监控",
+                Url = "DashBoard/Monitor",
+                Alias = "",
+                Icon = null,
+                ParentGuid = dashBoardId,
+                ParentName = null,
+                Level = 0,
+                Description = "监控页面",
+                Sort = 0,
+                Status = Status.Normal,
+                IsDeleted = IsDeleted.No,
+                IsDefaultRouter = YesOrNo.Yes,
+                CreateTime = now,
+                CreateUserGuid = Guid.Empty,
+                CreateUserLoginName = "System",
+                LastModifyTime = now,
+                HideMenu = YesOrNo.No,
+            });
+            return menus;
+        }
+
+        private static List<Permission> GetPermissions()
+        {
+            var permissions = new List<Permission>();
+            permissions.Add(new Permission
+            {
+                Code = DASHBOARD_MENU_ROOT,
+                MenuGuid = dashBoardId,
+                Name = "DashBoard",
+                ActionCode = "R",
+                Status = Status.Normal,
+                IsDeleted = IsDeleted.No,
+                Type = PermissionType.Menu,
+                CreateTime = now,
+                CreateUserGuid = Guid.Empty,
+            });
+
+            permissions.Add(new Permission
+            {
+                Code = DASHBOARD_MENU_WORKBENCH,
+                MenuGuid = dashBoardWorkbenchId,
+                Name = "DashBoard-Workbench",
+                ActionCode = "R",
+                Status = Status.Normal,
+                IsDeleted = IsDeleted.No,
+                Type = PermissionType.Menu,
+                CreateTime = now,
+                CreateUserGuid = Guid.Empty,
+            });
+
+            return permissions;
+        }
+
+        private static List<RolePermissionMapping> GetRolePermissionMappings()
+        {
+            var maps = new List<RolePermissionMapping>();
+
+            maps.Add(new RolePermissionMapping
+            {
+                RoleCode = ROLE_CODE_SUPERADMIN,
+                PermissionCode = DASHBOARD_MENU_ROOT,
+                CreateTime = now
+            });
+            maps.Add(new RolePermissionMapping
+            {
+                RoleCode = ROLE_CODE_SUPERADMIN,
+                PermissionCode = DASHBOARD_MENU_WORKBENCH,
+                CreateTime = now
+            });
+
+            return maps;
+        }
+
     }
 }

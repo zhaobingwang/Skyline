@@ -168,7 +168,6 @@ namespace Skyline.Console.Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasComment("描述信息");
 
@@ -299,7 +298,7 @@ namespace Skyline.Console.Infrastructure.Data.Migrations
                     b.Property<string>("CreateUserName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DOB")
+                    b.Property<DateTime?>("DOB")
                         .HasColumnType("date")
                         .HasComment("出生日期");
 
@@ -329,6 +328,7 @@ namespace Skyline.Console.Infrastructure.Data.Migrations
                         .HasComment("昵称");
 
                     b.Property<string>("PasswordHash")
+                        .IsRequired()
                         .HasColumnType("nvarchar(255)")
                         .HasComment("密码哈希值");
 

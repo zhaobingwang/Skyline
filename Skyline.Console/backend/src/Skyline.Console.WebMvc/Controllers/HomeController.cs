@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Skyline.Console.ApplicationCore.Entities;
+using Skyline.Console.ApplicationCore.Services;
 using Skyline.Console.Infrastructure.Data;
 using Skyline.Console.WebMvc.Models;
 
@@ -15,17 +17,19 @@ namespace Skyline.Console.WebMvc.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly SkylineDbContext _dbContext;
+        private readonly MenuService _menuService;
 
-        public HomeController(ILogger<HomeController> logger, SkylineDbContext dbContext)
+        public HomeController(ILogger<HomeController> logger, MenuService menuService)
         {
             _logger = logger;
-            _dbContext = dbContext;
+            _menuService = menuService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var vos = new List<MenuVO>();
-            var allMenus = _dbContext.Menus.ToList();
+            var currentUserId = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var allMenus = await _menuService.GetMenus(new Guid(currentUserId));
             var rootMenus = allMenus.FindAll(x => x.ParentGuid == Guid.Empty);
             foreach (var rootMenu in rootMenus)
             {
@@ -39,6 +43,7 @@ namespace Skyline.Console.WebMvc.Controllers
                     SubMenus = MenuEntity2VO(subMenu)
                 });
             }
+
             return View(vos);
         }
 

@@ -38,8 +38,8 @@ namespace Skyline.Console.WebMvc.Controllers
             var checkResult = await _administratorService.LoginCheckAsync(vo.UserName, vo.Password);
             if (checkResult.Success)
             {
-                var administratorBo = checkResult.Data as UserBO;
-                await SignIn(administratorBo);
+                var userBo = checkResult.Data as UserBO;
+                await SignIn(userBo);
             }
             return Json(checkResult);
         }

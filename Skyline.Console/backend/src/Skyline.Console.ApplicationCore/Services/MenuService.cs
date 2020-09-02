@@ -52,7 +52,7 @@ namespace Skyline.Console.ApplicationCore.Services
             // 获取菜单
             var menuSpec = new FindMenuSpecification(menuIds, IsDeleted.No, Status.Normal);
             var menuEntities = await _menuRepository.ListAsync(menuSpec);
-            return menuEntities.ToList();
+            return menuEntities.OrderBy(x => x.Sort).ToList();
             //return ToMenuBO(menuEntities);
         }
 

@@ -15,10 +15,10 @@ namespace Skyline.Console.ApplicationCore.Enums
         [Description("普通用户")]
         Normal = 0,
 
-        [Description("超级管理员")]
+        [Description("管理员")]
         Admin = 9,
 
-        [Description("管理员")]
+        [Description("超级管理员")]
         SuperAdmin = 99,
     }
 

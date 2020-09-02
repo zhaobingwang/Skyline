@@ -27,7 +27,7 @@ namespace Skyline.Console.ApplicationCore.Services
             _rolePermissionRepository = rolePermissionRepository;
             _permissionRepository = permissionRepository;
         }
-        public async Task<List<Menu>> GetMenus(Guid userId)
+        public async Task<List<Menu>> GetUserMenus(Guid userId)
         {
             // 获取当前用户信息
             var userSpec = new FindUserSpecification(userId);
@@ -54,6 +54,16 @@ namespace Skyline.Console.ApplicationCore.Services
             var menuEntities = await _menuRepository.ListAsync(menuSpec);
             return menuEntities.OrderBy(x => x.Sort).ToList();
             //return ToMenuBO(menuEntities);
+        }
+
+        public async Task<List<Menu>> GetAllMenus()
+        {
+            // 获取菜单
+            var menuEntities = await _menuRepository.ListAllAsync();
+            return menuEntities.Where(x => x.Status == Status.Normal && x.IsDeleted == IsDeleted.No)
+                .OrderBy(x => x.Sort)
+                .ThenBy(x => x.CreateTime)
+                .ToList();
         }
 
         private IEnumerable<MenuBO> ToMenuBO(IEnumerable<Menu> menus)

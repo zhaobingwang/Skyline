@@ -6,7 +6,9 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Skyline.Console.ApplicationCore.Constants;
 using Skyline.Console.ApplicationCore.Entities;
+using Skyline.Console.ApplicationCore.Enums;
 using Skyline.Console.ApplicationCore.Services;
 using Skyline.Console.Infrastructure.Data;
 using Skyline.Console.WebMvc.Models;
@@ -16,7 +18,6 @@ namespace Skyline.Console.WebMvc.Controllers
     public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly SkylineDbContext _dbContext;
         private readonly MenuService _menuService;
 
         public HomeController(ILogger<HomeController> logger, MenuService menuService)
@@ -27,24 +28,35 @@ namespace Skyline.Console.WebMvc.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var vos = new List<MenuVO>();
-            var currentUserId = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            var allMenus = await _menuService.GetMenus(new Guid(currentUserId));
-            var rootMenus = allMenus.FindAll(x => x.ParentGuid == Guid.Empty);
-            foreach (var rootMenu in rootMenus)
+            IEnumerable<MenuVO> vo = new List<MenuVO>();
+            var userType = User.FindFirstValue(SkylineClaimTypes.UserType);
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userType == UserType.SuperAdmin.ToString())
             {
-                var subMenu = allMenus.FindAll(x => x.ParentGuid == rootMenu.Guid);
-                vos.Add(new MenuVO
-                {
-                    Id = rootMenu.Guid,
-                    Name = rootMenu.Name,
-                    Url = rootMenu.Url,
-                    Icon = rootMenu.Icon,
-                    SubMenus = MenuEntity2VO(subMenu)
-                });
+                var allMenus = await _menuService.GetAllMenus();
+                vo = RecursionMenu(allMenus, Guid.Empty);
+            }
+            else
+            {
+                var userMenus = await _menuService.GetUserMenus(new Guid(currentUserId));
+                var rootMenus = userMenus.FindAll(x => x.ParentGuid == Guid.Empty);
+                RecursionMenu(rootMenus, Guid.Empty);
             }
 
-            return View(vos);
+            return View(vo);
+        }
+
+        private static IEnumerable<MenuVO> RecursionMenu(IEnumerable<Menu> list, Guid? parentId)
+        {
+            return list.Where(x => x.ParentGuid == parentId).Select(m => new MenuVO
+            {
+                Id = m.Guid,
+                Name = m.Name,
+                Url = m.Url,
+                Icon = m.Icon,
+                Children = RecursionMenu(list, m.Guid)
+            });
         }
 
         private List<MenuVO> MenuEntity2VO(List<Menu> entities)
@@ -57,8 +69,7 @@ namespace Skyline.Console.WebMvc.Controllers
                     Id = entity.Guid,
                     Name = entity.Name,
                     Url = entity.Url,
-                    Icon = entity.Icon,
-                    SubMenus = null
+                    Icon = entity.Icon
                 });
             }
             return vos;

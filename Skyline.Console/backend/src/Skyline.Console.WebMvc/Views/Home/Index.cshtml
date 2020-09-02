@@ -16,7 +16,8 @@
     <link href="~/layuiadmin/layui/css/layui.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/layuiadmin/style/admin.css" rel="stylesheet" asp-append-version="true" />
     <link rel="stylesheet" href="/layuiadmin/style/template.css" asp-append-version="true" />
-
+    <link href="~/iconfont/ant-design.css" rel="stylesheet" />
+    <link href="~/iconfont/skyline-default.css" rel="stylesheet" />
 </head>
 <body class="layui-layout-body">
 
@@ -93,17 +94,18 @@
                                     }
                                     <cite>@rootMenu.Name</cite>
                                 </a>
-                                @if (rootMenu.SubMenus?.Count() > 0)
-                                {
-                                    <dl class="layui-nav-child">
-                                        @foreach (var menu2 in rootMenu.SubMenus)
-                                        {
-                                            <dd data-name="@rootMenu.Id" class="">
-                                                <a lay-href="@menu2.Url">@menu2.Name</a>
-                                            </dd>
-                                        }
-                                    </dl>
-                                }
+                                <partial name="~/Views/Home/_menuList.cshtml" model="rootMenu.Children" />
+                                @*@if (rootMenu.Children?.Count() > 0)
+                                    {
+                                        <dl class="layui-nav-child">
+                                            @foreach (var menu2 in rootMenu.Children)
+                                            {
+                                                <dd data-name="@rootMenu.Id" class="">
+                                                    <a lay-href="@menu2.Url">@menu2.Name</a>
+                                                </dd>
+                                            }
+                                        </dl>
+                                    }*@
 
                             </li>
                         }

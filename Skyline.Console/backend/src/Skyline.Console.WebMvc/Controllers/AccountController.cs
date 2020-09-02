@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Skyline.Console.ApplicationCore.BO;
+using Skyline.Console.ApplicationCore.Constants;
 using Skyline.Console.ApplicationCore.Services;
 using Skyline.Console.WebMvc.Models;
 
@@ -44,13 +45,14 @@ namespace Skyline.Console.WebMvc.Controllers
             return Json(checkResult);
         }
 
-        private async Task SignIn(UserBO admin)
+        private async Task SignIn(UserBO user)
         {
             var userPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier,admin.Id.ToString()),
-                new Claim(ClaimTypes.Name,admin.NickName??""),
-                new Claim(ClaimTypes.UserData,JsonUtil.ToJson(admin))
+                new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
+                new Claim(ClaimTypes.Name,user.NickName??""),
+                new Claim(SkylineClaimTypes.UserType,user.UserType.ToString()),
+                new Claim(ClaimTypes.UserData,JsonUtil.ToJson(user)),
             }, "Basic"));
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal, new AuthenticationProperties

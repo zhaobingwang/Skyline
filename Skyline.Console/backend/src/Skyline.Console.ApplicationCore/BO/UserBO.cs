@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Skyline.Console.ApplicationCore.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,6 +11,7 @@ namespace Skyline.Console.ApplicationCore.BO
         public string LoginName { get; set; }
         public string NickName { get; set; }
         public string Avatar { get; set; }
+        public UserType UserType { get; set; }
         public DateTime? DOB { get; set; }
     }
 }

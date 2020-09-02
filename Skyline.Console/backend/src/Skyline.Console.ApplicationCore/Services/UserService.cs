@@ -49,6 +49,7 @@ namespace Skyline.Console.ApplicationCore.Services
                 Id = entity.Guid,
                 Avatar = entity.Avatar,
                 DOB = entity.DOB,
+                UserType = entity.Type,
                 LoginName = entity.LoginName,
                 NickName = entity.NickName
             };

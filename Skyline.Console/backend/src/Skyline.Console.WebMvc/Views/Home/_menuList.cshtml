@@ -1,0 +1,17 @@
+﻿@model IEnumerable<Skyline.Console.WebMvc.Models.MenuVO>
+@if (Model.Any())
+{
+    <dl class="layui-nav-child">
+        @foreach (var menu in Model)
+        {
+            <dd data-name="@menu.Id" class="">
+                <a lay-href="@menu.Url">@menu.Name</a>
+                @if (!menu.Icon.IsNullOrWhiteSpace())
+                {
+                    <i class="layui-icon @menu.Icon"></i>
+                }
+                <partial name="_MenuList" model="menu.Children" />
+            </dd>
+        }
+    </dl>
+}

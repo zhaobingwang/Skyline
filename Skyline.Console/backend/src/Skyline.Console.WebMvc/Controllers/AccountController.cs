@@ -15,8 +15,8 @@ namespace Skyline.Console.WebMvc.Controllers
 {
     public class AccountController : BaseController
     {
-        private readonly AdministratorService _administratorService;
-        public AccountController(AdministratorService administratorService)
+        private readonly UserService _administratorService;
+        public AccountController(UserService administratorService)
         {
             _administratorService = administratorService;
         }
@@ -38,13 +38,13 @@ namespace Skyline.Console.WebMvc.Controllers
             var checkResult = await _administratorService.LoginCheckAsync(vo.UserName, vo.Password);
             if (checkResult.Success)
             {
-                var administratorBo = checkResult.Data as AdministratorBO;
+                var administratorBo = checkResult.Data as UserBO;
                 await SignIn(administratorBo);
             }
             return Json(checkResult);
         }
 
-        private async Task SignIn(AdministratorBO admin)
+        private async Task SignIn(UserBO admin)
         {
             var userPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
             {

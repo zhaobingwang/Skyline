@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Skyline.Console.Infrastructure.Data.EntityConfigurations
 {
-    public class RolePermissionMappingTypeConfiguration : IEntityTypeConfiguration<RolePermissionMapping>
+    public class RolePermissionEntityTypeConfiguration : IEntityTypeConfiguration<RolePermissionMapping>
     {
         public void Configure(EntityTypeBuilder<RolePermissionMapping> builder)
         {

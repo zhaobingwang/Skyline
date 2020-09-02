@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Skyline.Console.ApplicationCore.BO
 {
-    public class AdministratorBO
+    public class UserBO
     {
         public Guid Id { get; set; }
         public string LoginName { get; set; }

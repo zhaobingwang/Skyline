@@ -14,10 +14,10 @@ namespace Skyline.Console.ApplicationCore.Services
     /// <summary>
     /// 管理员服务
     /// </summary>
-    public class AdministratorService : ISkylineAutoDependence
+    public class UserService : ISkylineAutoDependence
     {
         private readonly IAsyncRepository<User> _userRepository;
-        public AdministratorService(IAsyncRepository<User> userRepository)
+        public UserService(IAsyncRepository<User> userRepository)
         {
             _userRepository = userRepository;
         }
@@ -42,9 +42,9 @@ namespace Skyline.Console.ApplicationCore.Services
         }
 
         // TODO: add automapper
-        private AdministratorBO ToAdministratorBO(User entity)
+        private UserBO ToAdministratorBO(User entity)
         {
-            return new AdministratorBO
+            return new UserBO
             {
                 Id = entity.Guid,
                 Avatar = entity.Avatar,

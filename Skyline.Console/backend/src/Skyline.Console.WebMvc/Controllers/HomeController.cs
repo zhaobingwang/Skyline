@@ -44,6 +44,7 @@ namespace Skyline.Console.WebMvc.Controllers
                 RecursionMenu(rootMenus, Guid.Empty);
             }
 
+            ViewBag.NickName = User.FindFirstValue(ClaimTypes.Name);
             return View(vo);
         }
 

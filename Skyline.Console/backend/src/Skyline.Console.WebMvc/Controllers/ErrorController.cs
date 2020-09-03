@@ -16,7 +16,7 @@ namespace Skyline.Console.WebMvc.Controllers
             }
             else if (Response.StatusCode == 500)
             {
-                return View("/views/error/500.html");
+                return View("500");
             }
             return View();
         }

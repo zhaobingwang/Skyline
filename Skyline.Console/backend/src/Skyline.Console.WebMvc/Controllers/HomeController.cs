@@ -47,6 +47,11 @@ namespace Skyline.Console.WebMvc.Controllers
             return View(vo);
         }
 
+        public ActionResult Default()
+        {
+            return View();
+        }
+
         private static IEnumerable<MenuVO> RecursionMenu(IEnumerable<Menu> list, Guid? parentId)
         {
             return list.Where(x => x.ParentGuid == parentId).Select(m => new MenuVO

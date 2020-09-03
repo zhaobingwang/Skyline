@@ -9,6 +9,28 @@
       "files": [
         "dist/jquery.form.min.js"
       ]
+    },
+    {
+      "provider": "unpkg",
+      "library": "jquery@3.5.1",
+      "destination": "wwwroot/lib/jquery/",
+      "files": [
+        "dist/jquery.js",
+        "dist/jquery.min.js",
+        "dist/jquery.min.map",
+        "dist/jquery.slim.js",
+        "dist/jquery.slim.min.js",
+        "dist/jquery.slim.min.map"
+      ]
+    },
+    {
+      "provider": "unpkg",
+      "library": "jquery-form@4.3.0",
+      "destination": "wwwroot/lib/jquery-form/",
+      "files": [
+        "dist/jquery.form.min.js",
+        "dist/jquery.form.min.js.map"
+      ]
     }
   ]
 }

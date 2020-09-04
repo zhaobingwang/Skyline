@@ -34,7 +34,7 @@ namespace Skyline.Console.WebMvc.Controllers
 
             if (userType == UserType.SuperAdmin.ToString())
             {
-                var allMenus = await _menuService.GetAllMenus();
+                var allMenus = await _menuService.GetSuperAdminMenus();
                 vo = RecursionMenu(allMenus, Guid.Empty);
             }
             else

@@ -14,5 +14,13 @@ namespace Skyline.Console.ApplicationCore.Specifications
         {
             Query.Where(m => ids.Contains(m.Guid) && m.IsDeleted == isDeleted && m.Status == status);
         }
+
+        public FindMenuSpecification(int page, int limit)
+        {
+            Query
+                .Paginate((page - 1) * limit, limit)
+                .OrderBy(x => x.Name)
+                .ThenBy(x => x.Sort);
+        }
     }
 }

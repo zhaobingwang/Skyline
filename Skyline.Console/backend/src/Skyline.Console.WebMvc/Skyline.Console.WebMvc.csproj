@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\Menu\" />
     <Folder Include="Services\" />
   </ItemGroup>
 

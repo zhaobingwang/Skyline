@@ -3,6 +3,7 @@ using Skyline.Console.ApplicationCore.Entities;
 using Skyline.Console.ApplicationCore.Enums;
 using Skyline.Console.ApplicationCore.Interfaces;
 using Skyline.Console.ApplicationCore.Specifications;
+using Skyline.Console.WebMvc.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,7 +57,7 @@ namespace Skyline.Console.ApplicationCore.Services
             //return ToMenuBO(menuEntities);
         }
 
-        public async Task<List<Menu>> GetAllMenus()
+        public async Task<List<Menu>> GetSuperAdminMenus()
         {
             // 获取菜单
             var menuEntities = await _menuRepository.ListAllAsync();
@@ -64,6 +65,16 @@ namespace Skyline.Console.ApplicationCore.Services
                 .OrderBy(x => x.Sort)
                 .ThenBy(x => x.CreateTime)
                 .ToList();
+        }
+
+        public async Task<LayuiTablePageVO> GetAllMenus(int page, int limit)
+        {
+            // 获取菜单
+            var pageSpec = new FindMenuSpecification(page, limit);
+            var menuEntities = await _menuRepository.ListAsync(pageSpec);
+            var totalCount = await _menuRepository.CountAsync(new CountSpecfication());
+            var menuBo = ToMenuTableBO(menuEntities);
+            return new LayuiTablePageVO(menuBo, totalCount, 1);
         }
 
         private IEnumerable<MenuBO> ToMenuBO(IEnumerable<Menu> menus)
@@ -77,6 +88,31 @@ namespace Skyline.Console.ApplicationCore.Services
                     Name = menu.Name,
                     Url = menu.Url,
                     Icon = menu.Icon,
+                });
+            }
+            return bos;
+        }
+
+        // TODO: AUTOMAPPER
+        private IEnumerable<MenuTableBO> ToMenuTableBO(IEnumerable<Menu> menus)
+        {
+            List<MenuTableBO> bos = new List<MenuTableBO>();
+            foreach (var menu in menus)
+            {
+                bos.Add(new MenuTableBO
+                {
+                    Id = menu.Guid,
+                    Name = menu.Name,
+                    Url = menu.Url,
+                    Icon = menu.Icon,
+                    ParentId = menu.ParentGuid,
+                    ParentName = menu.ParentName,
+                    Status = menu.Status,
+                    IsDeleted = menu.IsDeleted,
+                    CreateTime = menu.CreateTime,
+                    CreateUserLoginName = menu.CreateUserLoginName,
+                    LastModifyTime = menu.LastModifyTime,
+                    LastModifyUserLoginName = menu.LastModifyUserLoginName
                 });
             }
             return bos;

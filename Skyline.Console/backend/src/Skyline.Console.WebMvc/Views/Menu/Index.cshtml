@@ -38,15 +38,15 @@
                 url: '/menu/table',
                 cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增,
                 cols: [[
-                    { field: 'id', title: 'ID', sort: true },
+                    { field: 'id', title: 'ID', sort: true, hide: true },
                     { field: 'name', title: '菜单名称' },
                     { field: 'url', title: '地址', sort: true },
-                    { field: 'parentId', title: '父级菜单ID', sort: true },
+                    { field: 'parentId', title: '父级菜单ID', sort: true, hide: true },
                     { field: 'parentName', title: '父级菜单', sort: true },
                     { field: 'icon', title: '图标', align: 'center', templet: '#iconTpl', width: 60 }, //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
-                    { field: 'status', title: '状态', templet: '#statusTpl', width: 80 },
-                    { field: 'isDeleted', title: '已删除', templet: '#isDelTpl', width: 80 },
-                    { field: 'lastModifyTime', title: '修改时间' },
+                    { field: 'status', title: '状态', align: 'center', templet: '#statusTpl', width: 80 },
+                    { field: 'isDeleted', title: '已删除', align: 'center', templet: '#isDelTpl2', width: 80 },
+                    { field: 'lastModifyTime', title: '修改时间', templet: '#lastModifyTimeTpl' },
                     { field: 'lastModifyUserLoginName', title: '修改人' }
                 ]]
             });
@@ -61,6 +61,13 @@
     <script type="text/html" id="isDelTpl">
         <input disabled type="checkbox" name="isDeleted" value="{{d.isDeleted}}" lay-skin="switch" lay-text="是|否" lay-filter="isDeleted" {{ d.isDeleted == 1 ? 'checked' : '' }}>
     </script>
+    <script type="text/html" id="isDelTpl2">
+        {{#  if(d.isDeleted == 1){ }}
+        <span class="layui-badge">是</span>
+        {{#  } else { }}
+        <span class="layui-badge layui-bg-green">否</span>
+        {{#  } }}
+    </script>
     <script type="text/html" id="statusTpl">
         {{#  if(d.status == 1){ }}
         <span class="layui-badge layui-bg-green">正常</span>
@@ -69,5 +76,10 @@
         {{#  } else { }}
         <span class="layui-badge layui-bg-gray">未指定</span>
         {{#  } }}
+    </script>
+    <script type="text/html" id="lastModifyTimeTpl">
+        {{# var localTime=UTCToLocalTime(d.lastModifyTime)}}
+        {{# var date=dateFormat('yyyy-MM-dd HH:mm:ss',new Date(localTime))}}
+        {{ date }}
     </script>
 }

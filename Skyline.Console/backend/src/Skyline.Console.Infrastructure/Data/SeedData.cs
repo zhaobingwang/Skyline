@@ -27,6 +27,7 @@ namespace Skyline.Console.Infrastructure.Data
 
         static DateTime now;
         static Guid superAdminId;
+        static string SuperAdminName = "superadmin";
         static SeedData()
         {
             now = DateTime.UtcNow;
@@ -112,7 +113,7 @@ namespace Skyline.Console.Infrastructure.Data
             users.Add(new User
             {
                 Guid = superAdminId,
-                LoginName = "superadmin",
+                LoginName = SuperAdminName,
                 Avatar = "",
                 CreateTime = now,
                 CreateUserId = Guid.Empty,
@@ -165,11 +166,13 @@ namespace Skyline.Console.Infrastructure.Data
         }
 
         static Guid dashBoardId = Guid.NewGuid();
+        static string dashBoardName = "DashBoard";
         static Guid dashBoardWorkbenchId = Guid.NewGuid();
         static Guid dashBoardAnalysisId = Guid.NewGuid();
         static Guid dashBoardMonitorId = Guid.NewGuid();
 
         static Guid sysId = Guid.NewGuid();
+        static string sysName = "系统管理";
         static Guid sysUserId = Guid.NewGuid();
         static Guid sysRoleId = Guid.NewGuid();
         static Guid sysMenuId = Guid.NewGuid();
@@ -196,8 +199,11 @@ namespace Skyline.Console.Infrastructure.Data
                 IsDeleted = IsDeleted.No,
                 IsDefaultRouter = YesOrNo.Yes,
                 CreateTime = now,
-                CreateUserGuid = Guid.Empty,
-                CreateUserLoginName = "System",
+                CreateUserGuid = superAdminId,
+                CreateUserLoginName = SuperAdminName,
+                LastModifyTime = now,
+                LastModifyUserGuid = superAdminId,
+                LastModifyUserLoginName = SuperAdminName,
                 HideMenu = YesOrNo.No,
             });
             menus.Add(new Menu
@@ -208,7 +214,7 @@ namespace Skyline.Console.Infrastructure.Data
                 Alias = "",
                 Icon = "iconfont icon-gongzuotai",
                 ParentGuid = dashBoardId,
-                ParentName = null,
+                ParentName = dashBoardName,
                 Level = 0,
                 Description = "工作台页面",
                 Sort = 1,
@@ -216,8 +222,11 @@ namespace Skyline.Console.Infrastructure.Data
                 IsDeleted = IsDeleted.No,
                 IsDefaultRouter = YesOrNo.Yes,
                 CreateTime = now,
-                CreateUserGuid = Guid.Empty,
-                CreateUserLoginName = "System",
+                CreateUserGuid = superAdminId,
+                CreateUserLoginName = SuperAdminName,
+                LastModifyTime = now,
+                LastModifyUserGuid = superAdminId,
+                LastModifyUserLoginName = SuperAdminName,
                 HideMenu = YesOrNo.No,
             });
             menus.Add(new Menu
@@ -228,7 +237,7 @@ namespace Skyline.Console.Infrastructure.Data
                 Alias = "",
                 Icon = "iconfont icon-fenxi",
                 ParentGuid = dashBoardId,
-                ParentName = null,
+                ParentName = dashBoardName,
                 Level = 0,
                 Description = "分析页面",
                 Sort = 2,
@@ -236,8 +245,11 @@ namespace Skyline.Console.Infrastructure.Data
                 IsDeleted = IsDeleted.No,
                 IsDefaultRouter = YesOrNo.Yes,
                 CreateTime = now,
-                CreateUserGuid = Guid.Empty,
-                CreateUserLoginName = "System",
+                CreateUserGuid = superAdminId,
+                CreateUserLoginName = SuperAdminName,
+                LastModifyTime = now,
+                LastModifyUserGuid = superAdminId,
+                LastModifyUserLoginName = SuperAdminName,
                 HideMenu = YesOrNo.No,
             });
             menus.Add(new Menu
@@ -248,7 +260,7 @@ namespace Skyline.Console.Infrastructure.Data
                 Alias = "",
                 Icon = "iconfont icon-monitor",
                 ParentGuid = dashBoardId,
-                ParentName = null,
+                ParentName = dashBoardName,
                 Level = 0,
                 Description = "监控页面",
                 Sort = 3,
@@ -256,8 +268,11 @@ namespace Skyline.Console.Infrastructure.Data
                 IsDeleted = IsDeleted.No,
                 IsDefaultRouter = YesOrNo.Yes,
                 CreateTime = now,
-                CreateUserGuid = Guid.Empty,
-                CreateUserLoginName = "System",
+                CreateUserGuid = superAdminId,
+                CreateUserLoginName = SuperAdminName,
+                LastModifyTime = now,
+                LastModifyUserGuid = superAdminId,
+                LastModifyUserLoginName = SuperAdminName,
                 HideMenu = YesOrNo.No,
             });
             #endregion
@@ -279,8 +294,11 @@ namespace Skyline.Console.Infrastructure.Data
                 IsDeleted = IsDeleted.No,
                 IsDefaultRouter = YesOrNo.Yes,
                 CreateTime = now,
-                CreateUserGuid = Guid.Empty,
-                CreateUserLoginName = "System",
+                CreateUserGuid = superAdminId,
+                CreateUserLoginName = SuperAdminName,
+                LastModifyTime = now,
+                LastModifyUserGuid = superAdminId,
+                LastModifyUserLoginName = SuperAdminName,
                 HideMenu = YesOrNo.No,
             });
             menus.Add(new Menu
@@ -291,7 +309,7 @@ namespace Skyline.Console.Infrastructure.Data
                 Alias = "",
                 Icon = "layui-icon-user",
                 ParentGuid = sysId,
-                ParentName = null,
+                ParentName = sysName,
                 Level = 0,
                 Description = "用户管理维护",
                 Sort = 1,
@@ -299,8 +317,11 @@ namespace Skyline.Console.Infrastructure.Data
                 IsDeleted = IsDeleted.No,
                 IsDefaultRouter = YesOrNo.Yes,
                 CreateTime = now,
-                CreateUserGuid = Guid.Empty,
-                CreateUserLoginName = "System",
+                CreateUserGuid = superAdminId,
+                CreateUserLoginName = SuperAdminName,
+                LastModifyTime = now,
+                LastModifyUserGuid = superAdminId,
+                LastModifyUserLoginName = SuperAdminName,
                 HideMenu = YesOrNo.No,
             });
             menus.Add(new Menu
@@ -311,7 +332,7 @@ namespace Skyline.Console.Infrastructure.Data
                 Alias = "",
                 Icon = "layui-icon-group",
                 ParentGuid = sysId,
-                ParentName = null,
+                ParentName = sysName,
                 Level = 0,
                 Description = "角色管理维护",
                 Sort = 2,
@@ -319,8 +340,11 @@ namespace Skyline.Console.Infrastructure.Data
                 IsDeleted = IsDeleted.No,
                 IsDefaultRouter = YesOrNo.Yes,
                 CreateTime = now,
-                CreateUserGuid = Guid.Empty,
-                CreateUserLoginName = "System",
+                CreateUserGuid = superAdminId,
+                CreateUserLoginName = SuperAdminName,
+                LastModifyTime = now,
+                LastModifyUserGuid = superAdminId,
+                LastModifyUserLoginName = SuperAdminName,
                 HideMenu = YesOrNo.No,
             });
             menus.Add(new Menu
@@ -331,7 +355,7 @@ namespace Skyline.Console.Infrastructure.Data
                 Alias = "",
                 Icon = "iconfont icon-menu",
                 ParentGuid = sysId,
-                ParentName = null,
+                ParentName = sysName,
                 Level = 0,
                 Description = "菜单管理维护",
                 Sort = 3,
@@ -339,8 +363,11 @@ namespace Skyline.Console.Infrastructure.Data
                 IsDeleted = IsDeleted.No,
                 IsDefaultRouter = YesOrNo.Yes,
                 CreateTime = now,
-                CreateUserGuid = Guid.Empty,
-                CreateUserLoginName = "System",
+                CreateUserGuid = superAdminId,
+                CreateUserLoginName = SuperAdminName,
+                LastModifyTime = now,
+                LastModifyUserGuid = superAdminId,
+                LastModifyUserLoginName = SuperAdminName,
                 HideMenu = YesOrNo.No,
             });
             menus.Add(new Menu
@@ -351,7 +378,7 @@ namespace Skyline.Console.Infrastructure.Data
                 Alias = "",
                 Icon = "iconfont icon-lock",
                 ParentGuid = sysId,
-                ParentName = null,
+                ParentName = sysName,
                 Level = 0,
                 Description = "权限管理维护",
                 Sort = 4,
@@ -359,8 +386,11 @@ namespace Skyline.Console.Infrastructure.Data
                 IsDeleted = IsDeleted.No,
                 IsDefaultRouter = YesOrNo.Yes,
                 CreateTime = now,
-                CreateUserGuid = Guid.Empty,
-                CreateUserLoginName = "System",
+                CreateUserGuid = superAdminId,
+                CreateUserLoginName = SuperAdminName,
+                LastModifyTime = now,
+                LastModifyUserGuid = superAdminId,
+                LastModifyUserLoginName = SuperAdminName,
                 HideMenu = YesOrNo.No,
             });
             menus.Add(new Menu
@@ -371,7 +401,7 @@ namespace Skyline.Console.Infrastructure.Data
                 Alias = "",
                 Icon = "layui-icon-diamond",
                 ParentGuid = sysId,
-                ParentName = null,
+                ParentName = sysName,
                 Level = 0,
                 Description = "图标管理维护",
                 Sort = 5,
@@ -379,8 +409,11 @@ namespace Skyline.Console.Infrastructure.Data
                 IsDeleted = IsDeleted.No,
                 IsDefaultRouter = YesOrNo.Yes,
                 CreateTime = now,
-                CreateUserGuid = Guid.Empty,
-                CreateUserLoginName = "System",
+                CreateUserGuid = superAdminId,
+                CreateUserLoginName = SuperAdminName,
+                LastModifyTime = now,
+                LastModifyUserGuid = superAdminId,
+                LastModifyUserLoginName = SuperAdminName,
                 HideMenu = YesOrNo.No,
             });
             #endregion

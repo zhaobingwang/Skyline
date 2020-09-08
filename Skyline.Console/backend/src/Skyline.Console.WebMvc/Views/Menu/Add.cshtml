@@ -1,0 +1,64 @@
+﻿@model Skyline.Console.ApplicationCore.VO.MenuEditVO
+@{
+    var menus = ViewData["Menus"] as IEnumerable<MenuVO>;
+}
+@section Header{
+    <style>
+        .layui-form {
+            margin-top: 10px;
+        }
+
+        .skyline-required-star {
+            color: red;
+            font-size: 18px;
+        }
+    </style>
+}
+
+<form class="layui-form" asp-controller="Menu" asp-action="Add" method="post">
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单名</label>
+        <div class="layui-input-inline">
+            <input asp-for="Name" type="text" required lay-verify="required" placeholder="请输入菜单名称" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux" style="color:red"><label class="skyline-required-star">*</label></div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">地址</label>
+        <div class="layui-input-inline">
+            <input asp-for="Url" type="text" required lay-verify="required" placeholder="请输入地址" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux" style="color:red"><label class="skyline-required-star">*</label></div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">图标</label>
+        <div class="layui-input-inline">
+            <input asp-for="Icon" type="text" required lay-verify="required" placeholder="请选择图标" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux" style="color:red"><label class="skyline-required-star">*</label></div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">父级菜单</label>
+        <div class="layui-input-block">
+            <input type="text" id="tree" lay-filter="tree" class="layui-input">
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <input type="submit" class="layui-btn" value="提交" />
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+@section Scripts{
+    <script>
+        $(function () {
+
+        });
+    </script>
+}

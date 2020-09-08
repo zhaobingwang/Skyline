@@ -19,7 +19,12 @@
         </div>
 
         <div class="layui-card-body">
-            <table id="menu-table" class="layui-table" lay-filter="Menu-table"></table>
+            <div style="padding-bottom: 10px;">
+                <button id="btn-add" class="layui-btn layuiadmin-btn-admin" data-type="add">
+                    添加
+                </button>
+            </div>
+            <table id="menu-table" class="layui-table" lay-filter="menu-table"></table>
         </div>
     </div>
 </div>
@@ -27,30 +32,73 @@
 
 @section Scripts{
     <script>
-        layui.use('table', function () {
+        $(function () {
             var table = layui.table;
 
-            table.render({
-                elem: '#menu-table',
-                page: true,
-                limit: 10,
-                limits: [10, 20, 50, 100],
-                url: '/menu/table',
-                cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增,
-                cols: [[
-                    { field: 'id', title: 'ID', sort: true, hide: true },
-                    { field: 'name', title: '菜单名称' },
-                    { field: 'url', title: '地址', sort: true },
-                    { field: 'parentId', title: '父级菜单ID', sort: true, hide: true },
-                    { field: 'parentName', title: '父级菜单', sort: true },
-                    { field: 'icon', title: '图标', align: 'center', templet: '#iconTpl', width: 60 }, //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
-                    { field: 'status', title: '状态', align: 'center', templet: '#statusTpl', width: 80 },
-                    { field: 'isDeleted', title: '已删除', align: 'center', templet: '#isDelTpl2', width: 80 },
-                    { field: 'lastModifyTime', title: '修改时间', templet: '#lastModifyTimeTpl' },
-                    { field: 'lastModifyUserLoginName', title: '修改人' }
-                ]]
+            var renderTable = function () {
+                table.render({
+                    elem: '#menu-table',
+                    page: true,
+                    limit: 10,
+                    limits: [10, 20, 50, 100],
+                    url: '/Menu/Table',
+                    cellMinWidth: 80, // 全局定义常规单元格的最小宽度，layui 2.2.1 新增,
+                    cols: [[
+                        { field: 'id', title: 'ID', sort: true, hide: true },
+                        { field: 'name', title: '菜单名称' },
+                        { field: 'url', title: '地址', sort: true },
+                        { field: 'parentId', title: '父级菜单ID', sort: true, hide: true },
+                        { field: 'parentName', title: '父级菜单', sort: true },
+                        { field: 'icon', title: '图标', align: 'center', templet: '#iconTpl', width: 60 }, //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                        { field: 'status', title: '状态', align: 'center', templet: '#statusTpl', width: 80 },
+                        { field: 'isDeleted', title: '已删除', align: 'center', templet: '#isDelTpl2', width: 80 },
+                        { field: 'lastModifyTime', title: '修改时间', templet: '#lastModifyTimeTpl' },
+                        { field: 'lastModifyUserLoginName', title: '修改人' },
+                        { fixed: 'right', title: '操作', toolbar: '#opTpl', width: 150 }
+                    ]]
+                });
+            };
+            renderTable();
+            // 监听行工具事件
+            table.on('tool(menu-table)', function (obj) {   // 注：tool 是工具条事件名，menu-table 是 table 原始容器的属性 lay-filter="对应的值"
+                var data = obj.data;
+                if (obj.event === 'del') {
+                    delMenu(data.id);
+                } else if (obj.event === 'edit') {
+                    editMenu(data.id);
+                }
+            });
+
+
+            // 新建菜单事件绑定
+            $('#btn-add').on("click", function () {
+                addMenu();
             });
         });
+
+        function addMenu() {
+            $.openLayer("新增菜单", "/Menu/Add",
+                function () {
+                    renderTable();
+                }, 480, 480);
+        }
+
+        function editMenu(id) {
+            $.openLayer("编辑菜单", "/Menu/Edit?id=" + id,
+                function () {
+                    renderTable();
+                }, 480, 480);
+        }
+
+        function delMenu(id) {
+            var params = {
+                id: id
+            };
+            $.Delete('Menu/Delete', params, function () {
+                renderTable();
+            })
+        }
+
     </script>
 
     <script type="text/html" id="iconTpl">
@@ -81,5 +129,9 @@
         {{# var localTime=UTCToLocalTime(d.lastModifyTime)}}
         {{# var date=dateFormat('yyyy-MM-dd HH:mm:ss',new Date(localTime))}}
         {{ date }}
+    </script>
+    <script type="text/html" id="opTpl">
+        <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i></a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i></a>
     </script>
 }

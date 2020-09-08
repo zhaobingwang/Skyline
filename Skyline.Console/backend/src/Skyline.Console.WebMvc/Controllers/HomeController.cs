@@ -41,7 +41,7 @@ namespace Skyline.Console.WebMvc.Controllers
             {
                 var userMenus = await _menuService.GetUserMenus(new Guid(currentUserId));
                 var rootMenus = userMenus.FindAll(x => x.ParentGuid == Guid.Empty);
-                RecursionMenu(rootMenus, Guid.Empty);
+                vo = RecursionMenu(rootMenus, Guid.Empty);
             }
 
             ViewBag.NickName = User.FindFirstValue(ClaimTypes.Name);

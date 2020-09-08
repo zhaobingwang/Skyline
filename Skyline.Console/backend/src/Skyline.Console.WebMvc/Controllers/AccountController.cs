@@ -50,8 +50,9 @@ namespace Skyline.Console.WebMvc.Controllers
             var userPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
-                new Claim(ClaimTypes.Name,user.NickName??""),
+                new Claim(ClaimTypes.Name,user.LoginName??""),
                 new Claim(SkylineClaimTypes.UserType,user.UserType.ToString()),
+                new Claim(SkylineClaimTypes.UserType,user.NickName),
                 new Claim(ClaimTypes.UserData,JsonUtil.ToJson(user)),
             }, "Basic"));
 

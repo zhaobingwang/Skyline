@@ -452,7 +452,6 @@ $.Editor = function () {
 
 
 function dateFormat(fmt, date) {
-    console.log(date);
     let ret;
     const opt = {
         "yyyy+": date.getFullYear().toString(),        // 年

@@ -3,6 +3,7 @@ using Skyline.Console.ApplicationCore.Entities;
 using Skyline.Console.ApplicationCore.Enums;
 using Skyline.Console.ApplicationCore.Interfaces;
 using Skyline.Console.ApplicationCore.Specifications;
+using Skyline.Console.ApplicationCore.VO;
 using Skyline.Console.WebMvc.Models;
 using System;
 using System.Collections.Generic;
@@ -75,6 +76,32 @@ namespace Skyline.Console.ApplicationCore.Services
             var totalCount = await _menuRepository.CountAsync(new CountSpecfication());
             var menuBo = ToMenuTableBO(menuEntities);
             return new LayuiTablePageVO(menuBo, totalCount, 1);
+        }
+
+        public async Task<bool> AddMenu(MenuEditVO vo, Guid createdUserId, string createdUserName)
+        {
+            var now = DateTime.UtcNow;
+            var entity = new Menu
+            {
+                Guid = Guid.NewGuid(),
+                Name = vo.Name,
+                Url = vo.Url,
+                Icon = vo.Icon,
+                ParentGuid = vo.ParentId,
+                ParentName = vo.ParentName,
+                Sort = vo.Sort,
+                Status = Status.Normal,
+                IsDeleted = IsDeleted.No,
+                CreateTime = now,
+                CreateUserGuid = createdUserId,
+                CreateUserLoginName = createdUserName,
+                LastModifyTime = now,
+                LastModifyUserGuid = createdUserId,
+                LastModifyUserLoginName = createdUserName,
+                HideMenu = YesOrNo.No,
+            };
+            var result = await _menuRepository.AddAsync(entity);
+            return result != null;
         }
 
         private IEnumerable<MenuBO> ToMenuBO(IEnumerable<Menu> menus)

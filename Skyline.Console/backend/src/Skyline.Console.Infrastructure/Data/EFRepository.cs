@@ -45,9 +45,12 @@ namespace Skyline.Console.Infrastructure.Data
         public async Task<T> AddAsync(T entity)
         {
             await _dbContext.Set<T>().AddAsync(entity);
-            await _dbContext.SaveChangesAsync();
+            var rows = await _dbContext.SaveChangesAsync();
 
-            return entity;
+            if (rows > 0)
+                return entity;
+            else
+                return null;
         }
 
         public async Task UpdateAsync(T entity)

@@ -59,11 +59,13 @@ namespace Skyline.Console.WebMvc
             if (env.IsDevelopment())
             {
                 app.UseExceptionHandler("/Error/Index");
+                app.UseStatusCodePagesWithRedirects("/Error/CodePage/{0}");
                 //app.UseDeveloperExceptionPage();
             }
             else
             {
                 app.UseExceptionHandler("/Error/Index");
+                app.UseStatusCodePagesWithRedirects("/Error/CodePage/{0}");
             }
             app.UseStaticFiles();
 

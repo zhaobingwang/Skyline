@@ -12,12 +12,19 @@ namespace Skyline.Console.WebMvc.Controllers
         {
             if (Response.StatusCode == 404)
             {
-                return View("/views/error/404.html");
+                return View("404");
             }
             else if (Response.StatusCode == 500)
             {
                 return View("500");
             }
+            return View();
+        }
+
+        [Route("/Error/CodePage/{httpCode}")]
+        public IActionResult CodePage(int httpCode)
+        {
+            ViewData["HttpCodeSVG"] = httpCode + ".svg";
             return View();
         }
 

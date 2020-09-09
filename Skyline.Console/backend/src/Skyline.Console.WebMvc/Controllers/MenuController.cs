@@ -48,6 +48,15 @@ namespace Skyline.Console.WebMvc.Controllers
             return Json(new BizServiceResponse(BizServiceResponseCode.Success, "新建成功"));
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Tree()
+        {
+            var userType = User.FindFirstValue(SkylineClaimTypes.UserType);
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var vo = await _menuService.GetMenuTreeAsync(currentUserId, userType);
+            return Json(vo);
+        }
+
         private async Task<IEnumerable<MenuVO>> GetMenusAsync()
         {
             IEnumerable<MenuVO> vo = new List<MenuVO>();

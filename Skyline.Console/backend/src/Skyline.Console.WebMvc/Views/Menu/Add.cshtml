@@ -17,40 +17,58 @@
 
 <form class="layui-form" asp-controller="Menu" asp-action="Add" method="post">
     <div class="layui-form-item">
-        <label class="layui-form-label">菜单名</label>
-        <div class="layui-input-inline">
-            <input asp-for="Name" type="text" required lay-verify="required" placeholder="请输入菜单名称" autocomplete="off" class="layui-input">
+        <div class="layui-inline">
+            <label class="layui-form-label">菜单名</label>
+            <div class="layui-input-inline">
+                <input id="name" type="text" required lay-verify="required" placeholder="请输入菜单名称" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux" style="color:red"><label class="skyline-required-star">*</label></div>
         </div>
-        <div class="layui-form-mid layui-word-aux" style="color:red"><label class="skyline-required-star">*</label></div>
+        <div class="layui-inline">
+            <label class="layui-form-label">地址</label>
+            <div class="layui-input-inline">
+                <input id="url" type="text" required lay-verify="required" placeholder="请输入地址" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux" style="color:red"><label class="skyline-required-star">*</label></div>
+        </div>
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">地址</label>
-        <div class="layui-input-inline">
-            <input asp-for="Url" type="text" required lay-verify="required" placeholder="请输入地址" autocomplete="off" class="layui-input">
+        <div class="layui-inline">
+            <label class="layui-form-label">图标</label>
+            <div class="layui-input-inline">
+                <input id="icon" type="text" placeholder="请选择图标" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux" style="color:red"><label class="skyline-required-star">*</label></div>
         </div>
-        <div class="layui-form-mid layui-word-aux" style="color:red"><label class="skyline-required-star">*</label></div>
+        <div class="layui-inline">
+            <label class="layui-form-label">排序</label>
+            <div class="layui-input-inline">
+                <input id="sort" type="text" placeholder="请输入排序值" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux" style="color:red"><label class="skyline-required-star">*</label></div>
+        </div>
+
     </div>
 
+    @*TODO: 下拉树重新选择一个开源组件*@
     <div class="layui-form-item">
-        <label class="layui-form-label">图标</label>
-        <div class="layui-input-inline">
-            <input asp-for="Icon" type="text" required lay-verify="required" placeholder="请选择图标" autocomplete="off" class="layui-input">
+        <div class="layui-inline">
+            <label class="layui-form-label">父级菜单</label>
+            <div class="layui-input-block">
+                <div id="menuTree" style="width: 200px; height: 130px; overflow: scroll;"></div>
+
+                <br />
+                <input type="hidden" name="parentId" id="parentId" value="" />
+                当前选择：<input type="text" name="parentName" id="parentName" value="" style="background:#F2F2F2;color:red;border:none" readonly />
+            </div>
         </div>
-        <div class="layui-form-mid layui-word-aux" style="color:red"><label class="skyline-required-star">*</label></div>
     </div>
 
+
     <div class="layui-form-item">
-        <label class="layui-form-label">父级菜单</label>
         <div class="layui-input-block">
-            <input type="text" id="tree" lay-filter="tree" class="layui-input">
-        </div>
-    </div>
-
-
-    <div class="layui-form-item">
-        <div class="layui-input-block">
-            <input type="submit" class="layui-btn" value="提交" />
+            <input type="button" class="layui-btn" id="btn-save" value="保存" />
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
     </div>
@@ -58,7 +76,57 @@
 @section Scripts{
     <script>
         $(function () {
-
+            var tree = layui.tree;
+            tree.render({
+                elem: '#menuTree',
+                data: getData(),
+                click: function (obj) {
+                    console.log(obj);
+                    $('#parentId').val(obj.data.id);
+                    $('#parentName').val(obj.data.title);
+                }
+            });
         });
+
+        $('#btn-save').on('click', function () {
+            var params = {
+                name: $('#name').val(),
+                parentId: $('#parentId').val(),
+                parentId: $('#parentId').val(),
+                icon: $('#icon').val(),
+                url: $('#url').val(),
+                sort: $('#sort').val(),
+            }
+            $.ajax({
+                url: '/Menu/Add',
+                type: 'post',
+                data: params,
+                async: false,
+                success: function (result) {
+
+                    if (result.code == 1) {
+                        var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+                        parent.layer.close(index);
+
+                    } else {
+                        layer.msg(result.message);
+                    }
+                }
+            })
+        });
+
+        function getData() {
+            var data = [];
+            $.ajax({
+                url: "/Menu/Tree",
+                type: "get",
+                async: false,
+                success: function (resut) {
+                    data = resut;
+                }
+            });
+            return data;
+        }
+
     </script>
 }

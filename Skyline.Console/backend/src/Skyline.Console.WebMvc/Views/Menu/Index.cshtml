@@ -33,32 +33,37 @@
 @section Scripts{
     <script>
         $(function () {
-            var table = layui.table;
-
-            var renderTable = function () {
-                table.render({
-                    elem: '#menu-table',
-                    page: true,
-                    limit: 10,
-                    limits: [10, 20, 50, 100],
-                    url: '/Menu/Table',
-                    cellMinWidth: 80, // 全局定义常规单元格的最小宽度，layui 2.2.1 新增,
-                    cols: [[
-                        { field: 'id', title: 'ID', sort: true, hide: true },
-                        { field: 'name', title: '菜单名称' },
-                        { field: 'url', title: '地址', sort: true },
-                        { field: 'parentId', title: '父级菜单ID', sort: true, hide: true },
-                        { field: 'parentName', title: '父级菜单', sort: true },
-                        { field: 'icon', title: '图标', align: 'center', templet: '#iconTpl', width: 60 }, //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
-                        { field: 'status', title: '状态', align: 'center', templet: '#statusTpl', width: 80 },
-                        { field: 'isDeleted', title: '已删除', align: 'center', templet: '#isDelTpl2', width: 80 },
-                        { field: 'lastModifyTime', title: '修改时间', templet: '#lastModifyTimeTpl' },
-                        { field: 'lastModifyUserLoginName', title: '修改人' },
-                        { fixed: 'right', title: '操作', toolbar: '#opTpl', width: 150 }
-                    ]]
-                });
-            };
             renderTable();
+
+            // 新建菜单事件绑定
+            $('#btn-add').on("click", function () {
+                addMenu();
+            });
+        });
+
+        var renderTable = function () {
+            var table = layui.table;
+            table.render({
+                elem: '#menu-table',
+                page: true,
+                limit: 10,
+                limits: [10, 20, 50, 100],
+                url: '/Menu/Table',
+                cellMinWidth: 80, // 全局定义常规单元格的最小宽度，layui 2.2.1 新增,
+                cols: [[
+                    { field: 'id', title: 'ID', sort: true, hide: true },
+                    { field: 'name', title: '菜单名称' },
+                    { field: 'url', title: '地址', sort: true },
+                    { field: 'parentId', title: '父级菜单ID', sort: true, hide: true },
+                    { field: 'parentName', title: '父级菜单', sort: true },
+                    { field: 'icon', title: '图标', align: 'center', templet: '#iconTpl', width: 60 }, //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                    { field: 'status', title: '状态', align: 'center', templet: '#statusTpl', width: 80 },
+                    { field: 'isDeleted', title: '已删除', align: 'center', templet: '#isDelTpl2', width: 80 },
+                    { field: 'lastModifyTime', title: '修改时间', templet: '#lastModifyTimeTpl' },
+                    { field: 'lastModifyUserLoginName', title: '修改人' },
+                    { fixed: 'right', title: '操作', toolbar: '#opTpl', width: 150 }
+                ]]
+            });
             // 监听行工具事件
             table.on('tool(menu-table)', function (obj) {   // 注：tool 是工具条事件名，menu-table 是 table 原始容器的属性 lay-filter="对应的值"
                 var data = obj.data;
@@ -68,26 +73,30 @@
                     editMenu(data.id);
                 }
             });
+        };
 
-
-            // 新建菜单事件绑定
-            $('#btn-add').on("click", function () {
-                addMenu();
-            });
-        });
 
         function addMenu() {
-            $.openLayer("新增菜单", "/Menu/Add",
-                function () {
+            //$.openLayer("新增菜单", "/Menu/Add",
+            //    function () {
+            //        renderTable();
+            //    }, 800, 580, true);
+            layer.open({
+                type: 2,
+                title: '新增菜单',
+                content: '/Menu/Add',
+                area: ['800px', '580px'],
+                end: function () {
                     renderTable();
-                }, 480, 480);
+                }
+            });
         }
 
         function editMenu(id) {
             $.openLayer("编辑菜单", "/Menu/Edit?id=" + id,
                 function () {
                     renderTable();
-                }, 480, 480);
+                }, 800, 580);
         }
 
         function delMenu(id) {

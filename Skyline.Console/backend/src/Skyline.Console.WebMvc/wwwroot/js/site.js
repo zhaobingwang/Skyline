@@ -124,7 +124,7 @@ $.tableReload = function (formId, tableId) {
         });
 };
 
-$.openLayer = function (title, url, endCallBack, w, h, IsNoBtn) {
+$.openLayer = function (title, url, endCallBack, w, h) {
     var width = $(window).width() * 0.8 + 'px';
     var height = $(window).height() * 0.8 + 'px';
 
@@ -134,21 +134,11 @@ $.openLayer = function (title, url, endCallBack, w, h, IsNoBtn) {
     if (h) {
         height = h + 'px';
     }
-    var btns = ['确定', '取消']
-    if (IsNoBtn) {
-        btns = [];
-    }
     layer.open({
         type: 2,
         title: title,
         content: url,
         area: [width, height],
-        btn: btns,
-        yes: function (index, layero) {
-            var submit = layero.find('iframe').contents().find('#btn-submit');
-            submit.trigger('click');
-
-        },
         end: function () {
             endCallBack();
         }

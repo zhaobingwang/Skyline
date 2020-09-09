@@ -68,6 +68,36 @@ namespace Skyline.Console.ApplicationCore.Services
                 .ToList();
         }
 
+        public async Task<IEnumerable<MenuTreeVO>> GetMenuTreeAsync(string currentUserId, string userType)
+        {
+            var spec = new FindMenuSpecification(IsDeleted.No, Status.Normal);
+            var menuEntities = await _menuRepository.ListAsync(spec);
+            IEnumerable<MenuTreeVO> vo = new List<MenuTreeVO>();
+
+            if (userType == UserType.SuperAdmin.ToString())
+            {
+                var allMenus = await GetSuperAdminMenus();
+                vo = RecursionMenu(allMenus, Guid.Empty);
+            }
+            else
+            {
+                var userMenus = await GetUserMenus(new Guid(currentUserId));
+                var rootMenus = userMenus.FindAll(x => x.ParentGuid == Guid.Empty);
+                vo = RecursionMenu(rootMenus, Guid.Empty);
+            }
+            return vo;
+        }
+
+        private static IEnumerable<MenuTreeVO> RecursionMenu(List<Menu> list, Guid? parentId)
+        {
+            return list.Where(x => x.ParentGuid == parentId).Select(m => new MenuTreeVO
+            {
+                Id = m.Guid,
+                Title = m.Name,
+                Children = RecursionMenu(list, m.Guid)
+            });
+        }
+
         public async Task<LayuiTablePageVO> GetAllMenus(int page, int limit)
         {
             // 获取菜单

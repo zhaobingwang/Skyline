@@ -10,6 +10,23 @@ namespace Skyline.Console.ApplicationCore.Specifications
 {
     public class FindMenuSpecification : Specification<Menu>
     {
+        public FindMenuSpecification(Guid id)
+        {
+            Query.Where(x => x.Guid == id);
+        }
+
+        public FindMenuSpecification(Guid id, bool includeChildren)
+        {
+            if (includeChildren)
+            {
+                Query.Where(x => x.Guid == id || x.ParentGuid == id);
+            }
+            else
+            {
+                Query.Where(x => x.Guid == id);
+            }
+        }
+
         public FindMenuSpecification(IEnumerable<Guid> ids, IsDeleted isDeleted, Status status)
         {
             Query.Where(m => ids.Contains(m.Guid) && m.IsDeleted == isDeleted && m.Status == status);

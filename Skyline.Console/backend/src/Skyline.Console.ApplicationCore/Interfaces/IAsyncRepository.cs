@@ -13,8 +13,9 @@ namespace Skyline.Console.ApplicationCore.Interfaces
         Task<IReadOnlyList<T>> ListAllAsync();
         Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec);
         Task<T> AddAsync(T entity);
-        Task UpdateAsync(T entity);
-        Task DeleteAsync(T entity);
+        Task<bool> UpdateAsync(T entity);
+        Task<bool> DeleteAsync(T entity);
+        Task<int> DeleteAsync(IEnumerable<T> entity);
         Task<int> CountAsync(ISpecification<T> spec);
         Task<T> FirstAsync(ISpecification<T> spec);
         Task<T> FirstOrDefaultAsync(ISpecification<T> spec);

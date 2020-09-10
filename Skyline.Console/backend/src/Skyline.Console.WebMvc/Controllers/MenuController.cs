@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -55,6 +56,16 @@ namespace Skyline.Console.WebMvc.Controllers
             var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var vo = await _menuService.GetMenuTreeAsync(currentUserId, userType);
             return Json(vo);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var guid = new Guid(id);
+            var success = await _menuService.DeleteAsync(guid);
+            if (success)
+                return Json(new BizServiceResponse(BizServiceResponseCode.Success, "删除成功"));
+            return Json(new BizServiceResponse(BizServiceResponseCode.Failed, "删除失败"));
         }
 
         private async Task<IEnumerable<MenuVO>> GetMenusAsync()

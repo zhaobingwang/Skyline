@@ -88,6 +88,14 @@ namespace Skyline.Console.ApplicationCore.Services
             return vo;
         }
 
+        public async Task<bool> DeleteAsync(Guid id)
+        {
+            var spec = new FindMenuSpecification(id, true);
+            var menus = await _menuRepository.ListAsync(spec);
+            var result = await _menuRepository.DeleteAsync(menus);
+            return result == menus.Count;
+        }
+
         private static IEnumerable<MenuTreeVO> RecursionMenu(List<Menu> list, Guid? parentId)
         {
             return list.Where(x => x.ParentGuid == parentId).Select(m => new MenuTreeVO

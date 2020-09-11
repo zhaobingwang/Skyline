@@ -12,5 +12,26 @@ namespace Skyline.Console.ApplicationCore.Specifications
         {
             Query.Where(u => u.Guid == userId);
         }
+
+        public FindUserSpecification(int page, int limit, string keyword)
+        {
+            if (keyword.IsNullOrWhiteSpace())
+            {
+                Query
+                    .Paginate((page - 1) * limit, limit)
+                    .OrderBy(x => x.LoginName)
+                    .ThenBy(x => x.NickName)
+                    .ThenBy(x => x.LastModifyTime);
+            }
+            else
+            {
+                Query
+                    .Where(x => x.LoginName.Contains(keyword) || x.NickName.Contains(keyword))
+                    .Paginate((page - 1) * limit, limit)
+                    .OrderBy(x => x.LoginName)
+                    .ThenBy(x => x.NickName)
+                    .ThenBy(x => x.LastModifyTime);
+            }
+        }
     }
 }

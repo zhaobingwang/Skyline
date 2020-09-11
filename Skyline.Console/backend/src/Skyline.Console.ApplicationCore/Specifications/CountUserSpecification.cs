@@ -6,11 +6,12 @@ using System.Text;
 
 namespace Skyline.Console.ApplicationCore.Specifications
 {
-    public class CountSpecfication : Specification<Menu>
+    public class CountUserSpecification : Specification<User>
     {
-        public CountSpecfication()
+        public CountUserSpecification(string keyword)
         {
-            Query.Where(x => true);
+            Query
+                .Where(x => x.LoginName.Contains(keyword) || x.NickName.Contains(keyword));
         }
     }
 }

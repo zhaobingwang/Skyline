@@ -37,12 +37,23 @@ namespace Skyline.Console.ApplicationCore.Specifications
             Query.Where(m => m.IsDeleted == isDeleted && m.Status == status);
         }
 
-        public FindMenuSpecification(int page, int limit)
+        public FindMenuSpecification(int page, int limit, string keyword)
         {
-            Query
-                .Paginate((page - 1) * limit, limit)
-                .OrderBy(x => x.Name)
-                .ThenBy(x => x.Sort);
+            if (keyword.IsNullOrWhiteSpace())
+            {
+                Query
+                   .Paginate((page - 1) * limit, limit)
+                   .OrderBy(x => x.Name)
+                   .ThenBy(x => x.Sort);
+            }
+            else
+            {
+                Query
+                    .Where(x => x.Name.Contains(keyword) || x.ParentName.Contains(keyword))
+                    .Paginate((page - 1) * limit, limit)
+                    .OrderBy(x => x.Name)
+                    .ThenBy(x => x.Sort);
+            }
         }
     }
 }

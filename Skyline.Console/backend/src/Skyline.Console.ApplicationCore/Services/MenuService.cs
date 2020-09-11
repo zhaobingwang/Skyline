@@ -106,12 +106,12 @@ namespace Skyline.Console.ApplicationCore.Services
             });
         }
 
-        public async Task<LayuiTablePageVO> GetAllMenus(int page, int limit)
+        public async Task<LayuiTablePageVO> GetAllMenus(int page, int limit, string keyword)
         {
             // 获取菜单
-            var pageSpec = new FindMenuSpecification(page, limit);
+            var pageSpec = new FindMenuSpecification(page, limit, keyword);
             var menuEntities = await _menuRepository.ListAsync(pageSpec);
-            var totalCount = await _menuRepository.CountAsync(new CountSpecfication());
+            var totalCount = await _menuRepository.CountAsync(new CountMenuSpecfication(keyword));
             var menuBo = ToMenuTableBO(menuEntities);
             return new LayuiTablePageVO(menuBo, totalCount, 1);
         }

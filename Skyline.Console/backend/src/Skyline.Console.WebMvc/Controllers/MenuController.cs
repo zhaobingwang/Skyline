@@ -27,9 +27,9 @@ namespace Skyline.Console.WebMvc.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Table(int page, int limit)
+        public async Task<IActionResult> Table(int page, int limit, string keyword)
         {
-            var menuPage = await _menuService.GetAllMenus(page, limit);
+            var menuPage = await _menuService.GetAllMenus(page, limit, keyword);
             return Json(menuPage);
         }
 

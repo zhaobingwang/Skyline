@@ -10,8 +10,16 @@ namespace Skyline.Console.ApplicationCore.Specifications
     {
         public CountUserSpecification(string keyword)
         {
-            Query
-                .Where(x => x.LoginName.Contains(keyword) || x.NickName.Contains(keyword));
+            if (keyword.IsNullOrWhiteSpace())
+            {
+                Query
+                    .Where(x => true);
+            }
+            else
+            {
+                Query
+                    .Where(x => x.LoginName.Contains(keyword) || x.NickName.Contains(keyword));
+            }
         }
     }
 }

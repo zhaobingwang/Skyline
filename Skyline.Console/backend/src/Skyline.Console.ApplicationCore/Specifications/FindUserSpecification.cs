@@ -13,6 +13,11 @@ namespace Skyline.Console.ApplicationCore.Specifications
             Query.Where(u => u.Guid == userId);
         }
 
+        public FindUserSpecification(string loginName)
+        {
+            Query.Where(u => u.LoginName == loginName);
+        }
+
         public FindUserSpecification(int page, int limit, string keyword)
         {
             if (keyword.IsNullOrWhiteSpace())

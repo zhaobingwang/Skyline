@@ -1,4 +1,4 @@
-﻿@model Skyline.Console.ApplicationCore.VO.UserVO
+﻿@model Skyline.Console.ApplicationCore.VO.EditUserVO
 @{
     var userTypeDict = ViewData["UserType"] as Dictionary<int, string>;
 }
@@ -16,18 +16,19 @@
 }
 
 <form class="layui-form" asp-controller="User" asp-action="Add" method="post">
+    <input type="hidden" value="@Model.Id" />
     <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">登录名</label>
             <div class="layui-input-inline">
-                <input id="loginName" type="text" required lay-verify="userName" placeholder="请输入登录名" autocomplete="off" class="layui-input">
+                <input id="loginName" type="text" required lay-verify="userName" placeholder="请输入登录名" autocomplete="off" class="layui-input" value="@Model.LoginName" disabled>
             </div>
             <div class="layui-form-mid layui-word-aux" style="color:red"><label class="skyline-required-star">*</label></div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">昵称</label>
             <div class="layui-input-inline">
-                <input id="nickName" type="text" required lay-verify="userName" placeholder="请输入昵称" autocomplete="off" class="layui-input">
+                <input id="nickName" type="text" required lay-verify="userName" placeholder="请输入昵称" autocomplete="off" class="layui-input" value="@Model.NickName">
             </div>
             <div class="layui-form-mid layui-word-aux" style="color:red"><label class="skyline-required-star">*</label></div>
         </div>
@@ -37,7 +38,7 @@
         <div class="layui-inline">
             <label class="layui-form-label">密码</label>
             <div class="layui-input-inline">
-                <input id="password" type="text" required lay-verify="pass" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                <input id="password" type="text" lay-verify="pass" placeholder="请输入密码" autocomplete="off" class="layui-input">
             </div>
             <div class="layui-form-mid layui-word-aux" style="color:red"><label class="skyline-required-star">*</label></div>
         </div>
@@ -57,7 +58,14 @@
                 <select id="type">
                     @foreach (var ut in userTypeDict)
                     {
-                        <option value="@ut.Key">@ut.Value</option>
+                        if (Skyline.Utils.EnumUtil.GetValue<Skyline.Console.ApplicationCore.Enums.UserType>(Model.Type) == ut.Key)
+                        {
+                            <option value="@ut.Key" selected>@ut.Value</option>
+                        }
+                        else
+                        {
+                            <option value="@ut.Key">@ut.Value</option>
+                        }
                     }
                 </select>
             </div>
@@ -80,6 +88,7 @@
         });
         $('#btn-save').click(function () {
             var params = {
+                id: $('#id').val(),
                 loginName: $('#loginName').val(),
                 nickName: $('#nickName').val(),
                 password: $('#password').val(),
@@ -87,12 +96,11 @@
                 type: $('#type').val(),
             }
             $.ajax({
-                url: '/User/Add',
+                url: '/User/Edit',
                 type: 'post',
                 data: params,
                 async: false,
                 success: function (result) {
-
                     if (result.code == 1) {
                         var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
                         parent.layer.close(index);
@@ -103,16 +111,16 @@
                 }
             })
         });
+        // FIX:验证失败后还能提交
         function initVerify() {
             layui.use(['form', 'laydate'], function () {
                 var form = layui.form;
-                var layer = layui.layer;
                 var laydate = layui.laydate;
 
                 // 日期
                 laydate.render({
                     elem: '#dob',
-                    value:'@DateTime.Now.AddYears(-18).ToString("yyyy-MM-dd")'
+                    value:'@Model.DOB.Value.ToString("yyyy-MM-dd")'
                 });
 
                 // 自定义验证规则
@@ -129,9 +137,6 @@
                         /^[\S]{6,12}$/
                         , '密码必须6到12位，且不能出现空格'
                     ]
-                    , content: function (value) {
-                        layedit.sync(editIndex);
-                    }
                 });
 
             });

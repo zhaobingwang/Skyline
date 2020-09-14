@@ -35,6 +35,20 @@ namespace Skyline.Console.ApplicationCore.Services
             return new LayuiTablePageVO(vo, totalCount, 1);
         }
 
+        public async Task<EditUserVO> GetUserVOAsync(Guid guid)
+        {
+            var userSpec = new FindUserSpecification(guid);
+            var entity = await _userRepository.FirstOrDefaultAsync(userSpec);
+            return new EditUserVO
+            {
+                DOB = entity.DOB,
+                Id = entity.Guid,
+                LoginName = entity.LoginName,
+                NickName = entity.NickName,
+                Type = entity.Type
+            };
+        }
+
         /// <summary>
         /// 登录校验
         /// </summary>
@@ -52,6 +66,81 @@ namespace Skyline.Console.ApplicationCore.Services
             if (user.IsDeleted == IsDeleted.Yes)
                 return BizServiceResponse.IsFailed(AccountConst.USER_DELETED);
             return BizServiceResponse.IsSuccess(AccountConst.VALID_SUCCESS, ToAdministratorBO(user));
+        }
+
+        public async Task<BizServiceResponse> AddUserAsync(AddUserVO vo, Guid currentUserId, string currentUserLoginName)
+        {
+            if (vo.Type == UserType.SuperAdmin)
+                return new BizServiceResponse(BizServiceResponseCode.Failed, "添加用户失败：不允许添加超级管理员");
+            var user = await _userRepository.ListAsync(new FindUserSpecification(vo.LoginName));
+            if (user != null && user.Count > 0)
+                return new BizServiceResponse(BizServiceResponseCode.Failed, "添加用户失败：用户已存在");
+            // TODO
+            var now = DateTime.UtcNow;
+            var entity = new User
+            {
+                Guid = Guid.NewGuid(),
+                Avatar = "",
+                CreateTime = now,
+                CreateUserId = currentUserId,
+                CreateUserName = currentUserLoginName,
+                LastModifyTime = now,
+                LastModifyUserId = currentUserId,
+                LastModifyUserName = currentUserLoginName,
+                Description = null,
+                Status = Status.Normal,
+                DOB = vo.DOB,
+                IsDeleted = IsDeleted.No,
+                LoginName = vo.LoginName,
+                NickName = vo.NickName,
+                PasswordHash = vo.Password.MD5Hash(),
+                Type = vo.Type
+            };
+            var addResult = await _userRepository.AddAsync(entity);
+            if (addResult.IsNull())
+                return new BizServiceResponse(BizServiceResponseCode.Failed, "添加用户失败");
+            else
+                return new BizServiceResponse(BizServiceResponseCode.Success, "添加用户成功");
+        }
+
+        public async Task<BizServiceResponse> EditAsync(EditUserVO vo, Guid currentUserId, string currentUserLoginName)
+        {
+            var now = DateTime.UtcNow;
+            var user = await _userRepository.FirstOrDefaultAsync(new FindUserSpecification(vo.LoginName));
+            if (user == null)
+                return new BizServiceResponse(BizServiceResponseCode.Failed, "修改用户失败：用户不存在");
+            // TODO
+            if (user.Type != UserType.SuperAdmin && vo.Type == UserType.SuperAdmin)
+                return new BizServiceResponse(BizServiceResponseCode.Failed, "修改用户失败：不允许修改为超级管理员");
+
+            //user.LoginName = vo.LoginName;
+            user.NickName = vo.NickName;
+            user.Type = vo.Type;
+            if (vo.Password.IsNotNullOrWhiteSpace())
+                user.PasswordHash = vo.Password.MD5Hash();
+            user.DOB = vo.DOB;
+
+            var addResult = await _userRepository.UpdateAsync(user);
+            if (addResult)
+                return new BizServiceResponse(BizServiceResponseCode.Success, "修改用户成功");
+            else
+                return new BizServiceResponse(BizServiceResponseCode.Failed, "修改用户失败");
+        }
+
+        public async Task<BizServiceResponse> DeleteAsync(Guid id)
+        {
+            var user = await _userRepository.FirstOrDefaultAsync(new FindUserSpecification(id));
+            if (user == null)
+                return new BizServiceResponse(BizServiceResponseCode.Failed, "删除用户失败：用户不存在");
+            var deleted = await _userRepository.DeleteAsync(user);
+            if (deleted)
+            {
+                return new BizServiceResponse(BizServiceResponseCode.Success, "删除用户成功");
+            }
+            else
+            {
+                return new BizServiceResponse(BizServiceResponseCode.Failed, "删除用户失败");
+            }
         }
 
         // TODO: add automapper

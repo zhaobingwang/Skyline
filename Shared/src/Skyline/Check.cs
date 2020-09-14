@@ -4,11 +4,12 @@ using System.Text;
 
 namespace Skyline
 {
+    [Obsolete("迁移至Extensions/SKyline")]
     /// <summary>
     /// 验证参数是否合法
     /// 不合法则抛出相应的异常
     /// </summary>
-    public static class Check
+    public static partial class ValidateExtensions
     {
         /// <summary>
         /// 验证值是否为NullOrEmpty

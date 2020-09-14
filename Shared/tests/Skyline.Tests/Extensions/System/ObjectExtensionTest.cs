@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Xunit;
 
-namespace Skyline.Tests.Extensions
+namespace Skyline.Tests.Extensions.System
 {
     public class ObjectExtensionTest
     {

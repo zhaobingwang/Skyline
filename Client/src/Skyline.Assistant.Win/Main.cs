@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Skyline.Assistant.UI.Winform
+namespace Skyline.Assistant.Win
 {
-    public partial class Home : Form
+    public partial class Main : Form
     {
-        public Home()
+        public Main()
         {
             InitializeComponent();
         }

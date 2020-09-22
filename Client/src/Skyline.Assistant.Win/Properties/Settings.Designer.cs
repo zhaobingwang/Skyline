@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Skyline.Assistant.UI.Winform.Properties
+namespace Skyline.Assistant.Win.Properties
 {
 
 

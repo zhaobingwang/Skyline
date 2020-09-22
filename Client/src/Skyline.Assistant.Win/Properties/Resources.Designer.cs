@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Skyline.Assistant.UI.Winform.Properties
+namespace Skyline.Assistant.Win.Properties
 {
 
 
@@ -44,7 +44,7 @@ namespace Skyline.Assistant.UI.Winform.Properties
             {
                 if ((resourceMan == null))
                 {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Skyline.Assistant.UI.Winform.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Skyline.Assistant.Win.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

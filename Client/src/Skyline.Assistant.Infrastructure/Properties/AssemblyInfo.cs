@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Skyline.Assistant.UI.Winform")]
+[assembly: AssemblyTitle("Skyline.Assistant.Infrastructure")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Skyline.Assistant.UI.Winform")]
+[assembly: AssemblyProduct("Skyline.Assistant.Infrastructure")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("a3a86640-934a-4782-80fa-586aa3eebf5e")]
+[assembly: Guid("3d797b48-7e2c-4427-826d-55c26f84a0d6")]
 
 // Version information for an assembly consists of the following four values:
 //

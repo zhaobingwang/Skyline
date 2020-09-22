@@ -23,7 +23,7 @@ namespace Skyline.Console.ApplicationCore.BO
             set => message = value;
             get
             {
-                if (message.IsNotNullOrWhiteSpace())
+                if (!message.IsNullOrWhiteSpace())
                     return message;
                 if (Exception.IsNotNull())
                     return Exception.Message;
@@ -196,7 +196,7 @@ namespace Skyline.Console.ApplicationCore.BO
             set => message = value;
             get
             {
-                if (message.IsNotNullOrWhiteSpace())
+                if (!message.IsNullOrWhiteSpace())
                     return message;
                 if (Exception.IsNotNull())
                     return Exception.Message;

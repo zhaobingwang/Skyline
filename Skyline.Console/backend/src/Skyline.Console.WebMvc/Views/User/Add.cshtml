@@ -15,7 +15,7 @@
     </style>
 }
 
-<form class="layui-form" asp-controller="User" asp-action="Add" method="post">
+<form class="layui-form">
     <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">登录名</label>
@@ -92,7 +92,6 @@
                 data: params,
                 async: false,
                 success: function (result) {
-
                     if (result.code == 1) {
                         var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
                         parent.layer.close(index);

@@ -149,6 +149,9 @@ namespace Skyline.Console.Infrastructure.Data
                 IsDeleted = IsDeleted.No,
                 IsSuperAdministrator = true,
                 Description = "超级管理员",
+                ModifiyUserId = Guid.Empty,
+                ModifyTime = now,
+                ModifyUserName = "System"
             });
             return roles;
         }

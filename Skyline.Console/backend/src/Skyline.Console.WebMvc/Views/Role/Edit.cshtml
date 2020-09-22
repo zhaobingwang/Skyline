@@ -1,0 +1,103 @@
+﻿@model Skyline.Console.ApplicationCore.VO.AddOrEditRoleVO
+@{
+    var status = ViewData["Status"] as Dictionary<int, string>;
+}
+
+@section Header{
+    <style>
+        .layui-form {
+            margin-top: 10px;
+        }
+
+        .skyline-required-star {
+            color: red;
+            font-size: 18px;
+        }
+    </style>
+}
+
+<form class="layui-form" asp-controller="Menu" asp-action="Add" method="post">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">角色编码</label>
+            <div class="layui-input-inline">
+                <input id="code" type="text" required lay-verify="required" value="@Model.Code" readonly placeholder="请输入角色编码" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux" style="color:red"><label class="skyline-required-star">*</label></div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">角色名</label>
+            <div class="layui-input-inline">
+                <input id="name" type="text" required lay-verify="required" value="@Model.Name" placeholder="请输入角色名" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux" style="color:red"><label class="skyline-required-star">*</label></div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-block">
+                <select id="status" lay-filter="status">
+                    @foreach (var s in status)
+                    {
+                        if (s.Key == (int)Model.Status)
+                        {
+                            <option value="@s.Key" selected>@s.Value</option>
+                        }
+                        else
+                        {
+                            <option value="@s.Key">@s.Value</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+            <textarea id="description" placeholder="请输入备注" class="layui-textarea">@Model.Description</textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <input type="button" lay-submit="" class="layui-btn" id="btn-save" value="保存" />
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+@section Scripts{
+    <script>
+        $(function () {
+        });
+
+        $('#btn-save').click(function () {
+            var params = {
+                code: $('#code').val(),
+                name: $('#name').val(),
+                status: $('#status').val(),
+                description: $('#description').val(),
+            }
+            $.ajax({
+                url: '/Role/Edit',
+                type: 'post',
+                data: params,
+                async: false,
+                success: function (result) {
+                    if (result.code == 1) {
+                        var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+                        parent.layer.close(index);
+                    } else {
+                        layer.msg(result.message);
+                    }
+                }
+            })
+        });
+    </script>
+}

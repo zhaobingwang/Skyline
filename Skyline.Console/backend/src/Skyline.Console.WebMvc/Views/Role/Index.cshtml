@@ -1,0 +1,161 @@
+﻿@section Header{
+    <style>
+        .layui-card-header {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .layui-card-body {
+            padding-top: 5px;
+        }
+    </style>
+}
+<div style="padding: 20px; background-color: #F2F2F2;">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-col-md6" style="padding-bottom:0px;">
+                <div class="layui-inline">
+                    <input id="txt-search" type="text" placeholder="输入关键字搜索..." class="layui-input" />
+                </div>
+
+                <div class="layui-inline">
+                    <button id="btn-search" class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-user-back-search">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="layui-col-md6" style="padding-bottom:0px;">
+                <div class="layui-inline" style="float:right">
+                    <button id="btn-add" class="layui-btn layuiadmin-btn-admin" data-type="add">
+                        添加
+                    </button>
+                </div>
+            </div>
+            <div class="layui-col-md12" style="padding-top:0px;">
+                <table id="role-table" class="layui-table" lay-filter="role-table"></table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(function () {
+            renderTable();
+        });
+
+        var renderTable = function (params) {
+            var table = layui.table;
+            table.render({
+                elem: '#role-table',
+                page: true,
+                limit: 10,
+                limits: [10, 20, 50, 100],
+                url: '/Role/Table',
+                where: params,
+                method: 'post',
+                cellMinWidth: 80, // 全局定义常规单元格的最小宽度，layui 2.2.1 新增,
+                cols: [[
+                    { field: 'code', title: '编码', sort: true },
+                    { field: 'name', title: '角色' },
+                    { field: 'description', title: '说明' },
+                    { field: 'buildin', title: '内置', align: 'center', templet: '#isBuiltinTpl', width: 80 },
+                    { field: 'isSuper', title: '超级管理员', align: 'center', templet: '#isSuperTpl', width: 100 },
+                    { field: 'status', title: '状态', align: 'center', templet: '#statusTpl', width: 80 },
+                    { field: 'isDeleted', title: '已删除', align: 'center', templet: '#isDelTpl', width: 80 },
+                    { field: 'lastModifyTime', title: '修改时间', templet: '#lastModifyTimeTpl' },
+                    { field: 'lastModifyUserLoginName', title: '修改人', width: 120 },
+                    { fixed: 'right', title: '操作', toolbar: '#opTpl', width: 120 }
+                ]]
+            });
+            // 监听行工具事件
+            table.on('tool(role-table)', function (obj) {   // 注：tool 是工具条事件名，menu-table 是 table 原始容器的属性 lay-filter="对应的值"
+                var data = obj.data;
+                if (obj.event === 'del') {
+                    delRole(data.code);
+                } else if (obj.event === 'edit') {
+                    editRole(data.code);
+                }
+            });
+        };
+
+
+        $('#btn-search').click(function () {
+            var keyword = $('#txt-search').val();
+            var params = {
+                keyword: keyword
+            }
+            renderTable(params);
+        });
+
+
+        $('#btn-add').click(function () {
+            layer.open({
+                type: 2,
+                title: '新增角色',
+                content: '/Role/Add',
+                area: ['800px', '580px'],
+                end: function () {
+                    renderTable();
+                }
+            });
+        });
+
+
+        function editRole(code) {
+            $.openLayer("编辑角色", "/Role/Edit?code=" + code,
+                function () {
+                    renderTable();
+                }, 800, 580);
+        }
+
+        function delRole(code) {
+            var params = {
+                code: code
+            };
+            $.Delete('/Role/Delete', params, function () {
+                renderTable();
+            })
+        }
+    </script>
+    <script type="text/html" id="isDelTpl">
+
+        {{#  if(d.isDeleted == 1){ }}
+        <span class="layui-badge layui-bg-green">是</span>
+        {{#  } else { }}
+        <span class="layui-badge layui-bg-gray">否</span>
+        {{#  } }}
+    </script>
+    <script type="text/html" id="isSuperTpl">
+        {{#  if(d.isSuper){ }}
+        <span class="layui-badge layui-bg-green">是</span>
+        {{#  } else { }}
+        <span class="layui-badge layui-bg-gray">否</span>
+        {{#  } }}
+    </script>
+    <script type="text/html" id="isBuiltinTpl">
+        {{#  if(d.builtin){ }}
+        <span class="layui-badge layui-bg-green">是</span>
+        {{#  } else { }}
+        <span class="layui-badge layui-bg-gray">否</span>
+        {{#  } }}
+    </script>
+    <script type="text/html" id="statusTpl">
+        {{#  if(d.status == 1){ }}
+        <span class="layui-badge layui-bg-green">正常</span>
+        {{#  } else if(d.status == 0) { }}
+        <span class="layui-badge">禁用</span>
+        {{#  } else { }}
+        <span class="layui-badge layui-bg-gray">未指定</span>
+        {{#  } }}
+    </script>
+    <script type="text/html" id="lastModifyTimeTpl">
+        {{# var localTime=UTCToLocalTime(d.lastModifyTime)}}
+        {{# var date=dateFormat('yyyy-MM-dd HH:mm:ss',new Date(localTime))}}
+        {{ date }}
+    </script>
+    <script type="text/html" id="opTpl">
+        <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i></a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i></a>
+    </script>
+
+}

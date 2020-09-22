@@ -116,7 +116,7 @@ namespace Skyline.Console.ApplicationCore.Services
             //user.LoginName = vo.LoginName;
             user.NickName = vo.NickName;
             user.Type = vo.Type;
-            if (vo.Password.IsNotNullOrWhiteSpace())
+            if (!vo.Password.IsNullOrWhiteSpace())
                 user.PasswordHash = vo.Password.MD5Hash();
             user.DOB = vo.DOB;
 

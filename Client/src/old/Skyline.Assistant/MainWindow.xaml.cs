@@ -22,6 +22,7 @@ namespace Skyline.Assistant
     {
         public MainWindow()
         {
+            MaterialDesignWindow.RegisterCommands(this);
             InitializeComponent();
         }
     }

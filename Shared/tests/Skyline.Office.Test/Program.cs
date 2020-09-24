@@ -1,6 +1,7 @@
 ﻿using NPOI.XWPF.UserModel;
-using Skyline.Office.Models;
-using Skyline.Office.Options;
+using Skyline.Office.Word;
+using Skyline.Office.Word.Models;
+using Skyline.Office.Word.Options;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -84,7 +85,7 @@ namespace Skyline.Office.Test
 
             wordUtil.AddTextParagraph("测试\u4f60\u597d段落1\u263A\u0021\u1F60F");
             wordUtil.AddTextParagraph(GetLongText());
-            wordUtil.AddTextParagraph("测试段落3", new TextOptions { FontStyle = new Styles.FontStyle { ForeColor = "FF00FF" } });
+            wordUtil.AddTextParagraph("测试段落3", new TextOptions { FontStyle = new Word.Styles.FontStyle { ForeColor = "FF00FF" } });
 
             wordUtil.AddMultiTextParagraph(new List<string> { "多段落1", "多段落2", "多段落3" });
             wordUtil.AddTextParagraphWithMultiText(new List<string> { "单段落多文本段1", "单段落多文本段2", "单段落多文本段3" }, "    |    ");
@@ -93,11 +94,11 @@ namespace Skyline.Office.Test
             wordUtil.AddTextParagraphWithMultiText(GetOneParagraphMultiTextModelFakeData());
 
             // 表格
-            wordUtil.AddTableParagraph("table name", GetTableModel(5, 10), new ParagraphOptions { Alignment = Styles.Alignment.Center }, new TextOptions { FontStyle = new Styles.FontStyle { IsBold = true } });
+            wordUtil.AddTableParagraph("table name", GetTableModel(5, 10), new ParagraphOptions { Alignment = Word.Styles.Alignment.Center }, new TextOptions { FontStyle = new Word.Styles.FontStyle { IsBold = true } });
 
             wordUtil.AddTextParagraph("--------------------------");
 
-            wordUtil.AddTableParagraph("table name", GetTableModel(5, 10), new ParagraphOptions { Alignment = Styles.Alignment.Center }, new TextOptions { FontStyle = new Styles.FontStyle { IsBold = true } });
+            wordUtil.AddTableParagraph("table name", GetTableModel(5, 10), new ParagraphOptions { Alignment = Word.Styles.Alignment.Center }, new TextOptions { FontStyle = new Word.Styles.FontStyle { IsBold = true } });
 
             wordUtil.AddTextParagraph("--------------------------");
 
@@ -108,15 +109,15 @@ namespace Skyline.Office.Test
         {
             TextOptions textOption1 = new TextOptions
             {
-                FontStyle = new Styles.FontStyle { ForeColor = "FF00FF" }
+                FontStyle = new Word.Styles.FontStyle { ForeColor = "FF00FF" }
             };
             TextOptions textOption2 = new TextOptions
             {
-                FontStyle = new Styles.FontStyle { ForeColor = "FFD700" }
+                FontStyle = new Word.Styles.FontStyle { ForeColor = "FFD700" }
             };
             TextOptions textOption3 = new TextOptions
             {
-                FontStyle = new Styles.FontStyle { ForeColor = "0000CD" }
+                FontStyle = new Word.Styles.FontStyle { ForeColor = "0000CD" }
             };
             OneParagraphMultiTextModel model = new OneParagraphMultiTextModel();
             List<TextModel> textModels = new List<TextModel>();

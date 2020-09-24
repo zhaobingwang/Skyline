@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Skyline.Office.Models
+namespace Skyline.Office.Word.Models
 {
     public class TableModel
     {

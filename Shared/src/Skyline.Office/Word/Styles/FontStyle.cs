@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Skyline.Office.Styles
+namespace Skyline.Office.Word.Styles
 {
     public class FontStyle
     {

@@ -1,13 +1,13 @@
 ﻿using NPOI.OpenXmlFormats.Wordprocessing;
 using NPOI.XWPF.UserModel;
-using Skyline.Office.Models;
-using Skyline.Office.Options;
+using Skyline.Office.Word.Models;
+using Skyline.Office.Word.Options;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Skyline.Office
+namespace Skyline.Office.Word
 {
     /// <summary>
     /// Word工具

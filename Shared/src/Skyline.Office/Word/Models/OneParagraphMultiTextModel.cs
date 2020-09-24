@@ -1,9 +1,9 @@
-﻿using Skyline.Office.Options;
+﻿using Skyline.Office.Word.Options;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Skyline.Office.Models
+namespace Skyline.Office.Word.Models
 {
     public class OneParagraphMultiTextModel
     {

@@ -81,7 +81,7 @@
     <Compile Include="Utilities\ModifierBase.cs" />
     <Compile Include="Utilities\ModifierCollection.cs" />
     <Compile Include="Utilities\TreeHelpers.cs" />
-    <Page Include="MainWindow.xaml">
+    <Page Include="MainWindow2.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -89,8 +89,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="MainWindow2.xaml.cs">
+      <DependentUpon>MainWindow2.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="MDIXWndow\MaterialDesignWindow.xaml">

@@ -13,10 +13,10 @@ namespace Skyline.Console.ApplicationCore.Services
 {
     public class RoleService : ISkylineAutoDependence
     {
-        private readonly IAsyncRepository<Role> _roleRepository;
+        private readonly IAsyncRepository<Role> roleRepository;
         public RoleService(IAsyncRepository<Role> roleRepository)
         {
-            _roleRepository = roleRepository;
+            this.roleRepository = roleRepository;
         }
 
         public async Task<LayuiTablePageVO> GetRolesAsync(int page, int limit, string keyword)
@@ -24,15 +24,22 @@ namespace Skyline.Console.ApplicationCore.Services
             var findRoleSpec = new FindRoleSpecification(page, limit, keyword);
             var countRoleSpec = new CountRoleSpecification(keyword);
 
-            var roleEntities = await _roleRepository.ListAsync(findRoleSpec);
-            var roelCount = await _roleRepository.CountAsync(countRoleSpec);
+            var roleEntities = await roleRepository.ListAsync(findRoleSpec);
+            var roelCount = await roleRepository.CountAsync(countRoleSpec);
             var vo = ToRoleTableVO(roleEntities);
             return new LayuiTablePageVO(vo, roelCount, 1);
         }
 
+        public async Task<IEnumerable<RoleTableVO>> GetRolesAsync()
+        {
+            var roles = await roleRepository.ListAsync(new FindRoleSpecification(Enums.Status.Normal, Enums.IsDeleted.No));
+            var vo = ToRoleTableVO(roles);
+            return vo;
+        }
+
         public async Task<BizServiceResponse> AddAsync(AddOrEditRoleVO vo, Guid currentUserId, string currentUserName)
         {
-            var existRole = await _roleRepository.FirstOrDefaultAsync(new FindRoleSpecification(code: vo.Code));
+            var existRole = await roleRepository.FirstOrDefaultAsync(new FindRoleSpecification(code: vo.Code));
             if (existRole != null)
                 return new BizServiceResponse(BizServiceResponseCode.Failed, "已存在相同编码的角色");
 
@@ -53,7 +60,7 @@ namespace Skyline.Console.ApplicationCore.Services
                 ModifyTime = now,
                 ModifyUserName = currentUserName,
             };
-            var addResult = await _roleRepository.AddAsync(entity);
+            var addResult = await roleRepository.AddAsync(entity);
             if (addResult == null)
                 return new BizServiceResponse(BizServiceResponseCode.Failed, "添加角色失败");
             else
@@ -62,7 +69,7 @@ namespace Skyline.Console.ApplicationCore.Services
 
         public async Task<AddOrEditRoleVO> GetAddOrEditRoleVOAsync(string code)
         {
-            var result = await _roleRepository.FirstOrDefaultAsync(new FindRoleSpecification(code));
+            var result = await roleRepository.FirstOrDefaultAsync(new FindRoleSpecification(code));
             if (result == null)
                 return null;
             return new AddOrEditRoleVO
@@ -76,7 +83,7 @@ namespace Skyline.Console.ApplicationCore.Services
 
         public async Task<BizServiceResponse> EditAsync(AddOrEditRoleVO vo, Guid currentUserId, string currentUserName)
         {
-            var existRole = await _roleRepository.FirstOrDefaultAsync(new FindRoleSpecification(code: vo.Code));
+            var existRole = await roleRepository.FirstOrDefaultAsync(new FindRoleSpecification(code: vo.Code));
             if (existRole == null)
                 return new BizServiceResponse(BizServiceResponseCode.Failed, "不存在该角色");
 
@@ -89,7 +96,7 @@ namespace Skyline.Console.ApplicationCore.Services
             existRole.ModifyTime = now;
             existRole.ModifyUserName = currentUserName;
 
-            var addResult = await _roleRepository.UpdateAsync(existRole);
+            var addResult = await roleRepository.UpdateAsync(existRole);
             if (addResult)
                 return new BizServiceResponse(BizServiceResponseCode.Success, "添加角色成功");
             else

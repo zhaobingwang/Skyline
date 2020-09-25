@@ -1,5 +1,6 @@
 ﻿using Ardalis.Specification;
 using Skyline.Console.ApplicationCore.Entities;
+using Skyline.Console.ApplicationCore.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,11 @@ namespace Skyline.Console.ApplicationCore.Specifications
 {
     public class FindRoleSpecification : Specification<Role>
     {
+        public FindRoleSpecification(Status status, IsDeleted isDeleted)
+        {
+            Query.Where(x => x.Status == status && x.IsDeleted == isDeleted);
+        }
+
         public FindRoleSpecification(string code)
         {
             Query.Where(x => x.Code == code);

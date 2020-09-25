@@ -1,0 +1,99 @@
+﻿@model Skyline.Console.ApplicationCore.VO.AssignRoleVO
+@{
+
+}
+
+<div>
+    <input id="uid" type="hidden" value="@ViewData["UID"]" />
+    @*<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+            <legend>用户角色分配</legend>
+        </fieldset>*@
+
+    <div id="role" class="transfer"></div>
+</div>
+
+
+@section Scripts{
+    <script>
+        $(function () {
+            var data = initData();
+
+            var transfer = layui.transfer
+            transfer.render({
+                elem: '#role',
+                title: ['未获得的角色', '已获得的角色'],
+                data: data.data,
+                value: data.selected,
+                onchange: function (data, index) {
+                    //console.log(data); // 得到当前被穿梭的数据
+                    //console.log(index); // 如果数据来自左边，index 为 0，否则为 1
+                    assignRole(index, data);
+                }
+            });
+        });
+
+        function initData() {
+            var data = [];
+            $.ajax({
+                url: '/User/RoleTransfer?id=' + $('#uid').val(),
+                type: "post",
+                async: false,
+                success: function (resut) {
+                    data = resut;
+                }
+            });
+            return data;
+        }
+
+        function assignRole(idx, data) {
+            if (idx == 0) {
+                // 左=>右
+                increase(data);
+            } else {
+                decrease(data);
+            }
+        }
+
+        function increase(data) {
+            var params = {
+                uid: $('#uid').val(),
+                data: data,
+            }
+            $.ajax({
+                type: 'post',
+                data: params,
+                url: '/User/increaseRole',
+                async: false,
+                success: function (result) {
+                    if (result.code == 1) {
+                        var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+                        parent.layer.close(index);
+                    } else {
+                        layer.msg(result.message);
+                    }
+                }
+            });
+        }
+
+        function decrease(data) {
+            var params = {
+                uid: $('#uid').val(),
+                data: data,
+            }
+            $.ajax({
+                type: 'post',
+                data: params,
+                url: '/User/decreaseRole',
+                async: false,
+                success: function (result) {
+                    if (result.code == 1) {
+                        var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+                        parent.layer.close(index);
+                    } else {
+                        layer.msg(result.message);
+                    }
+                }
+            });
+        }
+    </script>
+}

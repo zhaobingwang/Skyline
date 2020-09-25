@@ -8,6 +8,7 @@ using Skyline.Console.ApplicationCore.VO;
 using Skyline.Console.WebMvc.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,10 +19,13 @@ namespace Skyline.Console.ApplicationCore.Services
     /// </summary>
     public class UserService : ISkylineAutoDependence
     {
-        private readonly IAsyncRepository<User> _userRepository;
-        public UserService(IAsyncRepository<User> userRepository)
+        private readonly IAsyncRepository<User> userRepository;
+        private readonly IAsyncRepository<UserRoleMapping> userRoleMappingRepository;
+
+        public UserService(IAsyncRepository<User> userRepository, IAsyncRepository<UserRoleMapping> userRoleMapping)
         {
-            _userRepository = userRepository;
+            this.userRepository = userRepository;
+            this.userRoleMappingRepository = userRoleMapping;
         }
 
         public async Task<LayuiTablePageVO> GetAllUsersAsync(int page, int limit, string keyword)
@@ -29,8 +33,8 @@ namespace Skyline.Console.ApplicationCore.Services
             var userSpec = new FindUserSpecification(page, limit, keyword);
             var countSpec = new CountUserSpecification(keyword);
 
-            var userEntities = await _userRepository.ListAsync(userSpec);
-            var totalCount = await _userRepository.CountAsync(countSpec);
+            var userEntities = await userRepository.ListAsync(userSpec);
+            var totalCount = await userRepository.CountAsync(countSpec);
             var vo = ToMenuVO(userEntities);
             return new LayuiTablePageVO(vo, totalCount, 1);
         }
@@ -38,7 +42,7 @@ namespace Skyline.Console.ApplicationCore.Services
         public async Task<EditUserVO> GetUserVOAsync(Guid guid)
         {
             var userSpec = new FindUserSpecification(guid);
-            var entity = await _userRepository.FirstOrDefaultAsync(userSpec);
+            var entity = await userRepository.FirstOrDefaultAsync(userSpec);
             return new EditUserVO
             {
                 DOB = entity.DOB,
@@ -58,7 +62,7 @@ namespace Skyline.Console.ApplicationCore.Services
         public async Task<BizServiceResponse> LoginCheckAsync(string loginName, string password)
         {
             var loginCheckSpec = new LoginCheckSpecification(loginName, password);
-            var user = await _userRepository.FirstOrDefaultAsync(loginCheckSpec);
+            var user = await userRepository.FirstOrDefaultAsync(loginCheckSpec);
             if (user == null)
                 return BizServiceResponse.IsFailed(AccountConst.USER_NOT_EXIST);
             if (user.Status != Status.Normal)
@@ -72,7 +76,7 @@ namespace Skyline.Console.ApplicationCore.Services
         {
             if (vo.Type == UserType.SuperAdmin)
                 return new BizServiceResponse(BizServiceResponseCode.Failed, "添加用户失败：不允许添加超级管理员");
-            var user = await _userRepository.ListAsync(new FindUserSpecification(vo.LoginName));
+            var user = await userRepository.ListAsync(new FindUserSpecification(vo.LoginName));
             if (user != null && user.Count > 0)
                 return new BizServiceResponse(BizServiceResponseCode.Failed, "添加用户失败：用户已存在");
             // TODO
@@ -96,7 +100,7 @@ namespace Skyline.Console.ApplicationCore.Services
                 PasswordHash = vo.Password.MD5Hash(),
                 Type = vo.Type
             };
-            var addResult = await _userRepository.AddAsync(entity);
+            var addResult = await userRepository.AddAsync(entity);
             if (addResult.IsNull())
                 return new BizServiceResponse(BizServiceResponseCode.Failed, "添加用户失败");
             else
@@ -106,7 +110,7 @@ namespace Skyline.Console.ApplicationCore.Services
         public async Task<BizServiceResponse> EditAsync(EditUserVO vo, Guid currentUserId, string currentUserLoginName)
         {
             var now = DateTime.UtcNow;
-            var user = await _userRepository.FirstOrDefaultAsync(new FindUserSpecification(vo.LoginName));
+            var user = await userRepository.FirstOrDefaultAsync(new FindUserSpecification(vo.LoginName));
             if (user == null)
                 return new BizServiceResponse(BizServiceResponseCode.Failed, "修改用户失败：用户不存在");
             // TODO
@@ -120,7 +124,7 @@ namespace Skyline.Console.ApplicationCore.Services
                 user.PasswordHash = vo.Password.MD5Hash();
             user.DOB = vo.DOB;
 
-            var addResult = await _userRepository.UpdateAsync(user);
+            var addResult = await userRepository.UpdateAsync(user);
             if (addResult)
                 return new BizServiceResponse(BizServiceResponseCode.Success, "修改用户成功");
             else
@@ -129,10 +133,10 @@ namespace Skyline.Console.ApplicationCore.Services
 
         public async Task<BizServiceResponse> DeleteAsync(Guid id)
         {
-            var user = await _userRepository.FirstOrDefaultAsync(new FindUserSpecification(id));
+            var user = await userRepository.FirstOrDefaultAsync(new FindUserSpecification(id));
             if (user == null)
                 return new BizServiceResponse(BizServiceResponseCode.Failed, "删除用户失败：用户不存在");
-            var deleted = await _userRepository.DeleteAsync(user);
+            var deleted = await userRepository.DeleteAsync(user);
             if (deleted)
             {
                 return new BizServiceResponse(BizServiceResponseCode.Success, "删除用户成功");
@@ -141,6 +145,57 @@ namespace Skyline.Console.ApplicationCore.Services
             {
                 return new BizServiceResponse(BizServiceResponseCode.Failed, "删除用户失败");
             }
+        }
+
+        public async Task<IEnumerable<UserRoleMapping>> GetAssignedRolesAsync(Guid uid)
+        {
+            var urm = await userRoleMappingRepository.ListAsync(new FindUserRoleMappingSpecfication(uid));
+            return urm;
+        }
+
+        // TODO: #1 批量更新，#2 权限
+        public async Task<BizServiceResponse> AddUserRoleAsync(Guid uid, IEnumerable<LayuiTransferDataVO> roleVO)
+        {
+            var now = DateTime.UtcNow;
+            //List<UserRoleMapping> urm = new List<UserRoleMapping>();
+            foreach (var vo in roleVO)
+            {
+                //urm.Add(new UserRoleMapping
+                //{
+                //    CreateTime = now,
+                //    RoleCode = vo.Value,
+                //    UserGuid = uid
+                //});
+
+                // TODO: 批量插入
+                // FIX:事务
+                await userRoleMappingRepository.AddAsync(new UserRoleMapping
+                {
+                    CreateTime = now,
+                    RoleCode = vo.Value,
+                    UserGuid = uid
+                });
+            }
+            return new BizServiceResponse(BizServiceResponseCode.Success, "添加成功");
+        }
+        // TODO: #1 批量更新，#2 权限
+        public async Task<BizServiceResponse> DeleteUserRoleAsync(Guid uid, IEnumerable<LayuiTransferDataVO> roleVO)
+        {
+            List<UserRoleMapping> urm = new List<UserRoleMapping>();
+            foreach (var vo in roleVO)
+            {
+                urm.Add(new UserRoleMapping
+                {
+                    RoleCode = vo.Value,
+                    UserGuid = uid
+                });
+            }
+            // FIX:事务
+            var result = await userRoleMappingRepository.DeleteAsync(urm);
+            if (result == roleVO.Count())
+                return new BizServiceResponse(BizServiceResponseCode.Success, "删除成功");
+            else
+                return new BizServiceResponse(BizServiceResponseCode.Failed, "删除失败");
         }
 
         // TODO: add automapper

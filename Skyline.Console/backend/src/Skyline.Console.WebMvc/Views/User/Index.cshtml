@@ -77,6 +77,8 @@
                     delUser(data.id);
                 } else if (obj.event === 'edit') {
                     editUser(data.id);
+                } else if (obj.event === 'assignRole') {
+                    assignRole(data.id);
                 }
             });
         };
@@ -115,6 +117,13 @@
             $.Delete('/User/Delete', params, function () {
                 renderTable();
             })
+        }
+
+        function assignRole(id) {
+            $.openLayer("给用户分配角色", "/User/AssignRole?id=" + id,
+                function () {
+                    renderTable();
+                }, 500, 450);
         }
 
 
@@ -158,5 +167,6 @@
     <script type="text/html" id="opTpl">
         <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i></a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i></a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="assignRole"><i class="layui-icon layui-icon-group"></i></a>
     </script>
 }

@@ -8,8 +8,4 @@
     <PackageReference Include="NPOI" Version="2.5.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Excel\" />
-  </ItemGroup>
-
 </Project>

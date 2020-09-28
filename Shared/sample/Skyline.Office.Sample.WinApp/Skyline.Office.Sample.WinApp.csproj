@@ -6,4 +6,8 @@
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Skyline.Office\Skyline.Office.csproj" />
+  </ItemGroup>
+
 </Project>

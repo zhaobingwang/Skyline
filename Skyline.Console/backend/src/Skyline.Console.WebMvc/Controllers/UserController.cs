@@ -11,7 +11,7 @@ using Skyline.Utils;
 
 namespace Skyline.Console.WebMvc.Controllers
 {
-    public class UserController : Controller
+    public class UserController : BaseController
     {
         private readonly UserService userService;
         private readonly RoleService roleService;

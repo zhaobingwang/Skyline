@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Skyline.Console.WebMvc.Controllers
 {
-    public class IconController : Controller
+    public class IconController : BaseController
     {
         public IActionResult Index()
         {

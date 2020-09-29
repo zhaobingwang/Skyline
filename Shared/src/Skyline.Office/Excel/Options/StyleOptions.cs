@@ -11,14 +11,23 @@ namespace Skyline.Office.Excel.Options
     public class StyleOptions
     {
         public SkylineHorizontalAlignment HorizontalAlignment { get; set; }
+
         public SkylineVerticalAlignment VerticalAlignment { get; set; }
-        //public Color BackgroundColor { get; set; }
-        public short BackgroundColor { get; set; }
+
+        /// <summary>
+        /// 颜色值，参考NPOI对应的Excel56种颜色
+        /// </summary>
+        public short BackgroundColor { get; set; } = -1;
 
         public string FontName { get; set; } = "宋体";
+
         public short FontSize { get; set; } = 11;
-        //public Color FontColor { get; set; }
-        public short FontColor { get; set; }
+
+        /// <summary>
+        /// 颜色值，参考NPOI对应的Excel56种颜色
+        /// </summary>
+        public short FontColor { get; set; } = 8;
+
         public bool IsBold { get; set; } = false;
     }
 }

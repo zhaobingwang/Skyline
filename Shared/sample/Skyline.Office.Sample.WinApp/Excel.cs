@@ -39,16 +39,19 @@ namespace Skyline.Office.Sample.WinApp
             {
                 HorizontalAlignment = Office.Excel.Enums.SkylineHorizontalAlignment.Center,
                 VerticalAlignment = Office.Excel.Enums.SkylineVerticalAlignment.Center,
-                BackgroundColor = 1,// Color.Yellow,
-                FontColor = 2,// Color.Red,
+                BackgroundColor = 13,// Color.Yellow,
+                FontColor = 10,// Color.Red,
                 FontSize = 20,
+                FontName = "微软雅黑",
                 IsBold = true
             };
             var headerOptions = new StyleOptions
             {
                 HorizontalAlignment = Office.Excel.Enums.SkylineHorizontalAlignment.Center,
                 VerticalAlignment = Office.Excel.Enums.SkylineVerticalAlignment.Center,
-                FontSize = 11,
+                FontSize = 14,
+                //FontName = "微软雅黑",
+                FontColor = 12,// Color.Red,
                 IsBold = true
             };
             var contentOptions = new StyleOptions
@@ -63,7 +66,7 @@ namespace Skyline.Office.Sample.WinApp
             excelUtil.CreateSheets("01");
 
             // var headers = new string[] { "用户姓名", "性别", "昵称", "邮箱", "手机号码", "状态", "注册时间", "是否在线" }
-            var headers = GetHeaders();
+            var headers = GetHeader();
 
             //excelUtil.AddHeader("用户数据", headers, new RowOptions { });
             excelUtil.AddHeader("用户数据", headers, new RowOptions { }, titleStyleOptions, headerOptions);
@@ -71,15 +74,29 @@ namespace Skyline.Office.Sample.WinApp
             excelUtil.SaveWorkbook();
         }
 
-        private List<string> GetHeaders()
+        private List<HeaderModel> GetHeader()
         {
-            List<string> headers = new List<string>();
+            List<HeaderModel> header = new List<HeaderModel>();
             var properties = typeof(User).GetProperties();
             foreach (var property in properties)
             {
-                headers.Add(property.GetCustomAttribute<ColumnAttribute>().Name);
+                var name = property.GetCustomAttribute<ColumnAttribute>().Name;
+                var width = name.Length * 1000;
+                if (name == "注册时间")
+                {
+                    width = 5000;
+                }
+                if (name == "邮箱")
+                {
+                    width = 10000;
+                }
+                header.Add(new HeaderModel
+                {
+                    Name = name,
+                    Width = width
+                });
             }
-            return headers;
+            return header;
         }
 
     }

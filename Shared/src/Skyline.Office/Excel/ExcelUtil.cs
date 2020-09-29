@@ -20,7 +20,7 @@ namespace Skyline.Office.Excel
         //private List<ISheet> sheetList;
         private ISheet sheet;
         private int ContentRowStart = 0;
-        private List<string> Headers;
+        private List<HeaderModel> Header;
 
         public ExcelUtil()
         {
@@ -46,64 +46,74 @@ namespace Skyline.Office.Excel
             sheet = workbook.CreateSheet(name);
         }
 
-        public void AddHeader(string title, List<string> hearders, RowOptions options)
+        public void AddHeader(string title, List<HeaderModel> hearder, RowOptions options)
         {
-            Headers = hearders;
+            Header = hearder;
             if (!title.IsNullOrWhiteSpace())
             {
                 var row = CreateRow(sheet, 0, options.TitleHeight);
                 var cell = row.CreateCell(0);
 
-                CellRangeAddress region = new CellRangeAddress(0, 0, 0, hearders.Count() - 1);
+                CellRangeAddress region = new CellRangeAddress(0, 0, 0, hearder.Count() - 1);
                 sheet.AddMergedRegion(region);
 
                 cell.SetCellValue(title);
 
                 row = CreateRow(sheet, 1, options.HeaderHeight);
-                for (int i = 0; i < hearders.Count; i++)
+                for (int i = 0; i < hearder.Count; i++)
                 {
-                    CreateCell(row, i, hearders[i]);
+                    CreateCell(row, i, hearder[i].Name);
+                    CreateCell(row, i, hearder[i].Name);
+                    if (hearder[i].Width > 0)
+                        sheet.SetColumnWidth(i, hearder[i].Width);
                 }
                 ContentRowStart = 2;
             }
             else
             {
                 var row = CreateRow(sheet, 0, options.HeaderHeight);
-                for (int i = 0; i < hearders.Count; i++)
+                for (int i = 0; i < hearder.Count; i++)
                 {
-                    CreateCell(row, i, hearders[i]);
+                    CreateCell(row, i, hearder[i].Name);
+                    CreateCell(row, i, hearder[i].Name);
+                    if (hearder[i].Width > 0)
+                        sheet.SetColumnWidth(i, hearder[i].Width);
                 }
                 ContentRowStart = 1;
             }
         }
 
-        public void AddHeader(string title, List<string> hearders, RowOptions options, StyleOptions titleStyleOptions, StyleOptions headerStyleOptions)
+        public void AddHeader(string title, List<HeaderModel> hearder, RowOptions options, StyleOptions titleStyleOptions, StyleOptions headerStyleOptions)
         {
-            Headers = hearders;
+            Header = hearder;
             if (!title.IsNullOrWhiteSpace())
             {
                 var row = CreateRow(sheet, 0, options.TitleHeight);
                 var cell = row.CreateCell(0);
 
-                CellRangeAddress region = new CellRangeAddress(0, 0, 0, hearders.Count() - 1);
+                CellRangeAddress region = new CellRangeAddress(0, 0, 0, hearder.Count() - 1);
                 sheet.AddMergedRegion(region);
 
                 cell.SetCellValue(title);
                 cell.CellStyle = CreateCellStyle(titleStyleOptions);
 
                 row = CreateRow(sheet, 1, options.HeaderHeight);
-                for (int i = 0; i < hearders.Count; i++)
+                for (int i = 0; i < hearder.Count; i++)
                 {
-                    CreateCell(row, i, hearders[i], headerStyleOptions);
+                    CreateCell(row, i, hearder[i].Name, headerStyleOptions);
+                    if (hearder[i].Width > 0)
+                        sheet.SetColumnWidth(i, hearder[i].Width);
                 }
                 ContentRowStart = 2;
             }
             else
             {
                 var row = CreateRow(sheet, 0, options.HeaderHeight);
-                for (int i = 0; i < hearders.Count; i++)
+                for (int i = 0; i < hearder.Count; i++)
                 {
-                    CreateCell(row, i, hearders[i], headerStyleOptions);
+                    CreateCell(row, i, hearder[i].Name, headerStyleOptions);
+                    if (hearder[i].Width > 0)
+                        sheet.SetColumnWidth(i, hearder[i].Width);
                 }
                 ContentRowStart = 1;
             }
@@ -287,18 +297,16 @@ namespace Skyline.Office.Excel
                 cellStyle.VerticalAlignment = (VerticalAlignment)options.VerticalAlignment;
 
             // 背景色
-            //cellStyle.FillBackgroundColor = new XSSFColor(options.BackgroundColor).Index;
-            cellStyle.FillBackgroundColor = options.BackgroundColor;
-            cellStyle.FillPattern = FillPattern.NoFill;
+            if (options.BackgroundColor >= 8)
+            {
+                cellStyle.FillForegroundColor = options.BackgroundColor;
+                cellStyle.FillPattern = FillPattern.SolidForeground;
+            }
 
             var cellFont = workbook.CreateFont();
             cellFont.FontName = options.FontName;
             cellFont.IsBold = options.IsBold;
             cellFont.FontHeightInPoints = options.FontSize;
-
-            byte[] rgb = new byte[3] { 255, 0, 0 };
-            // IndexedColors.Red.Index;           
-            //cellFont.Color = new XSSFColor(options.FontColor).Indexed;
             cellFont.Color = options.FontColor;
 
             cellStyle.SetFont(cellFont);

@@ -29,7 +29,7 @@ namespace Skyline.Console.ApplicationCore.Services
             _rolePermissionRepository = rolePermissionRepository;
             _permissionRepository = permissionRepository;
         }
-        public async Task<List<Menu>> GetUserMenus(Guid userId)
+        public async Task<List<Menu>> GetUserMenusAsync(Guid userId)
         {
             // 获取当前用户信息
             var userSpec = new FindUserSpecification(userId);
@@ -81,7 +81,7 @@ namespace Skyline.Console.ApplicationCore.Services
             }
             else
             {
-                var userMenus = await GetUserMenus(new Guid(currentUserId));
+                var userMenus = await GetUserMenusAsync(new Guid(currentUserId));
                 var rootMenus = userMenus.FindAll(x => x.ParentGuid == Guid.Empty);
                 vo = RecursionMenu(rootMenus, Guid.Empty);
             }

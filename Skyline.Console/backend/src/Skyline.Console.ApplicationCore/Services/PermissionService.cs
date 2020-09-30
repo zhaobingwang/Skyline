@@ -16,11 +16,15 @@ namespace Skyline.Console.ApplicationCore.Services
     {
         private readonly IAsyncRepository<Permission> permissionRepository;
         private readonly IAsyncRepository<Menu> menuRepository;
+        private readonly IAsyncRepository<Role> roleRepository;
+        private readonly IAsyncRepository<RolePermissionMapping> rpRepository;
 
-        public PermissionService(IAsyncRepository<Permission> permissionRepository, IAsyncRepository<Menu> menuRepository)
+        public PermissionService(IAsyncRepository<Permission> permissionRepository, IAsyncRepository<Menu> menuRepository, IAsyncRepository<Role> roleRepository, IAsyncRepository<RolePermissionMapping> rpRepository)
         {
             this.permissionRepository = permissionRepository;
             this.menuRepository = menuRepository;
+            this.roleRepository = roleRepository;
+            this.rpRepository = rpRepository;
         }
 
         public async Task<LayuiTablePageVO> GetPagesAsync(int page, int limit, string keyword)
@@ -36,6 +40,17 @@ namespace Skyline.Console.ApplicationCore.Services
 
             var vo = ToPermissionVO(permissions, menus);
             return new LayuiTablePageVO(vo, totalCount, 1);
+        }
+
+        public async Task<IEnumerable<Permission>> GetPermissionByRoleCodesAsync(List<string> roleCodes)
+        {
+            var rpSpec = new FindRolePermissionSpecification(roleCodes);
+            var rp = await rpRepository.ListAsync(rpSpec);
+
+            var pCodes = rp.Select(x => x.PermissionCode).ToList();
+            var permSpec = new FindPermissionSpecification(pCodes);
+            var permissions = await permissionRepository.ListAsync(permSpec);
+            return permissions;
         }
 
         private IEnumerable<PermissionListVO> ToPermissionVO(IEnumerable<Permission> permissions, IEnumerable<Menu> menus)

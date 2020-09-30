@@ -81,7 +81,7 @@ namespace Skyline.Console.WebMvc.Controllers
             }
             else
             {
-                var userMenus = await _menuService.GetUserMenus(new Guid(currentUserId));
+                var userMenus = await _menuService.GetUserMenusAsync(new Guid(currentUserId));
                 var rootMenus = userMenus.FindAll(x => x.ParentGuid == Guid.Empty);
                 vo = RecursionMenu(rootMenus, Guid.Empty);
             }

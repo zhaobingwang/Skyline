@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Skyline.Console.ApplicationCore.Enums;
 using Skyline.Console.ApplicationCore.Services;
 using Skyline.Console.ApplicationCore.VO;
+using Skyline.Console.WebMvc.Attributes;
 using Skyline.Utils;
 
 namespace Skyline.Console.WebMvc.Controllers
@@ -21,11 +23,15 @@ namespace Skyline.Console.WebMvc.Controllers
             this.userService = userService;
             this.roleService = roleService;
         }
+
+
+        [ActionCode("view")]
         public IActionResult Index()
         {
             return View();
         }
 
+        [ActionCode("view2")]
         [HttpPost]
         public async Task<IActionResult> Table(int page, int limit, string keyword)
         {

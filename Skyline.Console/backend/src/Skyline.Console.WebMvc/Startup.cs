@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Skyline.Console.ApplicationCore.Interfaces;
 using Skyline.Console.Infrastructure.Data;
+using Skyline.Console.WebMvc.Attributes;
 
 namespace Skyline.Console.WebMvc
 {
@@ -29,8 +30,10 @@ namespace Skyline.Console.WebMvc
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews()
-                .AddRazorRuntimeCompilation();
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add<GlobalAuthorizeAttribute>();
+            }).AddRazorRuntimeCompilation();
 
 
             //cookies身份认证
@@ -50,6 +53,7 @@ namespace Skyline.Console.WebMvc
                 options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection"))
             );
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EFRepository<>));
+            services.AddScoped<GlobalAuthorizeAttribute>();
             services.AddSkylineService();
         }
 

@@ -20,6 +20,12 @@ namespace Skyline.Console.ApplicationCore.Specifications
             Query.Where(x => x.Code == code);
         }
 
+        public FindRoleSpecification(List<string> codes)
+        {
+            Query.Where(x => codes.Contains(x.Code));
+        }
+
+
         public FindRoleSpecification(int page, int limit, string keyword)
         {
             if (keyword.IsNullOrWhiteSpace())

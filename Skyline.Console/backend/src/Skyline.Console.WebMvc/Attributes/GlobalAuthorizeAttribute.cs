@@ -18,12 +18,16 @@ namespace Skyline.Console.WebMvc.Attributes
     {
         private readonly MenuService menuService;
         private readonly PermissionService permissionService;
+        private readonly UserService userService;
 
-        public GlobalAuthorizeAttribute(MenuService menuService, PermissionService permissionService)
+        public GlobalAuthorizeAttribute(MenuService menuService, PermissionService permissionService, UserService userService)
         {
             this.menuService = menuService;
             this.permissionService = permissionService;
+            this.userService = userService;
         }
+
+        // TODO: 优化
         public void OnAuthorization(AuthorizationFilterContext context)
         {
             context.CheckNull(nameof(context));
@@ -48,14 +52,18 @@ namespace Skyline.Console.WebMvc.Attributes
                 return;
             }
 
+            if (controllerName == "Home" && actionName == "Index")
+            {
+                return;
+            }
+
             var userMenus = menuService.GetUserMenusAsync(userBO.Id).Result;
             var currentMenu = userMenus.Where(x => x.Url == $"/{controllerName}/Index");
             if (currentMenu == null || currentMenu.Count() < 1)
             {
                 context.Result = new UnauthorizedResult();
             }
-            // TODO:
-            var roleCodes = new List<string> { "SYS_ADMIN" };
+            var roleCodes = userService.GetRoleCodes(userBO.Id).Result;
             var userPermission = permissionService.GetPermissionByRoleCodesAsync(roleCodes).Result;
 
             var permissions = userPermission.Where(x => x.MenuGuid == currentMenu.FirstOrDefault()?.Guid);

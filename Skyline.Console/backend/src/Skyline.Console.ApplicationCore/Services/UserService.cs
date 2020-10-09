@@ -198,6 +198,12 @@ namespace Skyline.Console.ApplicationCore.Services
                 return new BizServiceResponse(BizServiceResponseCode.Failed, "删除失败");
         }
 
+        public async Task<List<string>> GetRoleCodes(Guid uid)
+        {
+            var urm = await userRoleMappingRepository.ListAsync(new FindUserRoleMappingSpecfication(uid));
+            return urm.Select(x => x.RoleCode).ToList();
+        }
+
         // TODO: add automapper
         private UserBO ToAdministratorBO(User entity)
         {

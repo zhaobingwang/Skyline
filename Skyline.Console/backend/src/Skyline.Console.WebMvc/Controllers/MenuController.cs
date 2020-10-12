@@ -22,17 +22,21 @@ namespace Skyline.Console.WebMvc.Controllers
         {
             _menuService = menuService;
         }
+
+        [ActionCode(ActionCodeConst.VIEW)]
         public IActionResult Index()
         {
             return View();
         }
 
+        [ActionCode(ActionCodeConst.VIEW)]
         public async Task<IActionResult> Table(int page, int limit, string keyword)
         {
             var menuPage = await _menuService.GetAllMenus(page, limit, keyword);
             return Json(menuPage);
         }
 
+        [ActionCode(ActionCodeConst.CREATE)]
         [HttpGet]
         public async Task<ActionResult> Add()
         {
@@ -40,6 +44,7 @@ namespace Skyline.Console.WebMvc.Controllers
             return View();
         }
 
+        [ActionCode(ActionCodeConst.CREATE)]
         [HttpPost]
         public async Task<IActionResult> Add(MenuEditVO vo)
         {
@@ -49,6 +54,8 @@ namespace Skyline.Console.WebMvc.Controllers
             return Json(new BizServiceResponse(BizServiceResponseCode.Success, "新建成功"));
         }
 
+        //[ActionCode(ActionCodeConst.CREATE)]
+        [ActionCode(ActionCodeConst.EDIT)]
         [HttpGet]
         public async Task<IActionResult> Tree()
         {
@@ -58,6 +65,7 @@ namespace Skyline.Console.WebMvc.Controllers
             return Json(vo);
         }
 
+        [ActionCode(ActionCodeConst.DELETE)]
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {

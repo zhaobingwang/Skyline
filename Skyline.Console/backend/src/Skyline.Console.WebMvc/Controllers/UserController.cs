@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Skyline.Console.ApplicationCore.Enums;
 using Skyline.Console.ApplicationCore.Services;
 using Skyline.Console.ApplicationCore.VO;
-using Skyline.Console.WebMvc.Attributes;
 using Skyline.Utils;
 
 namespace Skyline.Console.WebMvc.Controllers
@@ -24,14 +23,13 @@ namespace Skyline.Console.WebMvc.Controllers
             this.roleService = roleService;
         }
 
-
-        [ActionCode("view")]
+        [ActionCode(ActionCodeConst.VIEW)]
         public IActionResult Index()
         {
             return View();
         }
 
-        [ActionCode("view2")]
+        [ActionCode(ActionCodeConst.VIEW)]
         [HttpPost]
         public async Task<IActionResult> Table(int page, int limit, string keyword)
         {
@@ -39,6 +37,7 @@ namespace Skyline.Console.WebMvc.Controllers
             return Json(userPage);
         }
 
+        [ActionCode(ActionCodeConst.CREATE)]
         public IActionResult Add()
         {
             var userTypeDict = EnumUtil.GetDictionary<UserType>();
@@ -48,6 +47,7 @@ namespace Skyline.Console.WebMvc.Controllers
             return View();
         }
 
+        [ActionCode(ActionCodeConst.CREATE)]
         [HttpPost]
         public async Task<IActionResult> AddAsync(AddUserVO vo)
         {
@@ -57,6 +57,7 @@ namespace Skyline.Console.WebMvc.Controllers
             return Json(result);
         }
 
+        [ActionCode(ActionCodeConst.EDIT)]
         public async Task<IActionResult> Edit(string id)
         {
             var guid = new Guid(id);
@@ -70,6 +71,7 @@ namespace Skyline.Console.WebMvc.Controllers
             return View(user);
         }
 
+        [ActionCode(ActionCodeConst.EDIT)]
         [HttpPost]
         public async Task<IActionResult> EditAsync(EditUserVO vo)
         {
@@ -80,6 +82,7 @@ namespace Skyline.Console.WebMvc.Controllers
             return Json(result);
         }
 
+        [ActionCode(ActionCodeConst.DELETE)]
         [HttpPost]
         public async Task<IActionResult> DeleteAsync(string id)
         {
@@ -87,6 +90,7 @@ namespace Skyline.Console.WebMvc.Controllers
             return Json(result);
         }
 
+        [ActionCode(ActionCodeConst.EDIT)]
         [HttpGet]
         public IActionResult AssignRole(string id)
         {
@@ -94,6 +98,7 @@ namespace Skyline.Console.WebMvc.Controllers
             return View();
         }
 
+        [ActionCode(ActionCodeConst.EDIT)]
         [HttpPost]
         public async Task<IActionResult> RoleTransferAsync(string id)
         {
@@ -117,6 +122,7 @@ namespace Skyline.Console.WebMvc.Controllers
             return Json(vo);
         }
 
+        [ActionCode(ActionCodeConst.EDIT)]
         [HttpPost]
         public async Task<IActionResult> IncreaseRole(string uid, IEnumerable<LayuiTransferDataVO> data)
         {
@@ -124,6 +130,7 @@ namespace Skyline.Console.WebMvc.Controllers
             return Json(result);
         }
 
+        [ActionCode(ActionCodeConst.EDIT)]
         [HttpPost]
         public async Task<IActionResult> DecreaseRole(string uid, IEnumerable<LayuiTransferDataVO> data)
         {

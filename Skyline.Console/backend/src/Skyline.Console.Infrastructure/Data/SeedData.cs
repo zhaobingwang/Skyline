@@ -16,6 +16,10 @@ namespace Skyline.Console.Infrastructure.Data
         const string ROLE_CODE_ADMIN = "SYS_ADMIN";
         const string ROLE_CODE_GUEST = "SYS_GUEST";
 
+
+        // 基础权限
+        const string PERM_SYS_DEFAULT_HOME = "SYY.HOME";
+
         // 菜单权限
         const string PERM_DASHBOARD_MENU_ROOT = "D.00000";
         const string PERM_DASHBOARD_MENU_WORKBENCH = "D.10000";
@@ -234,7 +238,7 @@ namespace Skyline.Console.Infrastructure.Data
                 Status = Status.Normal,
                 IsDeleted = IsDeleted.No,
                 IsSuperAdministrator = true,
-                Description = "超级管理员",
+                Description = "管理员",
                 ModifiyUserId = Guid.Empty,
                 ModifyTime = now,
                 ModifyUserName = "System"
@@ -291,6 +295,7 @@ namespace Skyline.Console.Infrastructure.Data
         static Guid dashBoardAnalysisId = Guid.NewGuid();
         static Guid dashBoardMonitorId = Guid.NewGuid();
 
+        // 菜单ID
         static Guid sysId = Guid.NewGuid();
         static string sysName = "系统管理";
         static Guid sysUserId = Guid.NewGuid();
@@ -298,9 +303,37 @@ namespace Skyline.Console.Infrastructure.Data
         static Guid sysMenuId = Guid.NewGuid();
         static Guid sysPermissionId = Guid.NewGuid();
         static Guid sysIconId = Guid.NewGuid();
+        static Guid sysDefaultMenuId = Guid.Empty;
+
         private static List<Menu> GetMenus()
         {
             var menus = new List<Menu>();
+
+            #region 不显示的菜单，基础权限归类于此菜单下
+            menus.Add(new Menu
+            {
+                Guid = sysDefaultMenuId,
+                Name = "隐藏菜单",
+                Url = "/Home/Index",
+                Alias = "",
+                Icon = "",
+                ParentGuid = Guid.Empty,
+                ParentName = null,
+                Level = 0,
+                Description = "隐藏菜单",
+                Sort = 0,
+                Status = Status.Normal,
+                IsDeleted = IsDeleted.No,
+                IsDefaultRouter = YesOrNo.Yes,
+                CreateTime = now,
+                CreateUserGuid = superAdminId,
+                CreateUserLoginName = SuperAdminName,
+                LastModifyTime = now,
+                LastModifyUserGuid = superAdminId,
+                LastModifyUserLoginName = SuperAdminName,
+                HideMenu = YesOrNo.Yes,
+            });
+            #endregion
 
             #region DashBoard
             menus.Add(new Menu
@@ -544,6 +577,28 @@ namespace Skyline.Console.Infrastructure.Data
         private static List<Permission> GetPermissions()
         {
             var permissions = new List<Permission>();
+
+            #region 基础访问权限（每个用户都有）
+
+            permissions.Add(new Permission
+            {
+                Code = PERM_SYS_DEFAULT_HOME,
+                MenuGuid = sysDefaultMenuId,
+                Name = "首页访问权限",
+                ActionCode = "view",
+                Status = Status.Normal,
+                IsDeleted = IsDeleted.No,
+                Type = PermissionType.Menu,
+                CreateTime = now,
+                CreateUserGuid = Guid.Empty,
+                CreateUserLoginName = "System",
+                Description = "系统首页查看权限",
+                LastModifyTime = now,
+                LastModifyUserGuid = Guid.Empty,
+                LastModifyUserLoginName = "System",
+            });
+            #endregion
+
             permissions.Add(new Permission
             {
                 Code = PERM_DASHBOARD_MENU_ROOT,
@@ -1034,6 +1089,12 @@ namespace Skyline.Console.Infrastructure.Data
             maps.Add(new RolePermissionMapping
             {
                 RoleCode = ROLE_CODE_GUEST,
+                PermissionCode = PERM_SYS_DEFAULT_HOME,
+                CreateTime = now
+            });
+            maps.Add(new RolePermissionMapping
+            {
+                RoleCode = ROLE_CODE_GUEST,
                 PermissionCode = PERM_DASHBOARD_MENU_ROOT,
                 CreateTime = now
             });
@@ -1047,6 +1108,15 @@ namespace Skyline.Console.Infrastructure.Data
             #endregion
 
             #region 管理员权限
+
+            // 首页访问权限
+            maps.Add(new RolePermissionMapping
+            {
+                RoleCode = ROLE_CODE_ADMIN,
+                PermissionCode = PERM_SYS_DEFAULT_HOME,
+                CreateTime = now
+            });
+
             maps.Add(new RolePermissionMapping
             {
                 RoleCode = ROLE_CODE_ADMIN,

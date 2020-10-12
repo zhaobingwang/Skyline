@@ -29,7 +29,7 @@ namespace Skyline.Console.ApplicationCore.Services
             _rolePermissionRepository = rolePermissionRepository;
             _permissionRepository = permissionRepository;
         }
-        public async Task<List<Menu>> GetUserMenusAsync(Guid userId)
+        public async Task<List<Menu>> GetUserMenusAsync(Guid userId, bool includeHideMenu = false)
         {
             // 获取当前用户信息
             var userSpec = new FindUserSpecification(userId);
@@ -54,7 +54,10 @@ namespace Skyline.Console.ApplicationCore.Services
             // 获取菜单
             var menuSpec = new FindMenuSpecification(menuIds, IsDeleted.No, Status.Normal);
             var menuEntities = await _menuRepository.ListAsync(menuSpec);
-            return menuEntities.OrderBy(x => x.Sort).ToList();
+            if (includeHideMenu)
+                return menuEntities.OrderBy(x => x.Sort).ToList();
+            else
+                return menuEntities.Where(x => x.HideMenu == YesOrNo.No).OrderBy(x => x.Sort).ToList();
             //return ToMenuBO(menuEntities);
         }
 
@@ -62,7 +65,7 @@ namespace Skyline.Console.ApplicationCore.Services
         {
             // 获取菜单
             var menuEntities = await _menuRepository.ListAllAsync();
-            return menuEntities.Where(x => x.Status == Status.Normal && x.IsDeleted == IsDeleted.No)
+            return menuEntities.Where(x => x.Status == Status.Normal && x.IsDeleted == IsDeleted.No && x.HideMenu == YesOrNo.No)
                 .OrderBy(x => x.Sort)
                 .ThenBy(x => x.CreateTime)
                 .ToList();

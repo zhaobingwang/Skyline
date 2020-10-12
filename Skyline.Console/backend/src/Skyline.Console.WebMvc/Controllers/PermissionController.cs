@@ -15,11 +15,14 @@ namespace Skyline.Console.WebMvc.Controllers
         {
             this.permissionService = permissionService;
         }
+
+        [ActionCode(ActionCodeConst.VIEW)]
         public IActionResult Index()
         {
             return View();
         }
 
+        [ActionCode(ActionCodeConst.VIEW)]
         public async Task<IActionResult> Table(int page, int limit, string keyword)
         {
             var result = await permissionService.GetPagesAsync(page, limit, keyword);

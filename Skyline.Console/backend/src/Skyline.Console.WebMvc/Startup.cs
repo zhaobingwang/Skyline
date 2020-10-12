@@ -13,7 +13,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Skyline.Console.ApplicationCore.Interfaces;
 using Skyline.Console.Infrastructure.Data;
-using Skyline.Console.WebMvc.Attributes;
 
 namespace Skyline.Console.WebMvc
 {
@@ -32,7 +31,7 @@ namespace Skyline.Console.WebMvc
         {
             services.AddControllersWithViews(options =>
             {
-                options.Filters.Add<GlobalAuthorizeAttribute>();
+                //options.Filters.Add<GlobalAuthorizeAttribute>();
             }).AddRazorRuntimeCompilation();
 
 
@@ -53,7 +52,7 @@ namespace Skyline.Console.WebMvc
                 options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection"))
             );
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EFRepository<>));
-            services.AddScoped<GlobalAuthorizeAttribute>();
+            //services.AddScoped<GlobalAuthorizeAttribute>();
             services.AddSkylineService();
         }
 

@@ -18,12 +18,13 @@ namespace Skyline.Console.WebMvc.Controllers
         {
             _roleService = roleService;
         }
-
+        [ActionCode(ActionCodeConst.VIEW)]
         public IActionResult Index()
         {
             return View();
         }
 
+        [ActionCode(ActionCodeConst.VIEW)]
         [HttpPost]
         public async Task<IActionResult> Table(int page, int limit, string keyword)
         {
@@ -31,6 +32,7 @@ namespace Skyline.Console.WebMvc.Controllers
             return Json(rolePage);
         }
 
+        [ActionCode(ActionCodeConst.CREATE)]
         [HttpGet]
         public IActionResult Add()
         {
@@ -39,6 +41,7 @@ namespace Skyline.Console.WebMvc.Controllers
             return View();
         }
 
+        [ActionCode(ActionCodeConst.CREATE)]
         [HttpPost]
         public async Task<IActionResult> Add(AddOrEditRoleVO vo)
         {
@@ -48,6 +51,7 @@ namespace Skyline.Console.WebMvc.Controllers
             return Json(result);
         }
 
+        [ActionCode(ActionCodeConst.EDIT)]
         [HttpGet]
         public async Task<IActionResult> Edit(string code)
         {
@@ -57,6 +61,7 @@ namespace Skyline.Console.WebMvc.Controllers
             return View(role);
         }
 
+        [ActionCode(ActionCodeConst.EDIT)]
         [HttpPost]
         public async Task<IActionResult> Edit(AddOrEditRoleVO vo)
         {

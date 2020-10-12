@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Skyline.Console.ApplicationCore.Constants;
@@ -26,6 +27,7 @@ namespace Skyline.Console.WebMvc.Controllers
             _menuService = menuService;
         }
 
+        [ActionCode(ActionCodeConst.VIEW)]
         public async Task<IActionResult> Index()
         {
             IEnumerable<MenuVO> vo = new List<MenuVO>();
@@ -46,7 +48,7 @@ namespace Skyline.Console.WebMvc.Controllers
             ViewBag.NickName = User.FindFirstValue(ClaimTypes.Name);
             return View(vo);
         }
-
+        [ActionCode(ActionCodeConst.VIEW)]
         public ActionResult Default()
         {
             return View();

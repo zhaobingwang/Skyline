@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Skyline.Console.WebMvc.Controllers
 {
-    [Authorize]
+    [GlobalAuthorize]
     public class BaseController : Controller
     {
     }

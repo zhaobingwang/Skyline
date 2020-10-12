@@ -9,7 +9,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Skyline.Console.WebMvc.Attributes
+namespace Skyline.Console.WebMvc
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
     public class ActionCodeAttribute : Attribute

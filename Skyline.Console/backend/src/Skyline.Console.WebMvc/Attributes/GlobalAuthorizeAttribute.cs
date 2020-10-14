@@ -38,6 +38,18 @@ namespace Skyline.Console.WebMvc
             {
                 return;
             }
+            // 获取用户数据
+            var userData = context.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.UserData)?.Value;
+            var userBO = JsonUtil.ToObject<UserBO>(userData);
+            if (userBO.IsNull())
+            {
+                return;
+            }
+            if (userBO.UserType == ApplicationCore.Enums.UserType.SuperAdmin)
+            {
+                return;
+            }
+
 
             // 获取依赖的服务对象
             var menuService = (MenuService)context.HttpContext.RequestServices.GetService(typeof(MenuService));
@@ -55,13 +67,6 @@ namespace Skyline.Console.WebMvc
             string actionName = controllerActionDescriptor?.ActionName;
             string url = $"/{controllerName}/{actionName}";
 
-            // 获取用户数据
-            var userData = context.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.UserData)?.Value;
-            var userBO = JsonUtil.ToObject<UserBO>(userData);
-            if (userBO.IsNull())
-            {
-                return;
-            }
 
             // 判断用户是否有此菜单
             var userMenus = menuService.GetUserMenusAsync(userBO.Id, true).Result;

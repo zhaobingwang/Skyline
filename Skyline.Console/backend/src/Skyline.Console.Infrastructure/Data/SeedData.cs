@@ -302,6 +302,7 @@ namespace Skyline.Console.Infrastructure.Data
         static Guid sysRoleId = Guid.NewGuid();
         static Guid sysMenuId = Guid.NewGuid();
         static Guid sysPermissionId = Guid.NewGuid();
+        static Guid sysRolePermissionId = Guid.NewGuid();
         static Guid sysIconId = Guid.NewGuid();
         static Guid sysDefaultMenuId = Guid.Empty;
 
@@ -534,6 +535,29 @@ namespace Skyline.Console.Infrastructure.Data
                 ParentName = sysName,
                 Level = 0,
                 Description = "权限管理维护",
+                Sort = 4,
+                Status = Status.Normal,
+                IsDeleted = IsDeleted.No,
+                IsDefaultRouter = YesOrNo.Yes,
+                CreateTime = now,
+                CreateUserGuid = superAdminId,
+                CreateUserLoginName = SuperAdminName,
+                LastModifyTime = now,
+                LastModifyUserGuid = superAdminId,
+                LastModifyUserLoginName = SuperAdminName,
+                HideMenu = YesOrNo.No,
+            });
+            menus.Add(new Menu
+            {
+                Guid = sysRolePermissionId,
+                Name = "角色权限分配",
+                Url = "/RolePermission/Index",
+                Alias = "",
+                Icon = "layui-icon-face-smile-b",
+                ParentGuid = sysId,
+                ParentName = sysName,
+                Level = 0,
+                Description = "为角色分配权限",
                 Sort = 4,
                 Status = Status.Normal,
                 IsDeleted = IsDeleted.No,
